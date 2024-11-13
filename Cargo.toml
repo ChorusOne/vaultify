@@ -4,3 +4,9 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+tracing = { version = "0.1", default-features = false }
+tracing-subscriber = { version = "0.3", features = ["ansi", "fmt"], default-features = false }
+thiserror = "2.0"
+
+lazy_static = "1.5"
+regex = "1.11"
