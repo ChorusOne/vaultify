@@ -13,9 +13,22 @@ lazy_static! {
     };
 }
 
-fn load<P: AsRef<Path>>(path: P) -> Result<()> {
-    // load file
-    Ok(())
+pub struct Secret {
+    pub name: Option<String>,
+    pub path: String,
+    pub secret: String,
+}
+
+// TODO: seperate load_async func
+pub fn load<P: AsRef<Path>>(path: P) -> Result<Vec<Secret>> {
+    let contents = std::fs::read_to_string(path.as_ref()).map_err(|err| {
+        Error::IO(format!(
+            "unable to read file `{:?}`: {}",
+            path.as_ref(),
+            err
+        ))
+    })?;
+    parse(&contents)
 }
 
 fn parse(contents: &str) -> Result<Vec<Secret>> {
@@ -74,12 +87,6 @@ fn parse(contents: &str) -> Result<Vec<Secret>> {
     }
 
     Ok(secrets)
-}
-
-pub struct Secret {
-    pub name: Option<String>,
-    pub path: String,
-    pub secret: String,
 }
 
 #[cfg(test)]
