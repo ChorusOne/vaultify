@@ -8,7 +8,7 @@ use crate::error::{Error, Result};
 
 lazy_static! {
     static ref REGEX_V1: Regex = {
-        Regex::new(r#"^(?<name>([a-zA-Z0-9_]*)=)?(?<path>[a-zA-Z0-9_\-\/]*)#(?<secret>.*)"#)
+        Regex::new(r#"^((?<name>[a-zA-Z0-9_]*)=)?(?<path>[a-zA-Z0-9_\-\/\@]*)#(?<secret>.*)"#)
             .expect("invalid regex")
     };
 }
@@ -109,6 +109,31 @@ _leading_underscore=foo/double#underscore"#;
 
         let secrets = parse(SECRET).unwrap();
         assert_eq!(secrets.len(), 7);
+    }
+
+    #[test]
+    fn pass_v1_variables() {
+        const SECRET: &str = r#"BAR_BAZ=foo/bar#baz"#;
+        let secrets = parse(SECRET).unwrap();
+        assert_eq!(secrets.len(), 1);
+
+        let entry = secrets.first().unwrap();
+        assert_eq!(entry.name.as_deref().unwrap(), "BAR_BAZ");
+        assert_eq!(entry.path, "foo/bar");
+        assert_eq!(entry.secret, "baz");
+    }
+
+    #[test]
+    fn pass_v1_special_chars() {
+        const SECRET: &str = r#"foob@ar#baz"#;
+
+        let secrets = parse(SECRET).unwrap();
+        assert_eq!(secrets.len(), 1);
+
+        let entry = secrets.first().unwrap();
+        assert!(entry.name.is_none());
+        assert_eq!(entry.path, "foob@ar");
+        assert_eq!(entry.secret, "baz");
     }
 
     #[test]
