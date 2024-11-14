@@ -13,7 +13,7 @@ lazy_static! {
     };
 }
 
-pub struct Secret {
+pub struct SecretSpec {
     // TODO: unpub
     pub name: Option<String>,
     pub mount: String,
@@ -26,7 +26,12 @@ pub struct Secret {
         */
 }
 
-impl Secret {
+pub struct Secret {
+    pub name: String,
+    pub secret: String,
+}
+
+impl SecretSpec {
     /// Returns the configured name or a generated name based on path and secret.
     pub fn name(&self) -> String {
         self.name.clone().unwrap_or_else(|| {
@@ -57,7 +62,7 @@ impl Secret {
 }
 
 // TODO: seperate load_async func
-pub fn load<P: AsRef<Path>>(path: P) -> Result<Vec<Secret>> {
+pub fn load<P: AsRef<Path>>(path: P) -> Result<Vec<SecretSpec>> {
     let contents = std::fs::read_to_string(path.as_ref()).map_err(|err| {
         Error::IO(format!(
             "unable to read file `{:?}`: {}",
@@ -68,7 +73,7 @@ pub fn load<P: AsRef<Path>>(path: P) -> Result<Vec<Secret>> {
     parse(&contents)
 }
 
-fn parse(contents: &str) -> Result<Vec<Secret>> {
+fn parse(contents: &str) -> Result<Vec<SecretSpec>> {
     let mut secrets = Vec::new();
 
     for (lc, line) in contents.lines().enumerate() {
@@ -134,7 +139,7 @@ fn parse(contents: &str) -> Result<Vec<Secret>> {
                     line
                 )));
             }
-            secrets.push(Secret {
+            secrets.push(SecretSpec {
                 name,
                 mount,
                 path,

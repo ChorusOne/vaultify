@@ -32,13 +32,13 @@ async fn main() {
 
     // TODO: check if args.host is a valid URL
 
-    let secret = secrets::Secret {
+    let secret = secrets::SecretSpec {
         name: None,
         mount: "secret".to_string(),
         path: "production/test1".to_string(),
         secret: "key1".to_string(),
     };
-    vault::fetch_single_v2(&args, &secret).await.unwrap();
+    vault::fetch_single(&args, &secret).await.unwrap();
 
     //process::spawn(
     //    args.cmd,

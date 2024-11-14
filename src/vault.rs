@@ -4,12 +4,33 @@ use reqwest::Client;
 use serde_json::{Map, Value};
 use tracing::{error, info};
 
-use crate::{error::Result, secrets::Secret, Args};
+use crate::{
+    error::Result,
+    secrets::{Secret, SecretSpec},
+    Args,
+};
 
-pub async fn fetch_single_v2(args: &Args, secret: &Secret) -> Result<String> {
+pub async fn fetch_all(args: &Args, secrets: &[SecretSpec]) -> Result<Vec<Secret>> {
+    todo!();
+}
+
+pub async fn fetch_single(args: &Args, secret: &SecretSpec) -> Result<Secret> {
+    // try to fetch a v2 secret
+    if let Ok(secret) = fetch_single_v2(args, secret).await {
+        return Ok(secret);
+    }
+
+    // fallback to fetching a v1 secret
+    fetch_single_v1(args, secret).await
+}
+
+async fn fetch_single_v2(args: &Args, secret_spec: &SecretSpec) -> Result<Secret> {
     // TODO: url scheme
-    let vault_url = format!("{}/v1/{}/data/{}", args.host, secret.mount, secret.path);
-    let secret_name = secret.name();
+    let vault_url = format!(
+        "{}/v1/{}/data/{}",
+        args.host, secret_spec.mount, secret_spec.path
+    );
+    let secret_name = secret_spec.name();
     println!("fetching v2 secret `{}` from `{}`", secret_name, vault_url);
 
     // TODO: allow reading from ~/.vault_token as fallback
@@ -29,16 +50,22 @@ pub async fn fetch_single_v2(args: &Args, secret: &Secret) -> Result<String> {
     let resultjson = serde_json::from_str::<Value>(&result).unwrap();
     let data = resultjson.get("data").unwrap();
     let data = data.get("data").unwrap();
-    let secret_value = data.get(&secret.secret).unwrap().as_str().unwrap();
+    let secret_value = data.get(&secret_spec.secret).unwrap().as_str().unwrap();
     //println!("result: {:?}", secret);
 
-    Ok(secret_value.to_string())
+    Ok(Secret {
+        name: secret_name,
+        secret: secret_value.to_string(),
+    })
 }
 
-pub async fn fetch_single_v1(args: &Args, secret: &Secret) -> Result<String> {
+async fn fetch_single_v1(args: &Args, secret_spec: &SecretSpec) -> Result<Secret> {
     // TODO: url scheme
-    let vault_url = format!("{}/v1/{}/{}", args.host, secret.mount, secret.path);
-    let secret_name = secret.name();
+    let vault_url = format!(
+        "{}/v1/{}/{}",
+        args.host, secret_spec.mount, secret_spec.path
+    );
+    let secret_name = secret_spec.name();
     println!("fetching v1 secret `{}` from `{}`", secret_name, vault_url);
 
     // TODO: allow reading from ~/.vault_token as fallback
@@ -57,10 +84,13 @@ pub async fn fetch_single_v1(args: &Args, secret: &Secret) -> Result<String> {
     // parse json blob dynamically
     let resultjson = serde_json::from_str::<Value>(&result).unwrap();
     let data = resultjson.get("data").unwrap();
-    let secret_value = data.get(&secret.secret).unwrap().as_str().unwrap();
+    let secret_value = data.get(&secret_spec.secret).unwrap().as_str().unwrap();
     //println!("result: {:?}", secret);
 
-    Ok(secret_value.to_string())
+    Ok(Secret {
+        name: secret_name,
+        secret: secret_value.to_string(),
+    })
 }
 
 fn client() -> Client {
