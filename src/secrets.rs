@@ -13,6 +13,7 @@ lazy_static! {
     };
 }
 
+#[derive(Debug)]
 pub struct SecretSpec {
     // TODO: unpub
     pub name: Option<String>,
@@ -26,10 +27,13 @@ pub struct SecretSpec {
         */
 }
 
+#[derive(Debug)]
 pub struct Secret {
     pub name: String,
     pub secret: String,
 }
+
+// TODO: overwrite debug and print for secrets to redact secret value
 
 impl SecretSpec {
     /// Returns the configured name or a generated name based on path and secret.

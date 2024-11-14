@@ -11,7 +11,23 @@ use crate::{
 };
 
 pub async fn fetch_all(args: &Args, secrets: &[SecretSpec]) -> Result<Vec<Secret>> {
-    todo!();
+    // TODO: configurable batch, timeout, etc.
+
+    let mut results = Vec::new();
+
+    for secrets in secrets.chunks(10) {
+        let res = futures::future::join_all(
+            secrets
+                .iter()
+                .map(|s| async { fetch_single(args, s).await }),
+        )
+        .await;
+        for r in res.into_iter() {
+            results.push(r?);
+        }
+    }
+
+    Ok(results)
 }
 
 pub async fn fetch_single(args: &Args, secret: &SecretSpec) -> Result<Secret> {

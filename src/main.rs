@@ -32,20 +32,15 @@ async fn main() {
 
     // TODO: check if args.host is a valid URL
 
-    let secret = secrets::SecretSpec {
-        name: None,
-        mount: "secret".to_string(),
-        path: "production/test1".to_string(),
-        secret: "key1".to_string(),
-    };
-    vault::fetch_single(&args, &secret).await.unwrap();
-
-    //process::spawn(
-    //    args.cmd,
-    //    &args.args,
-    //    process::SpawnOptions {
-    //        clear_env: true,
-    //        detach: false,
-    //    },
-    //);
+    let secs = secrets::load("./test.secrets").unwrap();
+    let secrets = vault::fetch_all(&args, &secs).await.unwrap();
+    process::spawn(
+        args.cmd,
+        &args.args,
+        &secrets,
+        process::SpawnOptions {
+            clear_env: true,
+            detach: false,
+        },
+    );
 }
