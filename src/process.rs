@@ -11,8 +11,6 @@ pub fn spawn<S: AsRef<OsStr>>(cmd: S, args: &[String], opts: SpawnOptions) {
     use std::os::unix::process::CommandExt;
     use std::process::Command;
 
-    // TODO: parse command from input and tokenize it
-
     let mut envs = HashMap::new();
     envs.insert("TEST_VAL", "1234");
 
