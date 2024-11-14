@@ -2,8 +2,18 @@ use std::ffi::OsStr;
 
 use crate::{error::Result, secrets::Secret};
 
+/// Additional spawn options for the child process
 pub struct SpawnOptions {
+    /// Clear the environment of the spawned process.
+    ///
+    /// # Remarks:
+    ///
+    /// If this is set to false, all environment variables of the current process are inherited by
+    /// the child process as well.
     pub clear_env: bool,
+    /// Detach the child process from this process.
+    /// When set to `true` the child process will continue running while the `vaultify` process
+    /// finishes.
     pub detach: bool,
 }
 

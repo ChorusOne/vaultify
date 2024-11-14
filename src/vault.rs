@@ -9,6 +9,7 @@ use crate::{
     Args,
 };
 
+/// Fetches a list of secrets from vault with retry and batching.
 pub async fn fetch_all(args: &Args, secrets: &[SecretSpec]) -> Result<Vec<Secret>> {
     let mut results = Vec::new();
 
@@ -32,14 +33,30 @@ pub async fn fetch_all(args: &Args, secrets: &[SecretSpec]) -> Result<Vec<Secret
     Ok(results)
 }
 
+/// Fetches a single secret from vault v2 and fallbacks to vault v1 on error.
 pub async fn fetch_single(args: &Args, secret: &SecretSpec) -> Result<Secret> {
     // try to fetch a v2 secret
-    if let Ok(secret) = fetch_single_v2(args, secret).await {
-        return Ok(secret);
-    }
+    match fetch_single_v2(args, secret).await {
+        Ok(secret) => return Ok(secret),
+        Err(err) => log::warn!(
+            "could not fetch v2 secret `{}` from vault: {}",
+            secret.name(),
+            err
+        ),
+    };
 
     // fallback to fetching a v1 secret
-    fetch_single_v1(args, secret).await
+    match fetch_single_v1(args, secret).await {
+        Ok(secret) => Ok(secret),
+        Err(err) => {
+            log::warn!(
+                "could not fetch v1 secret `{}` from vault: {}",
+                secret.name(),
+                err
+            );
+            Err(err)
+        }
+    }
 }
 
 async fn fetch_single_v2(args: &Args, secret_spec: &SecretSpec) -> Result<Secret> {

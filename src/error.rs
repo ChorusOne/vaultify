@@ -25,6 +25,7 @@ pub enum Error {
 }
 
 impl Error {
+    /// Shorthand to construct the Error::Parse variant
     #[inline]
     pub fn parse(err: &str, line_index: usize, line: &str) -> Self {
         Self::Parse {

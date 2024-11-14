@@ -13,16 +13,24 @@ lazy_static! {
     };
 }
 
+/// Spec of a secret parsed from a .secrets file.
 #[derive(Debug)]
 pub struct SecretSpec {
+    /// The name of the environment variable (optional).
     pub(self) name: Option<String>,
+    /// The mount point of the secret in vault.
     pub mount: String,
+    /// The path of the secret under the mount point in vault.
     pub path: String,
+    /// The actual secret key in vault.
     pub secret: String,
 }
 
+/// A secret.
 pub struct Secret {
+    /// The name of the environment variable.
     pub name: String,
+    /// The actual secret value
     pub secret: String,
 }
 

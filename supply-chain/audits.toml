@@ -1,0 +1,4247 @@
+
+# cargo-vet audits file
+
+[[audits.addr2line]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.24.1 -> 0.24.2"
+
+[[audits.ahash]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.8.3"
+notes = "Usage of unsafe is mostly sound. I did not verify usage in operations.rs, because SSE/AVX is complex, but I trust that it is correct."
+
+[[audits.ahash]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.8.3 -> 0.8.6"
+
+[[audits.aide]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.10.0"
+notes = "The crate has no unsafe usage"
+
+[[audits.aide]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.10.0 -> 0.13.4"
+
+[[audits.alloc-no-stdlib]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+version = "2.0.4"
+
+[[audits.alloc-stdlib]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.2.2"
+
+[[audits.anyhow]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-run"
+delta = "1.0.87 -> 1.0.88"
+
+[[audits.arrayvec]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.7.2 -> 0.5.2"
+notes = "The crate has changes usage of custom array size types to using const generics."
+
+[[audits.asn1-rs-impl]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.1.0"
+
+[[audits.async-compression]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.4.7 -> 0.4.12"
+
+[[audits.async-signals]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.4.0"
+
+[[audits.async-signals]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.4.0 -> 0.4.0@git:91489879d46c0060c5595c4c6e5295dcb6ee82e2"
+
+[[audits.async-signals]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.4.0 -> 0.5.0"
+
+[[audits.async-stream]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.3.4 -> 0.3.5"
+
+[[audits.async-stream-impl]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.3.4 -> 0.3.5"
+
+[[audits.async-trait]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.1.81 -> 0.1.82"
+
+[[audits.async-trait]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.1.82 -> 0.1.83"
+
+[[audits.atoi]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "2.0.0"
+
+[[audits.autocfg]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "1.3.0 -> 1.4.0"
+
+[[audits.aws-config]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "1.5.6 -> 1.5.7"
+
+[[audits.aws-sdk-s3]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+version = "1.51.0"
+
+[[audits.aws-sdk-s3]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "1.51.0 -> 1.53.0"
+
+[[audits.aws-sdk-sso]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "1.43.0 -> 1.44.0"
+
+[[audits.aws-sdk-ssooidc]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "1.44.0 -> 1.45.0"
+
+[[audits.aws-sdk-sts]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "1.43.0 -> 1.44.0"
+
+[[audits.aws-smithy-types]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "1.2.6 -> 1.2.7"
+
+[[audits.axum]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.7.5 -> 0.7.6"
+
+[[audits.axum]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.7.6 -> 0.7.7"
+
+[[audits.axum-core]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.4.3 -> 0.4.4"
+
+[[audits.axum-core]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.4.4 -> 0.4.5"
+
+[[audits.axum-extra]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.9.3"
+
+[[audits.axum-extra]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.9.3 -> 0.9.4"
+
+[[audits.axum-login]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.16.0"
+
+[[audits.axum-macros]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.4.1"
+
+[[audits.axum-macros]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.4.1 -> 0.4.2"
+
+[[audits.axum_tonic]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.1.0"
+
+[[audits.axum_tonic]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.1.0 -> 0.2.0"
+
+[[audits.backon]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+version = "1.2.0"
+
+[[audits.backtrace]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.3.73 -> 0.3.74"
+
+[[audits.base64-simd]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.8.0"
+
+[[audits.base64ct]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+version = "1.6.0"
+
+[[audits.bitflags]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "1.0.5 -> 0.9.1"
+
+[[audits.blake3]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "1.5.0"
+
+[[audits.brotli]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+version = "6.0.0"
+
+[[audits.brotli]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "6.0.0 -> 3.5.0"
+
+[[audits.brotli-decompressor]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+version = "4.0.1"
+
+[[audits.brotli-decompressor]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "4.0.1 -> 2.5.1"
+
+[[audits.built]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.6.1"
+
+[[audits.bytes]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "1.7.1 -> 1.7.2"
+
+[[audits.bytes]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "1.7.2 -> 1.8.0"
+
+[[audits.bytestring]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "1.3.1"
+
+[[audits.caps]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.5.5"
+
+[[audits.cc]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "1.0.79 -> 1.0.83"
+
+[[audits.cc]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "1.1.13 -> 1.1.18"
+
+[[audits.cc]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "1.1.18 -> 1.1.21"
+
+[[audits.cc]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "1.1.21 -> 1.1.24"
+
+[[audits.chrono]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.4.27 -> 0.4.31"
+
+[[audits.chrono]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.4.33 -> 0.4.35"
+
+[[audits.chrono]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.4.35 -> 0.4.38"
+
+[[audits.chumsky]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.9.3"
+
+[[audits.clap_derive]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "4.5.13 -> 4.5.18"
+
+[[audits.concurrent-queue]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "2.1.0 -> 2.2.0"
+
+[[audits.console]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-run"
+delta = "0.15.7 -> 0.15.8"
+
+[[audits.console-api]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.5.0 -> 0.5.0@git:349e7bf11021096ce0516a49a9ce3ab8a264f08c"
+
+[[audits.console-api]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.5.0 -> 0.5.0@git:f50f7bc39ca9bdc29d7184b4387e8d1aa4820728"
+
+[[audits.console-subscriber]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.1.10 -> 0.1.10@git:349e7bf11021096ce0516a49a9ce3ab8a264f08c"
+
+[[audits.console-subscriber]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.1.10 -> 0.1.10@git:f50f7bc39ca9bdc29d7184b4387e8d1aa4820728"
+
+[[audits.const-oid]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.9.5 -> 0.9.6"
+
+[[audits.constant_time_eq]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-run"
+delta = "0.3.0 -> 0.3.1"
+
+[[audits.cookie]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.18.1"
+
+[[audits.core-foundation]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.9.3 -> 0.9.4"
+
+[[audits.core-foundation-sys]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.8.4 -> 0.8.6"
+
+[[audits.core-foundation-sys]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.8.6 -> 0.8.7"
+
+[[audits.cpufeatures]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.2.13 -> 0.2.14"
+
+[[audits.crc]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+version = "3.2.1"
+
+[[audits.crc-catalog]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+version = "2.4.0"
+
+[[audits.crc32c]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.6.4"
+
+[[audits.crc32c]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.6.4 -> 0.6.8"
+
+[[audits.croner]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+version = "2.0.5"
+
+[[audits.croner]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "2.0.5 -> 2.0.6"
+
+[[audits.crossbeam-queue]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.3.8 -> 0.3.11"
+
+[[audits.crossbeam-skiplist]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.1.3"
+
+[[audits.ctor]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-run"
+delta = "0.2.4 -> 0.2.8"
+
+[[audits.der]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.8.0-pre -> 0.7.8"
+
+[[audits.deranged]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.3.6"
+notes = "Unsafe usage of the crate is sound."
+
+[[audits.dirs]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "5.0.1"
+
+[[audits.displaydoc]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.2.4 -> 0.2.5"
+
+[[audits.dotenvy]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.15.7"
+
+[[audits.ecdsa]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.13.4"
+
+[[audits.elliptic-curve]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.11.12"
+
+[[audits.email-encoding]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.3.0"
+
+[[audits.email_address]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.2.9"
+
+[[audits.endian-type]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.1.2"
+notes = "There may be a potential issue due to from_bytes method dereferencing unaligned bytes array. But other than that, everything is okay."
+
+[[audits.enum_primitive]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.1.1"
+
+[[audits.etcetera]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.8.0"
+
+[[audits.fastrand]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "2.1.0 -> 2.1.1"
+
+[[audits.file-lock]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "2.1.10"
+notes = "The crate contains some compiled C code - a potential improvement would be to rewrite that bit using nix or libc crate. Otherwise it looks good."
+
+[[audits.filedescriptor]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.8.2"
+
+[[audits.filetime]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.2.24 -> 0.2.25"
+
+[[audits.fixedbitset]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.4.2"
+notes = "Unsafe usage seems sound."
+
+[[audits.flate2]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "1.0.26 -> 1.0.28"
+
+[[audits.flume]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.10.14"
+notes = "The crate has no unsafe blocks and only provides a data structure."
+
+[[audits.flume]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.10.14 -> 0.11.0"
+
+[[audits.flume]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.11.0 -> 0.11.1"
+
+[[audits.foldhash]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.1.3"
+
+[[audits.fs_extra]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "1.3.0"
+
+[[audits.fuchsia-cprng]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-run"
+version = "0.1.1"
+
+[[audits.futures-intrusive]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.5.0"
+
+[[audits.futures-lite]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "2.1.0 -> 2.2.0"
+
+[[audits.futures-util]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.3.30 -> 0.3.31"
+
+[[audits.gethostname]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.4.3"
+
+[[audits.getrandom]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.1.3 -> 0.2.6"
+
+[[audits.gimli]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.31.0 -> 0.31.1"
+
+[[audits.gloo-timers]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.2.6"
+
+[[audits.gloo-timers]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.2.6 -> 0.3.0"
+
+[[audits.hashlink]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.7.0"
+
+[[audits.hdrhistogram]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "7.5.2"
+notes = "The unsafe usage is minimal and limited to array indexing. There is one potential UB of resizing a buffer with uninitialized bytes, but that in practice should be okay."
+
+[[audits.hdrhistogram]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "7.5.2 -> 7.5.4"
+
+[[audits.headers]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.3.8 -> 0.4.0"
+
+[[audits.headers-core]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.2.0 -> 0.3.0"
+
+[[audits.hermit-abi]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.3.3 -> 0.3.4"
+
+[[audits.hex-simd]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.8.0"
+
+[[audits.higher-order-closure]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.0.5"
+
+[[audits.home]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.5.3 -> 0.5.5"
+
+[[audits.home]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.5.5 -> 0.5.9"
+
+[[audits.hostname]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.4.0"
+
+[[audits.http-range-header]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.3.1 -> 0.4.1"
+
+[[audits.httparse]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "1.9.4 -> 1.9.5"
+
+[[audits.human_bytes]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-run"
+version = "0.4.3"
+
+[[audits.hyper-reverse-proxy]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.5.1"
+notes = "The code is very minimal"
+
+[[audits.hyper-reverse-proxy]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.5.1 -> 0.5.2-dev@git:af8672b793e99af061f8753d07c24529a71f04a4"
+
+[[audits.hyper-reverse-proxy]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.5.1 -> 0.5.2-dev@git:e73a76600ce9e51e962de5266b03be596e6c1d50"
+
+[[audits.hyper-rustls]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.24.1 -> 0.24.1@git:fcb72be6e3b0e060bfe5bc183a67c16ea56e7132"
+
+[[audits.hyper-rustls]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.27.2 -> 0.27.3"
+
+[[audits.hyper-util]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.1.8 -> 0.1.9"
+
+[[audits.iana-time-zone]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.1.60 -> 0.1.61"
+
+[[audits.ibig]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.3.6"
+
+[[audits.icu_properties]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "1.5.0 -> 1.5.1"
+
+[[audits.idna]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "1.0.2 -> 1.0.3"
+
+[[audits.idna_adapter]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+version = "1.2.0"
+
+[[audits.indexmap]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "2.4.0 -> 2.5.0"
+
+[[audits.indexmap]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "2.5.0 -> 2.6.0"
+
+[[audits.instant]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.1.12"
+
+[[audits.instant]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.1.12 -> 0.1.13"
+
+[[audits.instant-acme]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.4.2 -> 0.4.2@git:7d905f8177db9e8142f1ca89812a257001e90b11"
+
+[[audits.instant-acme]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.4.2 -> 0.5.0@git:2d8ce0c740efe218d16f16758e47718d02ddca01"
+
+[[audits.ioctl-rs]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.1.6"
+
+[[audits.ipnet]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "2.9.0 -> 2.10.0"
+
+[[audits.ipnet]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "2.10.0 -> 2.10.1"
+
+[[audits.jobserver]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.1.26 -> 0.1.27"
+
+[[audits.jobserver]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.1.27 -> 0.1.28"
+
+[[audits.js-sys]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.3.70 -> 0.3.72"
+
+[[audits.jsonwebtoken]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "8.3.0 -> 9.2.0"
+
+[[audits.jsonwebtoken]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "9.2.0 -> 9.3.0"
+
+[[audits.kv-log-macro]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "1.0.7"
+
+[[audits.lettre]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.11.8"
+
+[[audits.lettre]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.11.8 -> 0.11.9"
+
+[[audits.lettre]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.11.9 -> 0.11.10"
+
+[[audits.libc]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.2.158 -> 0.2.159"
+
+[[audits.libm]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.2.6 -> 0.2.4"
+
+[[audits.libredox]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.0.1"
+
+[[audits.libredox]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.0.2"
+
+[[audits.libsqlite3-sys]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.30.1"
+
+[[audits.libsqlite3-sys]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.30.1 -> 0.28.0"
+
+[[audits.local-ip-address]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.5.4"
+notes = "Glanced over the code, nothing obvious sticks out."
+
+[[audits.local-ip-address]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.5.4 -> 0.5.6"
+
+[[audits.local-ip-address]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.5.6 -> 0.5.7"
+
+[[audits.lru]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.11.1"
+notes = "LRU is slightly more complicated mechanism. I did not vet every single line of the linked list, but it should be sound, given the usage count. No other things stuck out."
+
+[[audits.lru]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.11.1 -> 0.12.4"
+
+[[audits.lru]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.12.4 -> 0.12.5"
+
+[[audits.md-5]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.10.5 -> 0.10.6"
+
+[[audits.mime_guess]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+version = "2.0.5"
+
+[[audits.multer]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+version = "3.1.0"
+
+[[audits.murmur3]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.5.2"
+
+[[audits.native-tls]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.2.11 -> 0.2.12"
+
+[[audits.ntapi]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.4.1"
+
+[[audits.nu-ansi-term]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.46.0"
+
+[[audits.nugine-rust-utils]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.3.1"
+
+[[audits.num-bigint]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.4.5 -> 0.4.6"
+
+[[audits.num-conv]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.1.0"
+
+[[audits.num-traits]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.1.43"
+
+[[audits.numeric_cast]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.2.1"
+
+[[audits.numtoa]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.1.0"
+
+[[audits.object]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.36.3 -> 0.36.4"
+
+[[audits.object]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.36.4 -> 0.36.5"
+
+[[audits.octocrab]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.19.0"
+notes = "There is no usage of unsafe, and all the HTTP requests are limited to GitHub API."
+
+[[audits.octocrab]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.19.0 -> 0.32.0"
+notes = "Just skimmed the code - no unsafe, no fs interaction. Mainly just REST API calls."
+
+[[audits.opentelemetry]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.22.0"
+
+[[audits.opentelemetry-otlp]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.15.0"
+
+[[audits.opentelemetry-proto]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.5.0"
+
+[[audits.opentelemetry-semantic-conventions]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.14.0"
+
+[[audits.opentelemetry_sdk]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.22.1"
+
+[[audits.option-ext]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.2.0"
+
+[[audits.ordered-float]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "4.2.2 -> 4.3.0"
+
+[[audits.outref]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.5.1"
+
+[[audits.overload]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.1.1"
+
+[[audits.p256]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.10.1"
+
+[[audits.paste]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+version = "1.0.15"
+
+[[audits.path-absolutize]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "3.1.1"
+
+[[audits.path-dedot]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "3.1.1"
+
+[[audits.petgraph]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.6.3 -> 0.6.4"
+
+[[audits.petgraph]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.6.3 -> 0.6.45"
+
+[[audits.pkcs1]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.7.5"
+
+[[audits.pkg-config]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.3.30 -> 0.3.31"
+
+[[audits.portable-atomic]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "1.7.0 -> 1.8.0"
+
+[[audits.portable-atomic]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "1.8.0 -> 1.9.0"
+
+[[audits.portable-pty]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.8.1"
+
+[[audits.portable-pty]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.8.1"
+notes = "Did not verify windows code"
+
+[[audits.postgrest]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "1.6.0"
+notes = "This is merely a thin wrapper around reqwest."
+
+[[audits.prettytable-rs]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.10.0"
+notes = "The codebase has no unsafe usage, and all processed data are strings."
+
+[[audits.proc-macro-error]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+version = "1.0.4"
+
+[[audits.procfs]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.17.0"
+
+[[audits.procfs-core]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.16.0 -> 0.17.0"
+
+[[audits.prost]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.12.1 -> 0.11.9@git:f9a3cfff07536a412e4f96f5ea3749c52c50170f"
+
+[[audits.prost]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.13.1 -> 0.13.2"
+
+[[audits.prost]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.13.2 -> 0.13.3"
+
+[[audits.prost-build]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.11.9 -> 0.11.9@git:f9a3cfff07536a412e4f96f5ea3749c52c50170f"
+
+[[audits.prost-build]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.13.1 -> 0.13.2"
+
+[[audits.prost-build]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.13.2 -> 0.13.3"
+
+[[audits.prost-derive]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.12.1 -> 0.11.9@git:f9a3cfff07536a412e4f96f5ea3749c52c50170f"
+
+[[audits.prost-derive]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.13.1 -> 0.13.2"
+
+[[audits.prost-derive]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.13.2 -> 0.13.3"
+
+[[audits.prost-types]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.11.9 -> 0.11.9@git:f9a3cfff07536a412e4f96f5ea3749c52c50170f"
+
+[[audits.prost-types]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.13.1 -> 0.13.2"
+
+[[audits.prost-types]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.13.2 -> 0.13.3"
+
+[[audits.psm]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.1.23"
+
+[[audits.quinn-udp]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.5.4 -> 0.5.5"
+
+[[audits.quinn-udp]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.5.5 -> 0.5.6"
+
+[[audits.quoted_printable]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.5.1"
+
+[[audits.rand]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-run"
+version = "0.4.6"
+notes = "Only took a brief look at this. No build scripts found."
+
+[[audits.rand_core]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-run"
+delta = "0.4.2 -> 0.3.1"
+
+[[audits.rand_core]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-run"
+delta = "0.5.1 -> 0.4.2"
+
+[[audits.rangemap]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "1.3.0"
+notes = "The code contains no unsafe, and build upon standard BTreeMap."
+
+[[audits.rangemap]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.1.3 -> 0.1.4"
+
+[[audits.rangemap]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "1.3.0 -> 1.4.0"
+
+[[audits.raw-cpuid]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "11.1.0 -> 11.2.0"
+
+[[audits.rdrand]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-run"
+version = "0.4.0"
+notes = "Took only a very brief look at this."
+
+[[audits.redox_syscall]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.5.3 -> 0.5.4"
+
+[[audits.redox_syscall]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.5.4 -> 0.5.7"
+
+[[audits.reflink]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.1.2"
+
+[[audits.reflink]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.1.2 -> 0.1.3"
+
+[[audits.reflink]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.1.3 -> 0.1.3@git:fc8841dffa5c4c96a412db584564daab1ed22964"
+
+[[audits.regex]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "1.10.6 -> 1.11.0"
+
+[[audits.regex-automata]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.4.7 -> 0.4.8"
+
+[[audits.regex-syntax]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.8.4 -> 0.8.5"
+
+[[audits.remove_dir_all]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-run"
+version = "0.5.3"
+
+[[audits.reqwest]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.12.7 -> 0.12.8"
+
+[[audits.rfc6979]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.3.1"
+
+[[audits.rustc_version]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.4.0 -> 0.4.1"
+
+[[audits.rustls]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.23.15 -> 0.23.16"
+
+[[audits.rustls-native-certs]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.6.3"
+
+[[audits.rustls-pemfile]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "1.0.3"
+notes = "The library is minimal and merely parses text files"
+
+[[audits.rustls-pemfile]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "2.1.1 -> 2.1.3"
+
+[[audits.rustls-pemfile]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "2.1.3 -> 2.2.0"
+
+[[audits.rustls-pki-types]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "1.1.0"
+
+[[audits.rustls-pki-types]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "1.9.0 -> 1.10.0"
+
+[[audits.rustls-webpki]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.100.1 -> 0.100.2"
+
+[[audits.rustls-webpki]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.100.2 -> 0.101.2"
+notes = "Glanced over the changes, may need a deeper look - no unsafe usage."
+
+[[audits.rustls-webpki]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.102.7 -> 0.102.8"
+
+[[audits.s3s]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.8.1"
+
+[[audits.s3s]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.8.1 -> 0.10.1"
+
+[[audits.s3s-fs]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.8.1"
+
+[[audits.s3s-fs]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.8.1 -> 0.10.1"
+
+[[audits.schannel]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.1.23 -> 0.1.24"
+
+[[audits.schemars]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.8.12 -> 0.8.16"
+
+[[audits.schemars_derive]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.8.12 -> 0.8.16"
+
+[[audits.security-framework-sys]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "2.11.1 -> 2.12.0"
+
+[[audits.serde_json]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "1.0.125 -> 1.0.128"
+
+[[audits.serde_json]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "1.0.128 -> 1.0.132"
+
+[[audits.serde_spanned]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.6.7 -> 0.6.8"
+
+[[audits.serial]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.4.0"
+
+[[audits.serial-core]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.4.0"
+
+[[audits.serial-unix]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.4.0"
+
+[[audits.serial-windows]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.4.0"
+
+[[audits.sha1]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.10.5 -> 0.10.6"
+
+[[audits.sha256]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "1.3.0 -> 1.2.2@git:e39891488fc08c9f8fad05c89e52f73c12490101"
+
+[[audits.shared_library]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.1.9"
+
+[[audits.shell-words]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "1.1.0"
+notes = "The logic was not deeply studied, but we certify to verify incremental changes."
+
+[[audits.shlex]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+version = "1.3.0"
+
+[[audits.signature]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "2.1.0 -> 1.6.4"
+
+[[audits.simdutf8]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.1.4"
+
+[[audits.socket2]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.3.12 -> 0.4.4"
+notes = "Glanced over the code. Certifying to verify incremental changes."
+
+[[audits.spin]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.5.2"
+
+[[audits.spin]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.9.8"
+notes = "The code was not audited deeply, but it has wide usage, and we certify to audit incremental changes."
+
+[[audits.spki]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.8.0-pre.0 -> 0.7.3"
+
+[[audits.sqlformat]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.2.6"
+
+[[audits.sqlx-macros]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.8.2"
+
+[[audits.sqlx-macros-core]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.8.2"
+
+[[audits.sqlx-mysql]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.8.2"
+
+[[audits.sqlx-sqlite]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.8.2"
+
+[[audits.stable_deref_trait]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+version = "1.2.0"
+
+[[audits.stacker]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.1.17"
+
+[[audits.strum]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.24.1 -> 0.25.0"
+
+[[audits.strum]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.25.0 -> 0.26.3"
+
+[[audits.strum_macros]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.24.3 -> 0.25.2"
+
+[[audits.strum_macros]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.25.2 -> 0.25.3"
+
+[[audits.strum_macros]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.25.3 -> 0.26.4"
+
+[[audits.syn]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "2.0.75 -> 2.0.77"
+
+[[audits.syn]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "2.0.77 -> 2.0.79"
+
+[[audits.sync_wrapper]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.1.2"
+
+[[audits.sysinfo]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.32.0"
+
+[[audits.system-configuration]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.5.1"
+
+[[audits.system-configuration]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.5.1 -> 0.6.1"
+
+[[audits.system-configuration-sys]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.5.0"
+
+[[audits.system-configuration-sys]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.5.0 -> 0.6.0"
+
+[[audits.target-triple]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-run"
+version = "0.1.3"
+
+[[audits.tempdir]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-run"
+version = "0.3.7"
+
+[[audits.tempfile]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "3.12.0 -> 3.13.0"
+
+[[audits.termios]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.2.2"
+
+[[audits.test-log]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-run"
+delta = "0.2.11 -> 0.2.12"
+notes = "The diff merely improves argument parsing within the macro, it does not add any complex logic."
+
+[[audits.test-log]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-run"
+delta = "0.2.12 -> 0.2.13"
+
+[[audits.test-log]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-run"
+delta = "0.2.13 -> 0.2.14"
+
+[[audits.test-log-macros]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-run"
+version = "0.2.14"
+
+[[audits.thiserror]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "1.0.63 -> 1.0.64"
+
+[[audits.thiserror]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "1.0.64 -> 2.0.3"
+
+[[audits.thiserror-impl]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "1.0.63 -> 1.0.64"
+
+[[audits.thiserror-impl]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "1.0.64 -> 2.0.3"
+
+[[audits.tokio-cron-scheduler]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.11.0"
+
+[[audits.tokio-cron-scheduler]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.11.0 -> 0.13.0"
+
+[[audits.tokio-macros]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "2.3.0 -> 2.4.0"
+
+[[audits.tokio-stream]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.1.15 -> 0.1.16"
+
+[[audits.toml_edit]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.22.20 -> 0.22.21"
+
+[[audits.toml_edit]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.22.21 -> 0.22.22"
+
+[[audits.tonic-build]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.9.2 -> 0.9.2@git:1ce50c83ada762a865d896f63aa04a7e9b3aae6f"
+
+[[audits.tower-cookies]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.10.0"
+
+[[audits.tower-http]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.6.0 -> 0.6.1"
+
+[[audits.tower-layer]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.3.2 -> 0.3.3"
+
+[[audits.tower-service]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.3.2 -> 0.3.3"
+
+[[audits.tower-sessions]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.13.0"
+
+[[audits.tower-sessions-core]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.13.0"
+
+[[audits.tower-sessions-memory-store]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.13.0"
+
+[[audits.tower-sessions-sqlx-store]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.14.0"
+
+[[audits.tower-sessions-sqlx-store]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.14.0 -> 0.14.1"
+
+[[audits.tracing-futures]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.2.5"
+notes = "Glanced over the code. No unsafe found. Should be good, due to reputable source."
+
+[[audits.tracing-opentelemetry]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.23.0"
+
+[[audits.transform-stream]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.3.0"
+
+[[audits.triggered]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.1.2"
+
+[[audits.unicode-normalization]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.1.23 -> 0.1.24"
+
+[[audits.unicode-properties]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.1.2"
+
+[[audits.unicode-properties]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.1.2 -> 0.1.3"
+
+[[audits.unicode_categories]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.1.1"
+
+[[audits.urbit-ob]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.2.0"
+
+[[audits.url]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "2.5.2 -> 2.5.3"
+
+[[audits.urlencoding]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "2.1.3"
+
+[[audits.utf8parse]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.2.1 -> 0.2.2"
+
+[[audits.uuid]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "1.7.0"
+
+[[audits.version_check]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.9.4 -> 0.9.5"
+
+[[audits.vsimd]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.8.0"
+
+[[audits.vte]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.10.1"
+notes = "Unsafe usage of the crate is sound, and it doesn't do any other interaction - the crate is no_std."
+
+[[audits.vte]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.10.1 -> 0.11.1"
+
+[[audits.wasite]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.1.0"
+
+[[audits.wasm-bindgen]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.2.93 -> 0.2.95"
+
+[[audits.wasm-bindgen-backend]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.2.93 -> 0.2.95"
+
+[[audits.wasm-bindgen-futures]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.4.43 -> 0.4.45"
+
+[[audits.wasm-bindgen-macro]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.2.93 -> 0.2.95"
+
+[[audits.wasm-streams]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.3.0"
+
+[[audits.wasm-streams]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.3.0 -> 0.4.0"
+
+[[audits.web-time]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "1.1.0"
+
+[[audits.webpki-roots]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.23.0 -> 0.22.6"
+
+[[audits.whoami]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+version = "1.5.2"
+
+[[audits.winapi-i686-pc-windows-gnu]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.4.0"
+
+[[audits.winapi-x86_64-pc-windows-gnu]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.4.0"
+
+[[audits.winnow]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.6.18 -> 0.6.20"
+
+[[audits.xmlparser]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.13.6"
+
+[[audits.zerocopy]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.7.28"
+
+[[audits.zerocopy]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.7.28 -> 0.7.31"
+
+[[audits.zerocopy]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.7.34 -> 0.7.35"
+
+[[audits.zerocopy-derive]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+version = "0.7.28"
+
+[[audits.zerocopy-derive]]
+who = "Aurimas Blažulionis <aurimas@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.7.28 -> 0.7.31"
+
+[[audits.zerocopy-derive]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.7.34 -> 0.7.35"
+
+[[audits.zerofrom-derive]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.1.3 -> 0.1.4"
+
+[[audits.zerovec-derive]]
+who = "Patrick Jeremic <pjeremic@chorus.one>"
+criteria = "safe-to-deploy"
+delta = "0.10.2 -> 0.10.3"
+
+[[trusted.addr2line]]
+criteria = "safe-to-deploy"
+user-id = 4415 # Philip Craig (philipc)
+start = "2019-05-01"
+end = "2024-08-23"
+
+[[trusted.aho-corasick]]
+criteria = "safe-to-deploy"
+user-id = 189 # Andrew Gallant (BurntSushi)
+start = "2019-03-28"
+end = "2024-08-23"
+
+[[trusted.allocator-api2]]
+criteria = "safe-to-deploy"
+user-id = 945
+start = "2023-02-27"
+end = "2024-09-06"
+
+[[trusted.android-tzdata]]
+criteria = "safe-to-deploy"
+user-id = 201168
+start = "2023-03-04"
+end = "2024-08-23"
+
+[[trusted.anstream]]
+criteria = "safe-to-deploy"
+user-id = 6743 # Ed Page (epage)
+start = "2023-03-16"
+end = "2025-11-14"
+
+[[trusted.anstyle]]
+criteria = "safe-to-deploy"
+user-id = 6743 # Ed Page (epage)
+start = "2022-05-18"
+end = "2025-11-14"
+
+[[trusted.anstyle-parse]]
+criteria = "safe-to-deploy"
+user-id = 6743 # Ed Page (epage)
+start = "2023-03-08"
+end = "2025-11-14"
+
+[[trusted.anstyle-query]]
+criteria = "safe-to-deploy"
+user-id = 6743 # Ed Page (epage)
+start = "2023-04-13"
+end = "2025-11-14"
+
+[[trusted.anstyle-wincon]]
+criteria = "safe-to-deploy"
+user-id = 6743 # Ed Page (epage)
+start = "2023-03-08"
+end = "2025-11-14"
+
+[[trusted.anyhow]]
+criteria = "safe-to-deploy"
+user-id = 3618 # David Tolnay (dtolnay)
+start = "2019-10-05"
+end = "2024-08-23"
+
+[[trusted.arc-swap]]
+criteria = "safe-to-deploy"
+user-id = 5906 # Michal 'vorner' Vaner (vorner)
+start = "2019-03-27"
+end = "2024-08-23"
+
+[[trusted.arrayvec]]
+criteria = "safe-to-deploy"
+user-id = 356
+start = "2019-07-10"
+end = "2024-08-23"
+
+[[trusted.asn1-rs]]
+criteria = "safe-to-deploy"
+user-id = 4791
+start = "2021-07-06"
+end = "2024-10-19"
+
+[[trusted.asn1-rs-derive]]
+criteria = "safe-to-deploy"
+user-id = 4791
+start = "2022-01-27"
+end = "2024-10-19"
+
+[[trusted.async-channel]]
+criteria = "safe-to-deploy"
+user-id = 69526 # John Nunley (notgull)
+start = "2023-07-08"
+end = "2025-01-17"
+
+[[trusted.async-compression]]
+criteria = "safe-to-deploy"
+user-id = 56903
+start = "2023-05-10"
+end = "2025-01-17"
+
+[[trusted.async-compression]]
+criteria = "safe-to-deploy"
+user-id = 782
+start = "2019-05-14"
+end = "2025-01-17"
+
+[[trusted.async-executor]]
+criteria = "safe-to-deploy"
+user-id = 69526 # John Nunley (notgull)
+start = "2023-04-07"
+end = "2025-01-17"
+
+[[trusted.async-global-executor]]
+criteria = "safe-to-deploy"
+user-id = 5153
+start = "2020-09-17"
+end = "2025-01-17"
+
+[[trusted.async-global-executor]]
+criteria = "safe-to-deploy"
+user-id = 1926
+start = "2020-08-27"
+end = "2025-01-17"
+
+[[trusted.async-io]]
+criteria = "safe-to-deploy"
+user-id = 69526 # John Nunley (notgull)
+start = "2023-03-22"
+end = "2025-01-17"
+
+[[trusted.async-lock]]
+criteria = "safe-to-deploy"
+user-id = 69526 # John Nunley (notgull)
+start = "2023-03-02"
+end = "2025-01-17"
+
+[[trusted.async-mutex]]
+criteria = "safe-to-deploy"
+user-id = 5153
+start = "2019-06-02"
+end = "2024-08-23"
+
+[[trusted.async-rwlock]]
+criteria = "safe-to-deploy"
+user-id = 5153
+start = "2019-06-02"
+end = "2024-08-23"
+
+[[trusted.async-std]]
+criteria = "safe-to-deploy"
+user-id = 4333
+start = "2022-06-18"
+end = "2025-01-17"
+
+[[trusted.async-std]]
+criteria = "safe-to-deploy"
+user-id = 1926
+start = "2022-03-22"
+end = "2025-10-29"
+
+[[trusted.async-tar]]
+criteria = "safe-to-deploy"
+user-id = 3079
+start = "2019-12-24"
+end = "2025-01-17"
+
+[[trusted.async-task]]
+criteria = "safe-to-deploy"
+user-id = 69526 # John Nunley (notgull)
+start = "2023-03-24"
+end = "2025-01-17"
+
+[[trusted.async-trait]]
+criteria = "safe-to-deploy"
+user-id = 3618 # David Tolnay (dtolnay)
+start = "2019-07-23"
+end = "2024-08-23"
+
+[[trusted.async_zip]]
+criteria = "safe-to-deploy"
+user-id = 129815
+start = "2021-08-14"
+end = "2025-01-17"
+
+[[trusted.atomic-waker]]
+criteria = "safe-to-deploy"
+user-id = 69526 # John Nunley (notgull)
+start = "2023-04-07"
+end = "2025-01-17"
+
+[[trusted.aws-config]]
+criteria = "safe-to-deploy"
+user-id = 160111
+start = "2022-06-22"
+end = "2025-10-29"
+
+[[trusted.aws-credential-types]]
+criteria = "safe-to-deploy"
+user-id = 160111
+start = "2022-12-29"
+end = "2025-10-29"
+
+[[trusted.aws-runtime]]
+criteria = "safe-to-deploy"
+user-id = 160111
+start = "2023-04-06"
+end = "2025-10-29"
+
+[[trusted.aws-sdk-s3]]
+criteria = "safe-to-deploy"
+user-id = 160111
+start = "2022-06-22"
+end = "2025-10-29"
+
+[[trusted.aws-sdk-sso]]
+criteria = "safe-to-deploy"
+user-id = 160111
+start = "2022-06-22"
+end = "2025-10-29"
+
+[[trusted.aws-sdk-ssooidc]]
+criteria = "safe-to-deploy"
+user-id = 160111
+start = "2022-06-23"
+end = "2025-10-29"
+
+[[trusted.aws-sdk-sts]]
+criteria = "safe-to-deploy"
+user-id = 160111
+start = "2022-06-22"
+end = "2025-10-29"
+
+[[trusted.aws-sigv4]]
+criteria = "safe-to-deploy"
+user-id = 160111
+start = "2022-06-22"
+end = "2025-10-29"
+
+[[trusted.aws-smithy-async]]
+criteria = "safe-to-deploy"
+user-id = 160111
+start = "2022-06-22"
+end = "2025-10-29"
+
+[[trusted.aws-smithy-checksums]]
+criteria = "safe-to-deploy"
+user-id = 160111
+start = "2022-07-20"
+end = "2025-10-29"
+
+[[trusted.aws-smithy-eventstream]]
+criteria = "safe-to-deploy"
+user-id = 160111
+start = "2022-06-22"
+end = "2025-10-29"
+
+[[trusted.aws-smithy-http]]
+criteria = "safe-to-deploy"
+user-id = 160111
+start = "2022-06-22"
+end = "2025-10-29"
+
+[[trusted.aws-smithy-json]]
+criteria = "safe-to-deploy"
+user-id = 160111
+start = "2022-06-22"
+end = "2025-10-29"
+
+[[trusted.aws-smithy-query]]
+criteria = "safe-to-deploy"
+user-id = 160111
+start = "2022-06-22"
+end = "2025-10-29"
+
+[[trusted.aws-smithy-runtime]]
+criteria = "safe-to-deploy"
+user-id = 160111
+start = "2023-04-06"
+end = "2025-10-29"
+
+[[trusted.aws-smithy-runtime-api]]
+criteria = "safe-to-deploy"
+user-id = 160111
+start = "2023-04-06"
+end = "2025-10-29"
+
+[[trusted.aws-smithy-types]]
+criteria = "safe-to-deploy"
+user-id = 160111
+start = "2022-06-22"
+end = "2025-10-29"
+
+[[trusted.aws-smithy-xml]]
+criteria = "safe-to-deploy"
+user-id = 160111
+start = "2022-06-22"
+end = "2025-10-29"
+
+[[trusted.aws-types]]
+criteria = "safe-to-deploy"
+user-id = 160111
+start = "2022-06-22"
+end = "2025-10-29"
+
+[[trusted.axum]]
+criteria = "safe-to-deploy"
+user-id = 12432
+start = "2021-07-22"
+end = "2024-08-23"
+
+[[trusted.axum-core]]
+criteria = "safe-to-deploy"
+user-id = 12432
+start = "2021-08-21"
+end = "2024-08-23"
+
+[[trusted.backtrace]]
+criteria = "safe-to-deploy"
+user-id = 2915 # Amanieu d'Antras (Amanieu)
+start = "2023-06-29"
+end = "2024-08-23"
+
+[[trusted.base16ct]]
+criteria = "safe-to-deploy"
+user-id = 267 # Tony Arcieri (tarcieri)
+start = "2022-01-13"
+end = "2025-10-29"
+
+[[trusted.base64]]
+criteria = "safe-to-deploy"
+user-id = 5563 # Marshall Pierce (marshallpierce)
+start = "2019-10-25"
+end = "2024-08-23"
+
+[[trusted.bitflags]]
+criteria = "safe-to-deploy"
+user-id = 3204 # Ashley Mannix (KodrAus)
+start = "2019-05-02"
+end = "2024-08-23"
+
+[[trusted.blocking]]
+criteria = "safe-to-deploy"
+user-id = 69526 # John Nunley (notgull)
+start = "2023-04-07"
+end = "2025-01-17"
+
+[[trusted.byteorder]]
+criteria = "safe-to-deploy"
+user-id = 189 # Andrew Gallant (BurntSushi)
+start = "2019-06-09"
+end = "2024-08-23"
+
+[[trusted.bytes]]
+criteria = "safe-to-deploy"
+user-id = 6741 # Alice Ryhl (Darksonn)
+start = "2021-01-11"
+end = "2024-08-23"
+
+[[trusted.bytes-utils]]
+criteria = "safe-to-deploy"
+user-id = 5906 # Michal 'vorner' Vaner (vorner)
+start = "2021-01-22"
+end = "2025-10-29"
+
+[[trusted.bzip2]]
+criteria = "safe-to-deploy"
+user-id = 1 # Alex Crichton (alexcrichton)
+start = "2020-07-06"
+end = "2025-01-17"
+
+[[trusted.bzip2-sys]]
+criteria = "safe-to-deploy"
+user-id = 1 # Alex Crichton (alexcrichton)
+start = "2020-02-24"
+end = "2025-01-17"
+
+[[trusted.cargo-lock]]
+criteria = "safe-to-deploy"
+user-id = 267 # Tony Arcieri (tarcieri)
+start = "2019-09-21"
+end = "2024-08-23"
+
+[[trusted.cc]]
+criteria = "safe-to-deploy"
+user-id = 1 # Alex Crichton (alexcrichton)
+start = "2019-03-01"
+end = "2024-08-23"
+
+[[trusted.cc]]
+criteria = "safe-to-deploy"
+user-id = 55123 # rust-lang-owner
+start = "2022-10-29"
+end = "2025-11-14"
+
+[[trusted.chrono]]
+criteria = "safe-to-deploy"
+user-id = 4556 # Dirkjan Ochtman (djc)
+start = "2022-07-25"
+end = "2024-08-23"
+
+[[trusted.clap]]
+criteria = "safe-to-deploy"
+user-id = 6743 # Ed Page (epage)
+start = "2021-12-08"
+end = "2024-08-23"
+
+[[trusted.clap_builder]]
+criteria = "safe-to-deploy"
+user-id = 6743 # Ed Page (epage)
+start = "2023-03-28"
+end = "2025-11-14"
+
+[[trusted.clap_complete]]
+criteria = "safe-to-deploy"
+user-id = 6743 # Ed Page (epage)
+start = "2021-12-31"
+end = "2024-08-23"
+
+[[trusted.clap_derive]]
+criteria = "safe-to-deploy"
+user-id = 6743 # Ed Page (epage)
+start = "2021-12-08"
+end = "2024-08-23"
+
+[[trusted.clap_lex]]
+criteria = "safe-to-deploy"
+user-id = 6743 # Ed Page (epage)
+start = "2022-04-15"
+end = "2024-08-23"
+
+[[trusted.colorchoice]]
+criteria = "safe-to-deploy"
+user-id = 6743 # Ed Page (epage)
+start = "2023-04-13"
+end = "2025-11-14"
+
+[[trusted.concurrent-queue]]
+criteria = "safe-to-deploy"
+user-id = 33035 # Taiki Endo (taiki-e)
+start = "2022-07-17"
+end = "2024-08-23"
+
+[[trusted.concurrent-queue]]
+criteria = "safe-to-deploy"
+user-id = 69526 # John Nunley (notgull)
+start = "2023-04-07"
+end = "2025-01-17"
+
+[[trusted.console-api]]
+criteria = "safe-to-deploy"
+user-id = 1249 # Eliza Weisman (hawkw)
+start = "2021-12-16"
+end = "2024-08-23"
+
+[[trusted.console-subscriber]]
+criteria = "safe-to-deploy"
+user-id = 1249 # Eliza Weisman (hawkw)
+start = "2021-12-16"
+end = "2024-08-23"
+
+[[trusted.const-oid]]
+criteria = "safe-to-deploy"
+user-id = 267 # Tony Arcieri (tarcieri)
+start = "2020-08-04"
+end = "2025-10-29"
+
+[[trusted.cpufeatures]]
+criteria = "safe-to-deploy"
+user-id = 5059
+start = "2022-08-18"
+end = "2024-08-23"
+
+[[trusted.crc32fast]]
+criteria = "safe-to-deploy"
+user-id = 1546
+start = "2019-03-05"
+end = "2024-08-23"
+
+[[trusted.crossbeam-channel]]
+criteria = "safe-to-deploy"
+user-id = 33035 # Taiki Endo (taiki-e)
+start = "2020-09-06"
+end = "2024-08-23"
+
+[[trusted.crossbeam-deque]]
+criteria = "safe-to-deploy"
+user-id = 33035 # Taiki Endo (taiki-e)
+start = "2020-10-12"
+end = "2025-10-09"
+
+[[trusted.crossbeam-epoch]]
+criteria = "safe-to-deploy"
+user-id = 33035 # Taiki Endo (taiki-e)
+start = "2020-10-12"
+end = "2024-08-23"
+
+[[trusted.crossbeam-utils]]
+criteria = "safe-to-deploy"
+user-id = 33035 # Taiki Endo (taiki-e)
+start = "2020-10-12"
+end = "2024-08-23"
+
+[[trusted.crypto-bigint]]
+criteria = "safe-to-deploy"
+user-id = 267 # Tony Arcieri (tarcieri)
+start = "2021-04-30"
+end = "2025-10-29"
+
+[[trusted.csv]]
+criteria = "safe-to-deploy"
+user-id = 189 # Andrew Gallant (BurntSushi)
+start = "2019-04-05"
+end = "2024-08-23"
+
+[[trusted.csv-core]]
+criteria = "safe-to-deploy"
+user-id = 189 # Andrew Gallant (BurntSushi)
+start = "2019-06-26"
+end = "2024-08-23"
+
+[[trusted.data-encoding]]
+criteria = "safe-to-deploy"
+user-id = 3036
+start = "2020-02-22"
+end = "2024-10-19"
+
+[[trusted.der]]
+criteria = "safe-to-deploy"
+user-id = 267 # Tony Arcieri (tarcieri)
+start = "2020-12-17"
+end = "2025-10-29"
+
+[[trusted.der-parser]]
+criteria = "safe-to-deploy"
+user-id = 4791
+start = "2019-06-18"
+end = "2024-10-19"
+
+[[trusted.deranged]]
+criteria = "safe-to-deploy"
+user-id = 15682
+start = "2020-12-10"
+end = "2024-12-04"
+
+[[trusted.digest]]
+criteria = "safe-to-deploy"
+user-id = 267 # Tony Arcieri (tarcieri)
+start = "2020-06-10"
+end = "2024-08-23"
+
+[[trusted.dirs-next]]
+criteria = "safe-to-deploy"
+user-id = 36467
+start = "2020-05-06"
+end = "2024-08-23"
+
+[[trusted.dirs-sys]]
+criteria = "safe-to-deploy"
+user-id = 2022
+start = "2019-05-12"
+end = "2024-08-23"
+
+[[trusted.dirs-sys-next]]
+criteria = "safe-to-deploy"
+user-id = 36467
+start = "2020-05-06"
+end = "2024-08-23"
+
+[[trusted.downcast-rs]]
+criteria = "safe-to-deploy"
+user-id = 3135
+start = "2019-04-09"
+end = "2024-08-23"
+
+[[trusted.dyn-clone]]
+criteria = "safe-to-deploy"
+user-id = 3618 # David Tolnay (dtolnay)
+start = "2019-12-23"
+end = "2024-08-23"
+
+[[trusted.either]]
+criteria = "safe-to-deploy"
+user-id = 539 # Josh Stone (cuviper)
+start = "2019-04-02"
+end = "2024-08-23"
+
+[[trusted.encode_unicode]]
+criteria = "safe-to-deploy"
+user-id = 3883
+start = "2019-08-23"
+end = "2024-08-23"
+
+[[trusted.env_filter]]
+criteria = "safe-to-deploy"
+user-id = 6743 # Ed Page (epage)
+start = "2024-01-19"
+end = "2025-11-14"
+
+[[trusted.env_logger]]
+criteria = "safe-to-deploy"
+user-id = 6743 # Ed Page (epage)
+start = "2022-11-24"
+end = "2024-08-23"
+
+[[trusted.equivalent]]
+criteria = "safe-to-deploy"
+user-id = 539 # Josh Stone (cuviper)
+start = "2023-02-05"
+end = "2024-08-23"
+
+[[trusted.errno]]
+criteria = "safe-to-deploy"
+user-id = 684
+start = "2020-03-27"
+end = "2024-08-23"
+
+[[trusted.errno]]
+criteria = "safe-to-deploy"
+user-id = 6825
+start = "2023-08-29"
+end = "2024-12-04"
+
+[[trusted.event-listener]]
+criteria = "safe-to-deploy"
+user-id = 33035 # Taiki Endo (taiki-e)
+start = "2022-01-22"
+end = "2024-08-23"
+
+[[trusted.event-listener]]
+criteria = "safe-to-deploy"
+user-id = 69526 # John Nunley (notgull)
+start = "2023-09-10"
+end = "2025-01-17"
+
+[[trusted.event-listener-strategy]]
+criteria = "safe-to-deploy"
+user-id = 69526 # John Nunley (notgull)
+start = "2023-09-11"
+end = "2025-01-17"
+
+[[trusted.fastrand]]
+criteria = "safe-to-deploy"
+user-id = 33035 # Taiki Endo (taiki-e)
+start = "2021-04-24"
+end = "2024-08-23"
+
+[[trusted.fastrand]]
+criteria = "safe-to-deploy"
+user-id = 69526 # John Nunley (notgull)
+start = "2023-06-09"
+end = "2024-08-23"
+
+[[trusted.ff]]
+criteria = "safe-to-deploy"
+user-id = 1244
+start = "2019-10-08"
+end = "2025-10-29"
+
+[[trusted.filetime]]
+criteria = "safe-to-deploy"
+user-id = 1 # Alex Crichton (alexcrichton)
+start = "2019-04-23"
+end = "2024-08-23"
+
+[[trusted.flate2]]
+criteria = "safe-to-deploy"
+user-id = 4333
+start = "2020-09-30"
+end = "2024-08-23"
+
+[[trusted.form_urlencoded]]
+criteria = "safe-to-deploy"
+user-id = 72883 # Valentin Gosu (valenting)
+start = "2022-09-08"
+end = "2024-08-23"
+
+[[trusted.futures]]
+criteria = "safe-to-deploy"
+user-id = 33035 # Taiki Endo (taiki-e)
+start = "2020-10-05"
+end = "2024-12-04"
+
+[[trusted.futures-channel]]
+criteria = "safe-to-deploy"
+user-id = 33035 # Taiki Endo (taiki-e)
+start = "2020-10-05"
+end = "2024-12-04"
+
+[[trusted.futures-core]]
+criteria = "safe-to-deploy"
+user-id = 33035 # Taiki Endo (taiki-e)
+start = "2020-10-05"
+end = "2024-12-04"
+
+[[trusted.futures-executor]]
+criteria = "safe-to-deploy"
+user-id = 33035 # Taiki Endo (taiki-e)
+start = "2020-10-05"
+end = "2024-12-04"
+
+[[trusted.futures-io]]
+criteria = "safe-to-deploy"
+user-id = 33035 # Taiki Endo (taiki-e)
+start = "2020-10-05"
+end = "2024-12-04"
+
+[[trusted.futures-lite]]
+criteria = "safe-to-deploy"
+user-id = 69526 # John Nunley (notgull)
+start = "2023-04-07"
+end = "2025-01-17"
+
+[[trusted.futures-macro]]
+criteria = "safe-to-deploy"
+user-id = 33035 # Taiki Endo (taiki-e)
+start = "2020-10-05"
+end = "2025-11-14"
+
+[[trusted.futures-sink]]
+criteria = "safe-to-deploy"
+user-id = 33035 # Taiki Endo (taiki-e)
+start = "2020-10-05"
+end = "2024-12-04"
+
+[[trusted.futures-task]]
+criteria = "safe-to-deploy"
+user-id = 33035 # Taiki Endo (taiki-e)
+start = "2019-07-29"
+end = "2025-11-14"
+
+[[trusted.futures-util]]
+criteria = "safe-to-deploy"
+user-id = 33035 # Taiki Endo (taiki-e)
+start = "2020-10-05"
+end = "2024-08-23"
+
+[[trusted.generic-array]]
+criteria = "safe-to-deploy"
+user-id = 5704
+start = "2019-04-14"
+end = "2024-08-23"
+
+[[trusted.getrandom]]
+criteria = "safe-to-deploy"
+user-id = 1234 # Diggory Hardy (dhardy)
+start = "2019-03-23"
+end = "2024-08-23"
+
+[[trusted.gimli]]
+criteria = "safe-to-deploy"
+user-id = 4415 # Philip Craig (philipc)
+start = "2019-04-25"
+end = "2024-08-23"
+
+[[trusted.group]]
+criteria = "safe-to-deploy"
+user-id = 1244
+start = "2019-10-08"
+end = "2025-10-29"
+
+[[trusted.h2]]
+criteria = "safe-to-deploy"
+user-id = 359 # Sean McArthur (seanmonstar)
+start = "2019-03-13"
+end = "2024-08-23"
+
+[[trusted.hashbrown]]
+criteria = "safe-to-deploy"
+user-id = 2915 # Amanieu d'Antras (Amanieu)
+start = "2019-04-02"
+end = "2024-12-04"
+
+[[trusted.hermit-abi]]
+criteria = "safe-to-deploy"
+user-id = 91569 # Martin Kröning (mkroening)
+start = "2022-09-06"
+end = "2024-08-23"
+
+[[trusted.hkdf]]
+criteria = "safe-to-deploy"
+user-id = 5059
+start = "2021-12-07"
+end = "2025-10-29"
+
+[[trusted.home]]
+criteria = "safe-to-deploy"
+user-id = 3959
+start = "2022-10-11"
+end = "2025-01-17"
+
+[[trusted.http]]
+criteria = "safe-to-deploy"
+user-id = 359 # Sean McArthur (seanmonstar)
+start = "2019-04-05"
+end = "2024-08-23"
+
+[[trusted.http-body]]
+criteria = "safe-to-deploy"
+user-id = 359 # Sean McArthur (seanmonstar)
+start = "2019-10-01"
+end = "2024-08-23"
+
+[[trusted.http-body]]
+criteria = "safe-to-deploy"
+user-id = 3959
+start = "2019-08-27"
+end = "2024-08-23"
+
+[[trusted.httparse]]
+criteria = "safe-to-deploy"
+user-id = 359 # Sean McArthur (seanmonstar)
+start = "2019-07-03"
+end = "2024-08-23"
+
+[[trusted.humantime]]
+criteria = "safe-to-deploy"
+user-id = 892 # Paul Colomiets (tailhook)
+start = "2019-09-09"
+end = "2024-08-23"
+
+[[trusted.hyper]]
+criteria = "safe-to-deploy"
+user-id = 359 # Sean McArthur (seanmonstar)
+start = "2019-03-01"
+end = "2025-11-14"
+
+[[trusted.hyper-rustls]]
+criteria = "safe-to-deploy"
+user-id = 4556 # Dirkjan Ochtman (djc)
+start = "2022-11-15"
+end = "2024-08-23"
+
+[[trusted.hyper-timeout]]
+criteria = "safe-to-deploy"
+user-id = 813
+start = "2019-08-09"
+end = "2024-08-23"
+
+[[trusted.hyper-util]]
+criteria = "safe-to-deploy"
+user-id = 359 # Sean McArthur (seanmonstar)
+start = "2022-01-15"
+end = "2025-09-02"
+
+[[trusted.iana-time-zone]]
+criteria = "safe-to-deploy"
+user-id = 649
+start = "2020-06-27"
+end = "2024-08-23"
+
+[[trusted.iana-time-zone-haiku]]
+criteria = "safe-to-deploy"
+user-id = 649
+start = "2022-10-08"
+end = "2024-08-23"
+
+[[trusted.indexmap]]
+criteria = "safe-to-deploy"
+user-id = 539 # Josh Stone (cuviper)
+start = "2020-01-15"
+end = "2024-08-23"
+
+[[trusted.instant-acme]]
+criteria = "safe-to-deploy"
+user-id = 4556 # Dirkjan Ochtman (djc)
+start = "2022-05-12"
+end = "2024-10-19"
+
+[[trusted.ipnet]]
+criteria = "safe-to-deploy"
+user-id = 8197 # krisprice
+start = "2019-10-12"
+end = "2024-08-23"
+
+[[trusted.is-terminal]]
+criteria = "safe-to-deploy"
+user-id = 6825
+start = "2022-01-22"
+end = "2024-08-23"
+
+[[trusted.is_terminal_polyfill]]
+criteria = "safe-to-deploy"
+user-id = 6743 # Ed Page (epage)
+start = "2024-05-02"
+end = "2025-11-14"
+
+[[trusted.itertools]]
+criteria = "safe-to-deploy"
+user-id = 1442
+start = "2019-10-27"
+end = "2024-08-23"
+
+[[trusted.itoa]]
+criteria = "safe-to-deploy"
+user-id = 3618 # David Tolnay (dtolnay)
+start = "2019-05-02"
+end = "2024-08-23"
+
+[[trusted.jobserver]]
+criteria = "safe-to-deploy"
+user-id = 1 # Alex Crichton (alexcrichton)
+start = "2019-03-15"
+end = "2024-08-23"
+
+[[trusted.js-sys]]
+criteria = "safe-to-deploy"
+user-id = 1 # Alex Crichton (alexcrichton)
+start = "2019-03-04"
+end = "2024-08-23"
+
+[[trusted.libc]]
+criteria = "safe-to-deploy"
+user-id = 2915 # Amanieu d'Antras (Amanieu)
+start = "2021-01-27"
+end = "2024-08-23"
+
+[[trusted.libc]]
+criteria = "safe-to-deploy"
+user-id = 51017
+start = "2020-03-17"
+end = "2025-01-17"
+
+[[trusted.libc]]
+criteria = "safe-to-deploy"
+user-id = 55123 # rust-lang-owner
+start = "2024-08-15"
+end = "2025-10-29"
+
+[[trusted.libm]]
+criteria = "safe-to-deploy"
+user-id = 55123 # rust-lang-owner
+start = "2024-10-26"
+end = "2025-10-29"
+
+[[trusted.linux-raw-sys]]
+criteria = "safe-to-deploy"
+user-id = 6825
+start = "2021-06-12"
+end = "2024-08-23"
+
+[[trusted.lock_api]]
+criteria = "safe-to-deploy"
+user-id = 2915 # Amanieu d'Antras (Amanieu)
+start = "2019-05-04"
+end = "2024-08-23"
+
+[[trusted.lzma-sys]]
+criteria = "safe-to-deploy"
+user-id = 1 # Alex Crichton (alexcrichton)
+start = "2019-03-06"
+end = "2025-01-17"
+
+[[trusted.mach2]]
+criteria = "safe-to-deploy"
+user-id = 51017
+start = "2021-11-15"
+end = "2025-01-17"
+
+[[trusted.matchit]]
+criteria = "safe-to-deploy"
+user-id = 103448
+start = "2020-12-21"
+end = "2024-08-23"
+
+[[trusted.maud]]
+criteria = "safe-to-deploy"
+user-id = 684
+start = "2019-07-01"
+end = "2025-10-29"
+
+[[trusted.maud_macros]]
+criteria = "safe-to-deploy"
+user-id = 684
+start = "2019-07-01"
+end = "2025-10-29"
+
+[[trusted.memchr]]
+criteria = "safe-to-deploy"
+user-id = 189 # Andrew Gallant (BurntSushi)
+start = "2019-07-07"
+end = "2024-08-23"
+
+[[trusted.memoffset]]
+criteria = "safe-to-deploy"
+user-id = 10122
+start = "2019-03-15"
+end = "2024-08-23"
+
+[[trusted.metrics]]
+criteria = "safe-to-deploy"
+user-id = 10075
+start = "2019-04-24"
+end = "2024-08-23"
+
+[[trusted.metrics-exporter-prometheus]]
+criteria = "safe-to-deploy"
+user-id = 10075
+start = "2020-06-17"
+end = "2024-08-23"
+
+[[trusted.metrics-macros]]
+criteria = "safe-to-deploy"
+user-id = 10075
+start = "2020-06-17"
+end = "2024-08-23"
+
+[[trusted.metrics-util]]
+criteria = "safe-to-deploy"
+user-id = 10075
+start = "2019-04-23"
+end = "2024-08-23"
+
+[[trusted.mime]]
+criteria = "safe-to-deploy"
+user-id = 359 # Sean McArthur (seanmonstar)
+start = "2019-09-09"
+end = "2024-08-23"
+
+[[trusted.minimal-lexical]]
+criteria = "safe-to-deploy"
+user-id = 31684
+start = "2021-04-27"
+end = "2024-08-23"
+
+[[trusted.mio]]
+criteria = "safe-to-deploy"
+user-id = 10 # Carl Lerche (carllerche)
+start = "2019-05-15"
+end = "2024-08-23"
+
+[[trusted.mio]]
+criteria = "safe-to-deploy"
+user-id = 6025 # Thomas de Zeeuw (Thomasdezeeuw)
+start = "2019-12-17"
+end = "2024-08-23"
+
+[[trusted.multimap]]
+criteria = "safe-to-deploy"
+user-id = 1510
+start = "2019-05-15"
+end = "2024-08-23"
+
+[[trusted.nanorand]]
+criteria = "safe-to-deploy"
+user-id = 93120
+start = "2020-09-06"
+end = "2024-08-23"
+
+[[trusted.neli]]
+criteria = "safe-to-deploy"
+user-id = 12942
+start = "2019-06-03"
+end = "2024-08-23"
+
+[[trusted.neli-proc-macros]]
+criteria = "safe-to-deploy"
+user-id = 12942
+start = "2021-11-07"
+end = "2024-08-23"
+
+[[trusted.nibble_vec]]
+criteria = "safe-to-deploy"
+user-id = 98
+start = "2020-06-26"
+end = "2024-08-23"
+
+[[trusted.nix]]
+criteria = "safe-to-deploy"
+user-id = 6094
+start = "2019-05-22"
+end = "2024-08-23"
+
+[[trusted.nix]]
+criteria = "safe-to-deploy"
+user-id = 142704
+start = "2022-04-21"
+end = "2024-08-23"
+
+[[trusted.nom]]
+criteria = "safe-to-deploy"
+user-id = 959
+start = "2019-02-27"
+end = "2024-08-23"
+
+[[trusted.nom-derive]]
+criteria = "safe-to-deploy"
+user-id = 4791
+start = "2019-02-23"
+end = "2024-10-19"
+
+[[trusted.nom-derive-impl]]
+criteria = "safe-to-deploy"
+user-id = 4791
+start = "2021-04-22"
+end = "2024-10-19"
+
+[[trusted.num-bigint-dig]]
+criteria = "safe-to-deploy"
+user-id = 3079
+start = "2019-03-26"
+end = "2025-10-29"
+
+[[trusted.num-traits]]
+criteria = "safe-to-deploy"
+user-id = 539 # Josh Stone (cuviper)
+start = "2019-05-20"
+end = "2024-08-23"
+
+[[trusted.num_cpus]]
+criteria = "safe-to-deploy"
+user-id = 359 # Sean McArthur (seanmonstar)
+start = "2019-06-10"
+end = "2024-08-23"
+
+[[trusted.num_threads]]
+criteria = "safe-to-deploy"
+user-id = 15682
+start = "2021-11-15"
+end = "2024-08-23"
+
+[[trusted.object]]
+criteria = "safe-to-deploy"
+user-id = 4415 # Philip Craig (philipc)
+start = "2019-04-26"
+end = "2024-08-23"
+
+[[trusted.oid-registry]]
+criteria = "safe-to-deploy"
+user-id = 4791
+start = "2020-10-26"
+end = "2024-10-19"
+
+[[trusted.once_cell]]
+criteria = "safe-to-deploy"
+user-id = 2699 # Alex Kladov (matklad)
+start = "2019-05-07"
+end = "2024-08-23"
+
+[[trusted.ordered-float]]
+criteria = "safe-to-deploy"
+user-id = 2017 # Matt Brubeck (mbrubeck)
+start = "2019-03-13"
+end = "2024-08-23"
+
+[[trusted.parking]]
+criteria = "safe-to-deploy"
+user-id = 69526 # John Nunley (notgull)
+start = "2023-04-07"
+end = "2025-01-17"
+
+[[trusted.parking_lot]]
+criteria = "safe-to-deploy"
+user-id = 2915 # Amanieu d'Antras (Amanieu)
+start = "2019-05-04"
+end = "2024-08-23"
+
+[[trusted.parking_lot_core]]
+criteria = "safe-to-deploy"
+user-id = 2915 # Amanieu d'Antras (Amanieu)
+start = "2019-05-04"
+end = "2024-08-23"
+
+[[trusted.pem]]
+criteria = "safe-to-deploy"
+user-id = 3635
+start = "2019-04-22"
+end = "2024-08-23"
+
+[[trusted.pem-rfc7468]]
+criteria = "safe-to-deploy"
+user-id = 267 # Tony Arcieri (tarcieri)
+start = "2021-02-16"
+end = "2025-10-29"
+
+[[trusted.percent-encoding]]
+criteria = "safe-to-deploy"
+user-id = 72883 # Valentin Gosu (valenting)
+start = "2022-09-08"
+end = "2024-08-23"
+
+[[trusted.petgraph]]
+criteria = "safe-to-deploy"
+user-id = 126199
+start = "2021-07-04"
+end = "2024-08-23"
+
+[[trusted.phf]]
+criteria = "safe-to-deploy"
+user-id = 51017
+start = "2021-06-17"
+end = "2024-10-19"
+
+[[trusted.phf_codegen]]
+criteria = "safe-to-deploy"
+user-id = 51017
+start = "2021-06-17"
+end = "2024-10-19"
+
+[[trusted.phf_generator]]
+criteria = "safe-to-deploy"
+user-id = 51017
+start = "2021-06-17"
+end = "2024-10-19"
+
+[[trusted.phf_shared]]
+criteria = "safe-to-deploy"
+user-id = 51017
+start = "2021-06-17"
+end = "2024-10-19"
+
+[[trusted.pierport]]
+criteria = "safe-to-deploy"
+user-id = 265562
+start = "2024-04-16"
+end = "2025-04-24"
+
+[[trusted.pierport]]
+criteria = "safe-to-deploy"
+user-id = 83902
+start = "2024-04-12"
+end = "2025-04-24"
+
+[[trusted.pin-project]]
+criteria = "safe-to-deploy"
+user-id = 33035 # Taiki Endo (taiki-e)
+start = "2019-03-02"
+end = "2024-08-23"
+
+[[trusted.pin-project-internal]]
+criteria = "safe-to-deploy"
+user-id = 33035 # Taiki Endo (taiki-e)
+start = "2019-08-11"
+end = "2024-08-23"
+
+[[trusted.pin-project-lite]]
+criteria = "safe-to-deploy"
+user-id = 33035 # Taiki Endo (taiki-e)
+start = "2019-10-22"
+end = "2025-11-14"
+
+[[trusted.piper]]
+criteria = "safe-to-deploy"
+user-id = 69526 # John Nunley (notgull)
+start = "2023-04-24"
+end = "2025-01-17"
+
+[[trusted.pkcs8]]
+criteria = "safe-to-deploy"
+user-id = 267 # Tony Arcieri (tarcieri)
+start = "2020-06-12"
+end = "2025-10-29"
+
+[[trusted.pkg-config]]
+criteria = "safe-to-deploy"
+user-id = 3623
+start = "2019-07-25"
+end = "2024-08-23"
+
+[[trusted.polling]]
+criteria = "safe-to-deploy"
+user-id = 69526 # John Nunley (notgull)
+start = "2023-03-08"
+end = "2025-01-17"
+
+[[trusted.portable-atomic]]
+criteria = "safe-to-deploy"
+user-id = 33035 # Taiki Endo (taiki-e)
+start = "2022-02-24"
+end = "2024-08-23"
+
+[[trusted.powerfmt]]
+criteria = "safe-to-deploy"
+user-id = 15682
+start = "2023-10-08"
+end = "2024-12-04"
+
+[[trusted.ppv-lite86]]
+criteria = "safe-to-deploy"
+user-id = 12840 # Kaz Wesley (kazcw)
+start = "2019-04-30"
+end = "2024-08-23"
+
+[[trusted.prettyplease]]
+criteria = "safe-to-deploy"
+user-id = 3618 # David Tolnay (dtolnay)
+start = "2022-01-04"
+end = "2024-08-23"
+
+[[trusted.proc-macro2]]
+criteria = "safe-to-deploy"
+user-id = 3618 # David Tolnay (dtolnay)
+start = "2019-04-23"
+end = "2024-12-04"
+
+[[trusted.prost]]
+criteria = "safe-to-deploy"
+user-id = 3959
+start = "2021-07-08"
+end = "2024-08-23"
+
+[[trusted.prost-build]]
+criteria = "safe-to-deploy"
+user-id = 3959
+start = "2021-07-08"
+end = "2024-08-23"
+
+[[trusted.prost-derive]]
+criteria = "safe-to-deploy"
+user-id = 3959
+start = "2021-07-08"
+end = "2024-08-23"
+
+[[trusted.prost-types]]
+criteria = "safe-to-deploy"
+user-id = 3959
+start = "2021-07-08"
+end = "2024-08-23"
+
+[[trusted.quanta]]
+criteria = "safe-to-deploy"
+user-id = 10075
+start = "2019-03-10"
+end = "2024-08-23"
+
+[[trusted.quick-xml]]
+criteria = "safe-to-deploy"
+user-id = 2927
+start = "2022-05-25"
+end = "2025-02-02"
+
+[[trusted.quinn]]
+criteria = "safe-to-deploy"
+user-id = 4556 # Dirkjan Ochtman (djc)
+start = "2019-09-09"
+end = "2025-10-29"
+
+[[trusted.quinn-proto]]
+criteria = "safe-to-deploy"
+user-id = 4556 # Dirkjan Ochtman (djc)
+start = "2019-09-09"
+end = "2025-10-29"
+
+[[trusted.quinn-udp]]
+criteria = "safe-to-deploy"
+user-id = 4556 # Dirkjan Ochtman (djc)
+start = "2021-10-07"
+end = "2025-10-29"
+
+[[trusted.quote]]
+criteria = "safe-to-deploy"
+user-id = 3618 # David Tolnay (dtolnay)
+start = "2019-04-09"
+end = "2024-08-23"
+
+[[trusted.radix_trie]]
+criteria = "safe-to-deploy"
+user-id = 98
+start = "2019-09-15"
+end = "2024-08-23"
+
+[[trusted.rand]]
+criteria = "safe-to-deploy"
+user-id = 1234 # Diggory Hardy (dhardy)
+start = "2019-06-06"
+end = "2024-08-23"
+
+[[trusted.raw-cpuid]]
+criteria = "safe-to-deploy"
+user-id = 1279
+start = "2019-09-08"
+end = "2024-08-23"
+
+[[trusted.rcgen]]
+criteria = "safe-to-deploy"
+user-id = 3941
+start = "2019-04-26"
+end = "2024-10-19"
+
+[[trusted.rcgen]]
+criteria = "safe-to-deploy"
+user-id = 4556 # Dirkjan Ochtman (djc)
+start = "2024-03-28"
+end = "2025-09-02"
+
+[[trusted.redox_syscall]]
+criteria = "safe-to-deploy"
+user-id = 2668
+start = "2019-03-31"
+end = "2024-08-23"
+
+[[trusted.redox_termios]]
+criteria = "safe-to-deploy"
+user-id = 2668
+start = "2021-01-19"
+end = "2024-08-23"
+
+[[trusted.redox_users]]
+criteria = "safe-to-deploy"
+user-id = 2668
+start = "2019-08-07"
+end = "2024-08-23"
+
+[[trusted.regex]]
+criteria = "safe-to-deploy"
+user-id = 189 # Andrew Gallant (BurntSushi)
+start = "2019-02-27"
+end = "2025-10-29"
+
+[[trusted.regex-automata]]
+criteria = "safe-to-deploy"
+user-id = 189 # Andrew Gallant (BurntSushi)
+start = "2019-02-25"
+end = "2025-11-14"
+
+[[trusted.regex-lite]]
+criteria = "safe-to-deploy"
+user-id = 189 # Andrew Gallant (BurntSushi)
+start = "2023-02-28"
+end = "2025-10-29"
+
+[[trusted.regex-syntax]]
+criteria = "safe-to-deploy"
+user-id = 189 # Andrew Gallant (BurntSushi)
+start = "2019-03-30"
+end = "2024-08-23"
+
+[[trusted.reqwest]]
+criteria = "safe-to-deploy"
+user-id = 359 # Sean McArthur (seanmonstar)
+start = "2019-03-04"
+end = "2025-10-29"
+
+[[trusted.ring]]
+criteria = "safe-to-deploy"
+user-id = 2342 # Brian Smith (briansmith)
+start = "2019-07-03"
+end = "2024-08-23"
+
+[[trusted.rsa]]
+criteria = "safe-to-deploy"
+user-id = 267 # Tony Arcieri (tarcieri)
+start = "2022-03-10"
+end = "2025-10-29"
+
+[[trusted.rusticata-macros]]
+criteria = "safe-to-deploy"
+user-id = 4791
+start = "2019-07-30"
+end = "2024-10-19"
+
+[[trusted.rustix]]
+criteria = "safe-to-deploy"
+user-id = 6825
+start = "2021-10-29"
+end = "2025-10-29"
+
+[[trusted.rustls]]
+criteria = "safe-to-deploy"
+user-id = 4556 # Dirkjan Ochtman (djc)
+start = "2022-05-18"
+end = "2024-08-23"
+
+[[trusted.rustls]]
+criteria = "safe-to-deploy"
+user-id = 209038 # Daniel McCarney (cpu)
+start = "2023-07-05"
+end = "2024-08-23"
+
+[[trusted.rustls]]
+criteria = "safe-to-deploy"
+user-id = 2751 # Joe Birr-Pixton (ctz)
+start = "2019-04-02"
+end = "2025-10-08"
+
+[[trusted.rustls-native-certs]]
+criteria = "safe-to-deploy"
+user-id = 2751 # Joe Birr-Pixton (ctz)
+start = "2019-11-04"
+end = "2025-09-02"
+
+[[trusted.rustls-native-certs]]
+criteria = "safe-to-deploy"
+user-id = 4556 # Dirkjan Ochtman (djc)
+start = "2023-06-14"
+end = "2025-10-08"
+
+[[trusted.rustls-pemfile]]
+criteria = "safe-to-deploy"
+user-id = 209038 # Daniel McCarney (cpu)
+start = "2023-11-09"
+end = "2024-12-04"
+
+[[trusted.rustls-pemfile]]
+criteria = "safe-to-deploy"
+user-id = 4556 # Dirkjan Ochtman (djc)
+start = "2022-08-02"
+end = "2025-09-02"
+
+[[trusted.rustls-pki-types]]
+criteria = "safe-to-deploy"
+user-id = 209038 # Daniel McCarney (cpu)
+start = "2023-11-28"
+end = "2025-09-02"
+
+[[trusted.rustls-pki-types]]
+criteria = "safe-to-deploy"
+user-id = 2751 # Joe Birr-Pixton (ctz)
+start = "2023-09-07"
+end = "2025-10-08"
+
+[[trusted.rustls-webpki]]
+criteria = "safe-to-deploy"
+user-id = 209038 # Daniel McCarney (cpu)
+start = "2023-07-04"
+end = "2024-12-04"
+
+[[trusted.rustversion]]
+criteria = "safe-to-deploy"
+user-id = 3618 # David Tolnay (dtolnay)
+start = "2019-07-08"
+end = "2024-08-23"
+
+[[trusted.ryu]]
+criteria = "safe-to-deploy"
+user-id = 3618 # David Tolnay (dtolnay)
+start = "2019-05-02"
+end = "2024-08-23"
+
+[[trusted.schannel]]
+criteria = "safe-to-deploy"
+user-id = 2728
+start = "2019-02-25"
+end = "2024-08-23"
+
+[[trusted.scopeguard]]
+criteria = "safe-to-deploy"
+user-id = 2915 # Amanieu d'Antras (Amanieu)
+start = "2020-02-16"
+end = "2024-08-23"
+
+[[trusted.sct]]
+criteria = "safe-to-deploy"
+user-id = 2751 # Joe Birr-Pixton (ctz)
+start = "2019-07-21"
+end = "2024-12-04"
+
+[[trusted.sec1]]
+criteria = "safe-to-deploy"
+user-id = 267 # Tony Arcieri (tarcieri)
+start = "2020-08-26"
+end = "2025-10-29"
+
+[[trusted.secrecy]]
+criteria = "safe-to-deploy"
+user-id = 19631
+start = "2019-05-23"
+end = "2024-08-23"
+
+[[trusted.security-framework]]
+criteria = "safe-to-deploy"
+user-id = 988
+start = "2019-02-27"
+end = "2024-08-23"
+
+[[trusted.security-framework-sys]]
+criteria = "safe-to-deploy"
+user-id = 988
+start = "2019-02-27"
+end = "2024-08-23"
+
+[[trusted.semver]]
+criteria = "safe-to-deploy"
+user-id = 3618 # David Tolnay (dtolnay)
+start = "2021-05-25"
+end = "2024-08-23"
+
+[[trusted.serde]]
+criteria = "safe-to-deploy"
+user-id = 3618 # David Tolnay (dtolnay)
+start = "2019-03-01"
+end = "2025-10-29"
+
+[[trusted.serde_derive]]
+criteria = "safe-to-deploy"
+user-id = 3618 # David Tolnay (dtolnay)
+start = "2019-03-01"
+end = "2025-10-29"
+
+[[trusted.serde_derive_internals]]
+criteria = "safe-to-deploy"
+user-id = 3618 # David Tolnay (dtolnay)
+start = "2019-09-08"
+end = "2024-08-23"
+
+[[trusted.serde_json]]
+criteria = "safe-to-deploy"
+user-id = 3618 # David Tolnay (dtolnay)
+start = "2019-02-28"
+end = "2024-08-23"
+
+[[trusted.serde_path_to_error]]
+criteria = "safe-to-deploy"
+user-id = 3618 # David Tolnay (dtolnay)
+start = "2019-08-20"
+end = "2024-08-23"
+
+[[trusted.serde_qs]]
+criteria = "safe-to-deploy"
+user-id = 6150
+start = "2019-04-28"
+end = "2024-08-23"
+
+[[trusted.serde_spanned]]
+criteria = "safe-to-deploy"
+user-id = 6743 # Ed Page (epage)
+start = "2023-01-20"
+end = "2024-08-23"
+
+[[trusted.serde_urlencoded]]
+criteria = "safe-to-deploy"
+user-id = 3100 # Anthony Ramine (nox)
+start = "2019-04-16"
+end = "2024-08-23"
+
+[[trusted.sha2]]
+criteria = "safe-to-deploy"
+user-id = 5059
+start = "2020-01-06"
+end = "2024-12-04"
+
+[[trusted.sha256]]
+criteria = "safe-to-deploy"
+user-id = 17298
+start = "2021-01-31"
+end = "2024-08-23"
+
+[[trusted.sharded-slab]]
+criteria = "safe-to-deploy"
+user-id = 1249 # Eliza Weisman (hawkw)
+start = "2019-10-02"
+end = "2024-08-23"
+
+[[trusted.signal-hook-registry]]
+criteria = "safe-to-deploy"
+user-id = 5906 # Michal 'vorner' Vaner (vorner)
+start = "2019-04-28"
+end = "2024-08-23"
+
+[[trusted.simple_asn1]]
+criteria = "safe-to-deploy"
+user-id = 13967
+start = "2019-03-27"
+end = "2024-08-23"
+
+[[trusted.simplelog]]
+criteria = "safe-to-deploy"
+user-id = 3551
+start = "2019-06-17"
+end = "2024-08-23"
+
+[[trusted.siphasher]]
+criteria = "safe-to-deploy"
+user-id = 468
+start = "2019-09-20"
+end = "2024-10-19"
+
+[[trusted.sketches-ddsketch]]
+criteria = "safe-to-deploy"
+user-id = 61119
+start = "2019-09-19"
+end = "2024-08-23"
+
+[[trusted.slab]]
+criteria = "safe-to-deploy"
+user-id = 6741 # Alice Ryhl (Darksonn)
+start = "2021-10-13"
+end = "2024-12-04"
+
+[[trusted.smallvec]]
+criteria = "safe-to-deploy"
+user-id = 2017 # Matt Brubeck (mbrubeck)
+start = "2019-10-28"
+end = "2024-08-23"
+
+[[trusted.snafu]]
+criteria = "safe-to-deploy"
+user-id = 1060
+start = "2019-02-24"
+end = "2024-08-23"
+
+[[trusted.snafu-derive]]
+criteria = "safe-to-deploy"
+user-id = 1060
+start = "2019-02-24"
+end = "2024-08-23"
+
+[[trusted.socket2]]
+criteria = "safe-to-deploy"
+user-id = 1 # Alex Crichton (alexcrichton)
+start = "2019-05-06"
+end = "2024-08-23"
+
+[[trusted.socket2]]
+criteria = "safe-to-deploy"
+user-id = 6025 # Thomas de Zeeuw (Thomasdezeeuw)
+start = "2020-09-09"
+end = "2024-11-16"
+
+[[trusted.spki]]
+criteria = "safe-to-deploy"
+user-id = 267 # Tony Arcieri (tarcieri)
+start = "2020-12-03"
+end = "2025-10-29"
+
+[[trusted.sqlx]]
+criteria = "safe-to-deploy"
+user-id = 127
+start = "2021-08-17"
+end = "2025-10-29"
+
+[[trusted.sqlx-core]]
+criteria = "safe-to-deploy"
+user-id = 127
+start = "2021-08-17"
+end = "2025-10-29"
+
+[[trusted.sqlx-macros]]
+criteria = "safe-to-deploy"
+user-id = 127
+start = "2021-08-17"
+end = "2025-10-29"
+
+[[trusted.sqlx-macros-core]]
+criteria = "safe-to-deploy"
+user-id = 127
+start = "2023-02-22"
+end = "2025-10-29"
+
+[[trusted.sqlx-mysql]]
+criteria = "safe-to-deploy"
+user-id = 127
+start = "2023-02-22"
+end = "2025-10-29"
+
+[[trusted.sqlx-postgres]]
+criteria = "safe-to-deploy"
+user-id = 127
+start = "2023-02-22"
+end = "2025-10-29"
+
+[[trusted.sqlx-sqlite]]
+criteria = "safe-to-deploy"
+user-id = 127
+start = "2023-02-22"
+end = "2025-10-29"
+
+[[trusted.static_assertions]]
+criteria = "safe-to-deploy"
+user-id = 3832
+start = "2019-05-14"
+end = "2024-08-23"
+
+[[trusted.stringprep]]
+criteria = "safe-to-deploy"
+user-id = 5
+start = "2023-07-16"
+end = "2025-10-29"
+
+[[trusted.strsim]]
+criteria = "safe-to-deploy"
+user-id = 952
+start = "2019-04-06"
+end = "2024-08-23"
+
+[[trusted.syn]]
+criteria = "safe-to-deploy"
+user-id = 3618 # David Tolnay (dtolnay)
+start = "2019-03-01"
+end = "2025-10-29"
+
+[[trusted.tar]]
+criteria = "safe-to-deploy"
+user-id = 1 # Alex Crichton (alexcrichton)
+start = "2019-03-04"
+end = "2024-08-23"
+
+[[trusted.tempfile]]
+criteria = "safe-to-deploy"
+user-id = 280
+start = "2019-05-19"
+end = "2024-08-23"
+
+[[trusted.term]]
+criteria = "safe-to-deploy"
+user-id = 280
+start = "2019-03-28"
+end = "2024-08-23"
+
+[[trusted.termcolor]]
+criteria = "safe-to-deploy"
+user-id = 189 # Andrew Gallant (BurntSushi)
+start = "2019-06-04"
+end = "2024-08-23"
+
+[[trusted.termion]]
+criteria = "safe-to-deploy"
+user-id = 2668
+start = "2019-04-21"
+end = "2024-08-23"
+
+[[trusted.thiserror]]
+criteria = "safe-to-deploy"
+user-id = 3618 # David Tolnay (dtolnay)
+start = "2019-10-09"
+end = "2024-08-23"
+
+[[trusted.thiserror-impl]]
+criteria = "safe-to-deploy"
+user-id = 3618 # David Tolnay (dtolnay)
+start = "2019-10-09"
+end = "2024-08-23"
+
+[[trusted.thread_local]]
+criteria = "safe-to-deploy"
+user-id = 2915 # Amanieu d'Antras (Amanieu)
+start = "2019-09-07"
+end = "2024-08-23"
+
+[[trusted.time]]
+criteria = "safe-to-deploy"
+user-id = 15682
+start = "2019-12-19"
+end = "2024-08-23"
+
+[[trusted.time-core]]
+criteria = "safe-to-deploy"
+user-id = 15682
+start = "2020-12-17"
+end = "2024-12-04"
+
+[[trusted.time-macros]]
+criteria = "safe-to-deploy"
+user-id = 15682
+start = "2019-12-02"
+end = "2024-08-23"
+
+[[trusted.tls-parser]]
+criteria = "safe-to-deploy"
+user-id = 4791
+start = "2019-04-18"
+end = "2024-10-19"
+
+[[trusted.tokio]]
+criteria = "safe-to-deploy"
+user-id = 10 # Carl Lerche (carllerche)
+start = "2019-03-02"
+end = "2024-08-23"
+
+[[trusted.tokio]]
+criteria = "safe-to-deploy"
+user-id = 6741 # Alice Ryhl (Darksonn)
+start = "2020-12-25"
+end = "2024-11-16"
+
+[[trusted.tokio-io-timeout]]
+criteria = "safe-to-deploy"
+user-id = 5
+start = "2019-09-07"
+end = "2024-08-23"
+
+[[trusted.tokio-macros]]
+criteria = "safe-to-deploy"
+user-id = 10 # Carl Lerche (carllerche)
+start = "2019-04-24"
+end = "2024-08-23"
+
+[[trusted.tokio-metrics]]
+criteria = "safe-to-deploy"
+user-id = 65916
+start = "2023-04-13"
+end = "2024-11-16"
+
+[[trusted.tokio-rustls]]
+criteria = "safe-to-deploy"
+user-id = 4556 # Dirkjan Ochtman (djc)
+start = "2023-06-09"
+end = "2024-08-23"
+
+[[trusted.tokio-rustls]]
+criteria = "safe-to-deploy"
+user-id = 4286
+start = "2019-03-13"
+end = "2024-08-23"
+
+[[trusted.tokio-stream]]
+criteria = "safe-to-deploy"
+user-id = 6741 # Alice Ryhl (Darksonn)
+start = "2021-01-04"
+end = "2024-08-23"
+
+[[trusted.tokio-util]]
+criteria = "safe-to-deploy"
+user-id = 6741 # Alice Ryhl (Darksonn)
+start = "2021-01-12"
+end = "2025-10-29"
+
+[[trusted.toml]]
+criteria = "safe-to-deploy"
+user-id = 1 # Alex Crichton (alexcrichton)
+start = "2019-05-16"
+end = "2024-08-23"
+
+[[trusted.toml]]
+criteria = "safe-to-deploy"
+user-id = 6743 # Ed Page (epage)
+start = "2022-12-14"
+end = "2024-08-23"
+
+[[trusted.toml_datetime]]
+criteria = "safe-to-deploy"
+user-id = 6743 # Ed Page (epage)
+start = "2022-10-21"
+end = "2024-12-04"
+
+[[trusted.toml_edit]]
+criteria = "safe-to-deploy"
+user-id = 6743 # Ed Page (epage)
+start = "2021-09-13"
+end = "2024-08-23"
+
+[[trusted.tonic]]
+criteria = "safe-to-deploy"
+user-id = 3959
+start = "2019-10-02"
+end = "2025-09-02"
+
+[[trusted.tonic-build]]
+criteria = "safe-to-deploy"
+user-id = 10 # Carl Lerche (carllerche)
+start = "2019-09-10"
+end = "2024-08-23"
+
+[[trusted.tonic-build]]
+criteria = "safe-to-deploy"
+user-id = 3959
+start = "2019-10-02"
+end = "2025-09-02"
+
+[[trusted.tower]]
+criteria = "safe-to-deploy"
+user-id = 10 # Carl Lerche (carllerche)
+start = "2019-04-27"
+end = "2024-08-23"
+
+[[trusted.tower]]
+criteria = "safe-to-deploy"
+user-id = 1249 # Eliza Weisman (hawkw)
+start = "2021-01-07"
+end = "2024-08-23"
+
+[[trusted.tower]]
+criteria = "safe-to-deploy"
+user-id = 3959
+start = "2019-07-19"
+end = "2025-09-02"
+
+[[trusted.tower]]
+criteria = "safe-to-deploy"
+user-id = 359 # Sean McArthur (seanmonstar)
+start = "2024-09-09"
+end = "2025-10-08"
+
+[[trusted.tower-http]]
+criteria = "safe-to-deploy"
+user-id = 12432
+start = "2021-05-28"
+end = "2024-08-23"
+
+[[trusted.tower-http]]
+criteria = "safe-to-deploy"
+user-id = 3959
+start = "2023-09-01"
+end = "2024-12-04"
+
+[[trusted.tower-layer]]
+criteria = "safe-to-deploy"
+user-id = 10 # Carl Lerche (carllerche)
+start = "2019-04-27"
+end = "2024-08-23"
+
+[[trusted.tower-layer]]
+criteria = "safe-to-deploy"
+user-id = 12432
+start = "2022-10-10"
+end = "2024-08-23"
+
+[[trusted.tower-layer]]
+criteria = "safe-to-deploy"
+user-id = 3959
+start = "2019-09-11"
+end = "2025-09-02"
+
+[[trusted.tower-service]]
+criteria = "safe-to-deploy"
+user-id = 12432
+start = "2021-01-23"
+end = "2024-08-23"
+
+[[trusted.tower-service]]
+criteria = "safe-to-deploy"
+user-id = 1249 # Eliza Weisman (hawkw)
+start = "2022-06-17"
+end = "2024-08-23"
+
+[[trusted.tracing]]
+criteria = "safe-to-deploy"
+user-id = 1249 # Eliza Weisman (hawkw)
+start = "2019-06-28"
+end = "2024-08-23"
+
+[[trusted.tracing-attributes]]
+criteria = "safe-to-deploy"
+user-id = 1249 # Eliza Weisman (hawkw)
+start = "2019-08-08"
+end = "2024-08-23"
+
+[[trusted.tracing-core]]
+criteria = "safe-to-deploy"
+user-id = 1249 # Eliza Weisman (hawkw)
+start = "2019-06-20"
+end = "2024-08-23"
+
+[[trusted.tracing-error]]
+criteria = "safe-to-deploy"
+user-id = 1249 # Eliza Weisman (hawkw)
+start = "2020-02-05"
+end = "2025-02-02"
+
+[[trusted.tracing-log]]
+criteria = "safe-to-deploy"
+user-id = 1249 # Eliza Weisman (hawkw)
+start = "2019-06-27"
+end = "2024-08-30"
+
+[[trusted.tracing-subscriber]]
+criteria = "safe-to-deploy"
+user-id = 1249 # Eliza Weisman (hawkw)
+start = "2019-06-27"
+end = "2024-08-23"
+
+[[trusted.typenum]]
+criteria = "safe-to-deploy"
+user-id = 243
+start = "2019-08-25"
+end = "2024-08-23"
+
+[[trusted.unicase]]
+criteria = "safe-to-deploy"
+user-id = 359 # Sean McArthur (seanmonstar)
+start = "2019-03-05"
+end = "2025-10-29"
+
+[[trusted.unicode-bidi]]
+criteria = "safe-to-deploy"
+user-id = 2017 # Matt Brubeck (mbrubeck)
+start = "2021-04-06"
+end = "2025-01-17"
+
+[[trusted.unicode-bidi]]
+criteria = "safe-to-deploy"
+user-id = 1139
+start = "2021-08-13"
+end = "2025-01-17"
+
+[[trusted.unicode-ident]]
+criteria = "safe-to-deploy"
+user-id = 3618 # David Tolnay (dtolnay)
+start = "2021-10-02"
+end = "2024-08-23"
+
+[[trusted.untrusted]]
+criteria = "safe-to-deploy"
+user-id = 2342 # Brian Smith (briansmith)
+start = "2019-07-03"
+end = "2024-12-04"
+
+[[trusted.url]]
+criteria = "safe-to-deploy"
+user-id = 72883 # Valentin Gosu (valenting)
+start = "2020-01-09"
+end = "2024-08-23"
+
+[[trusted.uuid]]
+criteria = "safe-to-deploy"
+user-id = 3204 # Ashley Mannix (KodrAus)
+start = "2019-10-18"
+end = "2025-10-29"
+
+[[trusted.value-bag]]
+criteria = "safe-to-deploy"
+user-id = 3204 # Ashley Mannix (KodrAus)
+start = "2020-08-18"
+end = "2025-01-17"
+
+[[trusted.vte_generate_state_changes]]
+criteria = "safe-to-deploy"
+user-id = 8732
+start = "2019-12-10"
+end = "2024-08-23"
+
+[[trusted.waker-fn]]
+criteria = "safe-to-deploy"
+user-id = 69526 # John Nunley (notgull)
+start = "2023-09-25"
+end = "2025-01-17"
+
+[[trusted.wasi]]
+criteria = "safe-to-deploy"
+user-id = 1 # Alex Crichton (alexcrichton)
+start = "2020-06-03"
+end = "2024-08-23"
+
+[[trusted.wasm-bindgen]]
+criteria = "safe-to-deploy"
+user-id = 1 # Alex Crichton (alexcrichton)
+start = "2019-03-04"
+end = "2024-08-23"
+
+[[trusted.wasm-bindgen-backend]]
+criteria = "safe-to-deploy"
+user-id = 1 # Alex Crichton (alexcrichton)
+start = "2019-03-04"
+end = "2024-08-23"
+
+[[trusted.wasm-bindgen-futures]]
+criteria = "safe-to-deploy"
+user-id = 1 # Alex Crichton (alexcrichton)
+start = "2019-03-04"
+end = "2024-08-23"
+
+[[trusted.wasm-bindgen-macro]]
+criteria = "safe-to-deploy"
+user-id = 1 # Alex Crichton (alexcrichton)
+start = "2019-03-04"
+end = "2024-08-23"
+
+[[trusted.wasm-bindgen-macro-support]]
+criteria = "safe-to-deploy"
+user-id = 1 # Alex Crichton (alexcrichton)
+start = "2019-03-04"
+end = "2025-11-14"
+
+[[trusted.wasm-bindgen-shared]]
+criteria = "safe-to-deploy"
+user-id = 1 # Alex Crichton (alexcrichton)
+start = "2019-03-04"
+end = "2024-12-04"
+
+[[trusted.web-sys]]
+criteria = "safe-to-deploy"
+user-id = 1 # Alex Crichton (alexcrichton)
+start = "2019-03-04"
+end = "2025-11-14"
+
+[[trusted.webpki]]
+criteria = "safe-to-deploy"
+user-id = 2342 # Brian Smith (briansmith)
+start = "2019-07-10"
+end = "2024-08-23"
+
+[[trusted.webpki-roots]]
+criteria = "safe-to-deploy"
+user-id = 209038 # Daniel McCarney (cpu)
+start = "2023-11-22"
+end = "2024-12-04"
+
+[[trusted.which]]
+criteria = "safe-to-deploy"
+user-id = 2392
+start = "2019-09-22"
+end = "2024-08-23"
+
+[[trusted.winapi]]
+criteria = "safe-to-deploy"
+user-id = 63
+start = "2019-04-03"
+end = "2024-08-23"
+
+[[trusted.winapi-util]]
+criteria = "safe-to-deploy"
+user-id = 189 # Andrew Gallant (BurntSushi)
+start = "2020-01-11"
+end = "2024-08-23"
+
+[[trusted.windows]]
+criteria = "safe-to-deploy"
+user-id = 64539 # Kenny Kerr (kennykerr)
+start = "2021-01-15"
+end = "2024-08-23"
+
+[[trusted.windows-core]]
+criteria = "safe-to-deploy"
+user-id = 64539 # Kenny Kerr (kennykerr)
+start = "2021-11-15"
+end = "2024-12-04"
+
+[[trusted.windows-implement]]
+criteria = "safe-to-deploy"
+user-id = 64539 # Kenny Kerr (kennykerr)
+start = "2022-01-27"
+end = "2025-10-09"
+
+[[trusted.windows-interface]]
+criteria = "safe-to-deploy"
+user-id = 64539 # Kenny Kerr (kennykerr)
+start = "2022-02-18"
+end = "2025-10-09"
+
+[[trusted.windows-registry]]
+criteria = "safe-to-deploy"
+user-id = 64539 # Kenny Kerr (kennykerr)
+start = "2024-02-15"
+end = "2025-10-29"
+
+[[trusted.windows-result]]
+criteria = "safe-to-deploy"
+user-id = 64539 # Kenny Kerr (kennykerr)
+start = "2024-02-02"
+end = "2025-10-09"
+
+[[trusted.windows-strings]]
+criteria = "safe-to-deploy"
+user-id = 64539 # Kenny Kerr (kennykerr)
+start = "2024-02-02"
+end = "2025-10-29"
+
+[[trusted.windows-sys]]
+criteria = "safe-to-deploy"
+user-id = 64539 # Kenny Kerr (kennykerr)
+start = "2021-11-15"
+end = "2024-08-23"
+
+[[trusted.windows-targets]]
+criteria = "safe-to-deploy"
+user-id = 64539 # Kenny Kerr (kennykerr)
+start = "2022-09-09"
+end = "2024-08-23"
+
+[[trusted.windows_aarch64_gnullvm]]
+criteria = "safe-to-deploy"
+user-id = 64539 # Kenny Kerr (kennykerr)
+start = "2022-09-01"
+end = "2024-08-23"
+
+[[trusted.windows_aarch64_msvc]]
+criteria = "safe-to-deploy"
+user-id = 64539 # Kenny Kerr (kennykerr)
+start = "2021-11-05"
+end = "2024-08-23"
+
+[[trusted.windows_i686_gnu]]
+criteria = "safe-to-deploy"
+user-id = 64539 # Kenny Kerr (kennykerr)
+start = "2021-10-28"
+end = "2024-08-23"
+
+[[trusted.windows_i686_gnullvm]]
+criteria = "safe-to-deploy"
+user-id = 64539 # Kenny Kerr (kennykerr)
+start = "2024-04-02"
+end = "2025-10-09"
+
+[[trusted.windows_i686_msvc]]
+criteria = "safe-to-deploy"
+user-id = 64539 # Kenny Kerr (kennykerr)
+start = "2021-10-27"
+end = "2024-08-23"
+
+[[trusted.windows_x86_64_gnu]]
+criteria = "safe-to-deploy"
+user-id = 64539 # Kenny Kerr (kennykerr)
+start = "2021-10-28"
+end = "2024-08-23"
+
+[[trusted.windows_x86_64_gnullvm]]
+criteria = "safe-to-deploy"
+user-id = 64539 # Kenny Kerr (kennykerr)
+start = "2022-09-01"
+end = "2024-08-23"
+
+[[trusted.windows_x86_64_msvc]]
+criteria = "safe-to-deploy"
+user-id = 64539 # Kenny Kerr (kennykerr)
+start = "2021-10-27"
+end = "2024-08-23"
+
+[[trusted.winnow]]
+criteria = "safe-to-deploy"
+user-id = 6743 # Ed Page (epage)
+start = "2023-02-22"
+end = "2024-08-23"
+
+[[trusted.winreg]]
+criteria = "safe-to-deploy"
+user-id = 530
+start = "2019-07-17"
+end = "2024-08-23"
+
+[[trusted.x509-parser]]
+criteria = "safe-to-deploy"
+user-id = 4791
+start = "2019-06-18"
+end = "2024-10-19"
+
+[[trusted.xattr]]
+criteria = "safe-to-deploy"
+user-id = 280
+start = "2022-05-03"
+end = "2024-08-23"
+
+[[trusted.xz2]]
+criteria = "safe-to-deploy"
+user-id = 1 # Alex Crichton (alexcrichton)
+start = "2022-06-06"
+end = "2025-01-17"
+
+[[trusted.yasna]]
+criteria = "safe-to-deploy"
+user-id = 3941
+start = "2019-03-26"
+end = "2024-10-19"
+
+[[trusted.zeroize]]
+criteria = "safe-to-deploy"
+user-id = 267 # Tony Arcieri (tarcieri)
+start = "2021-11-05"
+end = "2024-08-23"
+
+[[trusted.zstd]]
+criteria = "safe-to-deploy"
+user-id = 3203
+start = "2019-04-16"
+end = "2024-08-23"
+
+[[trusted.zstd-safe]]
+criteria = "safe-to-deploy"
+user-id = 3203
+start = "2019-04-16"
+end = "2024-08-23"
+
+[[trusted.zstd-sys]]
+criteria = "safe-to-deploy"
+user-id = 3203
+start = "2019-04-16"
+end = "2024-08-23"
