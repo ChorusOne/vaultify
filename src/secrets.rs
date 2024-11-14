@@ -154,6 +154,7 @@ FOO=foo=bar/baz#quix"#;
     #[test]
     fn fail_v1_wrong_envvar_name() {
         const SECRET: &str = r#"5_shouldnt_lead_with_numbers=testing#secret"#;
+
         assert!(parse(SECRET).is_err());
     }
 }
