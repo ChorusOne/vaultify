@@ -1,4 +1,4 @@
-use clap::{Parser, Subcommand};
+use clap::Parser;
 
 mod error;
 mod process;
@@ -22,6 +22,12 @@ struct Args {
     #[clap(index = 2)]
     pub args: Vec<String>,
 
+    /// Number of retries per query
+    #[arg(long, default_value = "9")]
+    pub retries: usize,
+    /// Delay between retries (in ms)
+    #[arg(long, default_value = "50")]
+    pub retry_delay_ms: u64,
     /// Number of parallel requests to the vault.
     #[arg(long, default_value = "8")]
     pub concurrency: usize,
@@ -29,13 +35,16 @@ struct Args {
 
 #[tokio::main]
 async fn main() {
+    env_logger::init();
+
     let args = Args::parse();
-    println!("{:?}", args);
 
     // TODO: check if args.host is a valid URL
+    // TODO: custom .secrets
 
     let secs = secrets::load("./test.secrets").unwrap();
     let secrets = vault::fetch_all(&args, &secs).await.unwrap();
+
     process::spawn(
         args.cmd,
         &args.args,

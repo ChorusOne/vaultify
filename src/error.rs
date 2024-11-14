@@ -5,7 +5,6 @@ pub type Result<T> = std::result::Result<T, Error>;
 
 /// Library errors
 #[derive(thiserror::Error, Debug, Clone, PartialEq)]
-#[allow(unused)]
 pub enum Error {
     // Basic errors
     #[error("Unknown error: {0}")]
@@ -13,8 +12,12 @@ pub enum Error {
     #[error("IO error: {0}")]
     IO(String),
     // TODO: Parse should contain line number + line contents here
-    #[error("Parse error: {0}")]
-    Parse(String),
+    #[error("Parse error: {err} (line {lc}: `{line}`)")]
+    Parse {
+        err: String,
+        lc: usize,
+        line: String,
+    },
     // TODO: remove unused errors
     #[error("Not found: {0}")]
     NotFound(String),
@@ -71,41 +74,50 @@ pub enum Error {
 
 impl Error {
     #[inline]
+    pub fn parse(err: &str, line_index: usize, line: &str) -> Self {
+        Self::Parse {
+            err: err.to_string(),
+            lc: line_index + 1,
+            line: line.to_string(),
+        }
+    }
+
+    #[inline]
     pub fn log_warn(self) -> Self {
-        tracing::warn!("{}", self);
+        log::warn!("{}", self);
         self
     }
 
     #[inline]
     pub fn log_error(self) -> Self {
-        tracing::error!("{}", self);
+        log::error!("{}", self);
         self
     }
 }
 
-impl From<&str> for Error {
-    fn from(err: &str) -> Self {
-        Error::Unknown(err.to_owned())
-    }
-}
+//impl From<&str> for Error {
+//    fn from(err: &str) -> Self {
+//        Error::Unknown(err.to_owned())
+//    }
+//}
+//
+//impl From<std::convert::Infallible> for Error {
+//    fn from(err: std::convert::Infallible) -> Self {
+//        Error::IO(err.to_string())
+//    }
+//}
+//
+//impl From<std::io::Error> for Error {
+//    fn from(err: std::io::Error) -> Self {
+//        Error::IO(err.to_string())
+//    }
+//}
 
-impl From<std::convert::Infallible> for Error {
-    fn from(err: std::convert::Infallible) -> Self {
-        Error::IO(err.to_string())
-    }
-}
-
-impl From<std::io::Error> for Error {
-    fn from(err: std::io::Error) -> Self {
-        Error::IO(err.to_string())
-    }
-}
-
-impl From<std::str::Utf8Error> for Error {
-    fn from(value: std::str::Utf8Error) -> Self {
-        Error::Parse(format!("Unable to parse utf8: {}", value))
-    }
-}
+//impl From<std::str::Utf8Error> for Error {
+//    fn from(value: std::str::Utf8Error) -> Self {
+//        Error::Parse(format!("Unable to parse utf8: {}", value))
+//    }
+//}
 
 //impl From<sqlx::error::Error> for Error {
 //    fn from(value: sqlx::error::Error) -> Self {

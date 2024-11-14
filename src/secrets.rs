@@ -15,20 +15,35 @@ lazy_static! {
 
 #[derive(Debug)]
 pub struct SecretSpec {
-    // TODO: unpub
-    pub name: Option<String>,
+    pub(self) name: Option<String>,
     pub mount: String,
     pub path: String,
     pub secret: String,
 }
 
-#[derive(Debug)]
 pub struct Secret {
     pub name: String,
     pub secret: String,
 }
 
-// TODO: overwrite debug and print for secrets to redact secret value
+impl Secret {
+    #[inline]
+    fn secret_obfuscated(&self) -> String {
+        self.secret.chars().map(|_c| '*').collect::<String>()
+    }
+}
+
+/// Custom Debug implementation to prevent secrets from being leaked in logs
+impl core::fmt::Debug for Secret {
+    fn fmt(&self, f: &mut core::fmt::Formatter) -> core::fmt::Result {
+        write!(
+            f,
+            r#"Secret {{ name: "{}", secret: "{}" }}"#,
+            self.name,
+            self.secret_obfuscated()
+        )
+    }
+}
 
 impl SecretSpec {
     /// Returns the configured name or a generated name based on path and secret.
@@ -88,55 +103,39 @@ fn parse(contents: &str) -> Result<Vec<SecretSpec>> {
                 if let Some(c) = name.chars().next() {
                     // https://pubs.opengroup.org/onlinepubs/009695399/basedefs/xbd_chap08.html
                     if c.is_numeric() {
-                        return Err(Error::Parse(format!(
-                            "env vars must not start with a number (line {}: {})",
-                            lc + 1,
-                            line
-                        )));
+                        return Err(Error::parse(
+                            "env vars must not start with a number",
+                            lc,
+                            line,
+                        ));
                     }
                 } else {
-                    return Err(Error::Parse(format!(
-                        "path cannot be empty (line {}: {})",
-                        lc + 1,
-                        line
-                    )));
+                    return Err(Error::parse("name cannot be empty", lc, line));
                 }
             }
             let mount = capture
                 .name("mount")
-                .ok_or_else(|| Error::Parse(format!("missing mount (line {}: {})", lc + 1, line)))?
+                .ok_or_else(|| Error::parse("missing mount", lc, line))?
                 .as_str()
                 .to_string();
             if mount.is_empty() {
-                return Err(Error::Parse(format!(
-                    "mount cannot be empty (line {}: {})",
-                    lc + 1,
-                    line
-                )));
+                return Err(Error::parse("mount cannot be empty", lc, line));
             }
             let path = capture
                 .name("path")
-                .ok_or_else(|| Error::Parse(format!("missing path (line {}: {})", lc + 1, line)))?
+                .ok_or_else(|| Error::parse("missing path", lc, line))?
                 .as_str()
                 .to_string();
             if path.is_empty() {
-                return Err(Error::Parse(format!(
-                    "path cannot be empty (line {}: {})",
-                    lc + 1,
-                    line
-                )));
+                return Err(Error::parse("path cannot be empty", lc, line));
             }
             let secret = capture
                 .name("secret")
-                .ok_or_else(|| Error::Parse(format!("missing secret (line {}: {})", lc + 1, line)))?
+                .ok_or_else(|| Error::parse("missing secret", lc, line))?
                 .as_str()
                 .to_string();
             if secret.is_empty() {
-                return Err(Error::Parse(format!(
-                    "secret cannot be empty (line {}: {})",
-                    lc + 1,
-                    line
-                )));
+                return Err(Error::parse("secret cannot be empty", lc, line));
             }
             secrets.push(SecretSpec {
                 name,
@@ -145,11 +144,7 @@ fn parse(contents: &str) -> Result<Vec<SecretSpec>> {
                 secret,
             })
         } else {
-            return Err(Error::Parse(format!(
-                "unable to parse line {}: {}",
-                lc + 1,
-                line
-            )));
+            return Err(Error::parse("unable to parse line", lc, line));
         }
     }
 

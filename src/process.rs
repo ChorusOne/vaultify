@@ -1,4 +1,3 @@
-use std::collections::HashMap;
 use std::ffi::OsStr;
 
 use crate::secrets::Secret;
@@ -26,7 +25,7 @@ pub fn spawn<S: AsRef<OsStr>>(cmd: S, args: &[String], secrets: &[Secret], opts:
 
     for secret in secrets.iter() {
         if !opts.clear_env && std::env::var(&secret.name).is_ok() {
-            println!(
+            log::warn!(
                 "env variable `{}` already exists and will be overwritten",
                 secret.name
             );
