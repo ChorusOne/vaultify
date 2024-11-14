@@ -64,10 +64,27 @@ async fn fetch_single_v2(args: &Args, secret_spec: &SecretSpec) -> Result<Secret
         .await?;
 
     // parse json blob dynamically
-    let resultjson = serde_json::from_str::<Value>(&result).unwrap();
-    let data = resultjson.get("data").unwrap();
-    let data = data.get("data").unwrap();
-    let secret_value = data.get(&secret_spec.secret).unwrap().as_str().unwrap();
+    let value = serde_json::from_str::<Value>(&result)?;
+    let data = value
+        .get("data")
+        .ok_or_else(|| Error::NotFound("vault response does not contain .data".to_string()))?;
+    let data = data
+        .get("data")
+        .ok_or_else(|| Error::NotFound("vault response does not contain .data.data".to_string()))?;
+    let secret_value = data
+        .get(&secret_spec.secret)
+        .ok_or_else(|| {
+            Error::NotFound(format!(
+                "vault response does not contain .data.data.{}",
+                secret_spec.secret
+            ))
+        })?
+        .as_str()
+        .ok_or_else(|| {
+            Error::Deserialization(
+                "vault response secret cannot be made into a string or is empty".to_string(),
+            )
+        })?;
 
     Ok(Secret {
         name: secret_name,
@@ -97,9 +114,24 @@ async fn fetch_single_v1(args: &Args, secret_spec: &SecretSpec) -> Result<Secret
         .await?;
 
     // parse json blob dynamically
-    let resultjson = serde_json::from_str::<Value>(&result).unwrap();
-    let data = resultjson.get("data").unwrap();
-    let secret_value = data.get(&secret_spec.secret).unwrap().as_str().unwrap();
+    let value = serde_json::from_str::<Value>(&result)?;
+    let data = value
+        .get("data")
+        .ok_or_else(|| Error::NotFound("vault response does not contain .data".to_string()))?;
+    let secret_value = data
+        .get(&secret_spec.secret)
+        .ok_or_else(|| {
+            Error::NotFound(format!(
+                "vault response does not contain .data.{}",
+                secret_spec.secret
+            ))
+        })?
+        .as_str()
+        .ok_or_else(|| {
+            Error::Deserialization(
+                "vault response secret cannot be made into a string or is empty".to_string(),
+            )
+        })?;
 
     Ok(Secret {
         name: secret_name,
@@ -123,7 +155,7 @@ where
         tokio::time::sleep(delay).await;
     }
 
-    Err(Error::Timeout)
+    Err(Error::MaxRetries)
 }
 
 fn client() -> Client {
