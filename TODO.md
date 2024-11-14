@@ -3,7 +3,6 @@
 
 - remove unused features in cargo.toml
 - reduce deps
-- vet deps
 
 Requirements:
 - 0 unwraps

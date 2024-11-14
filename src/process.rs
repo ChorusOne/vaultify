@@ -56,7 +56,7 @@ pub fn spawn<S: AsRef<OsStr>>(
     let mut child = command.spawn()?;
 
     if !opts.detach {
-        child.wait().unwrap();
+        child.wait()?;
     }
 
     Ok(())

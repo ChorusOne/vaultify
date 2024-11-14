@@ -1,3 +1,5 @@
+use std::path::PathBuf;
+
 use clap::Parser;
 
 mod error;
@@ -12,10 +14,12 @@ use error::Result;
 struct Args {
     /// Vault address (in the same format as vault-cli).
     #[arg(long, env = "VAULT_ADDR", default_value = "http://127.0.0.1:8200")]
-    host: String,
+    pub host: String,
     /// Vault access token.
     #[arg(long, env = "VAULT_TOKEN")]
-    token: String,
+    pub token: String,
+    #[arg(long, default_value = ".secrets")]
+    pub secrets_file: PathBuf,
 
     /// Command to run after fetching secrets.
     #[clap(index = 1)]
@@ -37,9 +41,9 @@ struct Args {
     /// Clear the environment of the spawned process before spawning.
     #[arg(long, default_value = "false")]
     pub clear_env: bool,
-    /// The detach the spawned process from the `vaultify` process.
-    #[arg(long, short = 'd', default_value = "true")]
-    pub detach: bool,
+    /// Keep the spawned process attached as a child of the `vaultify` process.
+    #[arg(long, short = 'd', default_value = "false")]
+    pub attach: bool,
 }
 
 #[tokio::main]
@@ -51,7 +55,7 @@ async fn main() -> Result<()> {
     // TODO: check if args.host is a valid URL
     // TODO: custom .secrets
 
-    let secs = secrets::load_async("./test.secrets").await.unwrap();
+    let secs = secrets::load_async(&args.secrets_file).await.unwrap();
     let secrets = vault::fetch_all(&args, &secs).await.unwrap();
 
     process::spawn(
@@ -60,7 +64,7 @@ async fn main() -> Result<()> {
         &secrets,
         process::SpawnOptions {
             clear_env: args.clear_env,
-            detach: args.detach,
+            detach: !args.attach,
         },
     )?;
 

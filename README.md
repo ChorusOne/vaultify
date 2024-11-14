@@ -25,20 +25,20 @@ vault kv put secret/production/third-party api-key=test-key1234!?
 vault kv get secret/production/third-party
 ```
 
-Create a new secrets file, e.g. `test.secrets` with the following content:
+Create a new secrets file, e.g. `.secrets` with the following content:
 ```
 secret/production/third-party#api-key
 ```
 
 As an example, run `env` through vaultify:
 ```
-cargo run -- --clear-env env
+cargo run -- --clear-env --attach env
 ```
 
 `env` will output all configured secrets to your screen:
 ```
-$ cargo run -- --clear-env env
+$ cargo run -- --clear-env --attach env
     Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.06s
-     Running `target/debug/vaultify env`
+     Running `target/debug/vaultify --clear-env --attach env`
 PRODUCTION_THIRD_PARTY_API_KEY=key1234!?
 ```
