@@ -5,6 +5,8 @@ mod process;
 mod secrets;
 mod vault;
 
+use error::Result;
+
 #[derive(Parser, Debug)]
 #[command(version, about, long_about = None)]
 struct Args {
@@ -34,7 +36,7 @@ struct Args {
 }
 
 #[tokio::main]
-async fn main() {
+async fn main() -> Result<()> {
     env_logger::init();
 
     let args = Args::parse();
@@ -42,7 +44,7 @@ async fn main() {
     // TODO: check if args.host is a valid URL
     // TODO: custom .secrets
 
-    let secs = secrets::load("./test.secrets").unwrap();
+    let secs = secrets::load_async("./test.secrets").await.unwrap();
     let secrets = vault::fetch_all(&args, &secs).await.unwrap();
 
     process::spawn(
@@ -53,5 +55,7 @@ async fn main() {
             clear_env: true,
             detach: false,
         },
-    );
+    )?;
+
+    Ok(())
 }

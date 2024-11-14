@@ -75,7 +75,8 @@ impl SecretSpec {
     }
 }
 
-// TODO: seperate load_async func
+/// Loads the .secrets file and parses it
+#[allow(unused)]
 pub fn load<P: AsRef<Path>>(path: P) -> Result<Vec<SecretSpec>> {
     let contents = std::fs::read_to_string(path.as_ref()).map_err(|err| {
         Error::IO(format!(
@@ -84,6 +85,20 @@ pub fn load<P: AsRef<Path>>(path: P) -> Result<Vec<SecretSpec>> {
             err
         ))
     })?;
+    parse(&contents)
+}
+
+/// Loads the .secrets file and parses it
+pub async fn load_async<P: AsRef<Path>>(path: P) -> Result<Vec<SecretSpec>> {
+    let contents = tokio::fs::read_to_string(path.as_ref())
+        .await
+        .map_err(|err| {
+            Error::IO(format!(
+                "unable to read file `{:?}`: {}",
+                path.as_ref(),
+                err
+            ))
+        })?;
     parse(&contents)
 }
 
@@ -254,5 +269,17 @@ FOO=mnt/bar#baz"#,
         )
         .unwrap();
         assert_eq!(secrets.len(), 2);
+    }
+
+    #[test]
+    fn pass_load_file() {
+        let secrets = load("tests/pass.secrets").unwrap();
+        assert_eq!(secrets.len(), 4);
+    }
+
+    #[tokio::test]
+    async fn pass_load_file_async() {
+        let secrets = load_async("tests/pass.secrets").await.unwrap();
+        assert_eq!(secrets.len(), 4);
     }
 }

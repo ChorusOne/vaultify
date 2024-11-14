@@ -1,6 +1,6 @@
 use std::ffi::OsStr;
 
-use crate::secrets::Secret;
+use crate::{error::Result, secrets::Secret};
 
 pub struct SpawnOptions {
     pub clear_env: bool,
@@ -8,7 +8,12 @@ pub struct SpawnOptions {
 }
 
 #[cfg(target_os = "linux")]
-pub fn spawn<S: AsRef<OsStr>>(cmd: S, args: &[String], secrets: &[Secret], opts: SpawnOptions) {
+pub fn spawn<S: AsRef<OsStr>>(
+    cmd: S,
+    args: &[String],
+    secrets: &[Secret],
+    opts: SpawnOptions,
+) -> Result<()> {
     use std::os::unix::process::CommandExt;
     use std::process::Command;
 
@@ -38,9 +43,11 @@ pub fn spawn<S: AsRef<OsStr>>(cmd: S, args: &[String], secrets: &[Secret], opts:
         command.process_group(0);
     }
 
-    let mut child = command.spawn().unwrap();
+    let mut child = command.spawn()?;
 
     if !opts.detach {
         child.wait().unwrap();
     }
+
+    Ok(())
 }
