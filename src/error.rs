@@ -12,8 +12,10 @@ pub enum Error {
     Unknown(String),
     #[error("IO error: {0}")]
     IO(String),
+    // TODO: Parse should contain line number + line contents here
     #[error("Parse error: {0}")]
     Parse(String),
+    // TODO: remove unused errors
     #[error("Not found: {0}")]
     NotFound(String),
     #[error("Already exists: {0}")]
@@ -122,13 +124,13 @@ impl From<std::str::Utf8Error> for Error {
 //        Error::Parse(value.to_string())
 //    }
 //}
-//
-//impl From<reqwest::Error> for Error {
-//    fn from(value: reqwest::Error) -> Self {
-//        Error::Reqwest(value.to_string())
-//    }
-//}
-//
+
+impl From<reqwest::Error> for Error {
+    fn from(value: reqwest::Error) -> Self {
+        Error::Reqwest(value.to_string())
+    }
+}
+
 //impl From<serde_json::Error> for Error {
 //    fn from(value: serde_json::Error) -> Self {
 //        Error::Parse(value.to_string())

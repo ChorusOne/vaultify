@@ -7,6 +7,7 @@ edition = "2021"
 tracing = { version = "0.1", default-features = false }
 tracing-subscriber = { version = "0.3", features = ["ansi", "fmt"], default-features = false }
 thiserror = "2.0"
+tokio = { version = "1.40", features = ["macros", "rt-multi-thread", "fs", "signal", "rt"] }
 
 # cli
 clap = { version = "4", features = ["cargo", "derive", "env"] }
@@ -14,3 +15,9 @@ clap = { version = "4", features = ["cargo", "derive", "env"] }
 # .secrets parsing
 lazy_static = "1.5"
 regex = "1.11"
+
+# TODO: replace with something more lightweight?
+# accessing vault
+serde = "1.0"
+serde_json = "1.0"
+reqwest = { version = "0.12", default-features = false, features = ["rustls-tls", "charset", "http2", "macos-system-configuration", "json"] }

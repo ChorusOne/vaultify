@@ -12,6 +12,8 @@ pub fn spawn<S: AsRef<OsStr>>(cmd: S, args: &[String], opts: SpawnOptions) {
     use std::process::Command;
 
     let mut envs = HashMap::new();
+
+    // TODO: warn if we overwrite an existing env var
     envs.insert("TEST_VAL", "1234");
 
     // setup command

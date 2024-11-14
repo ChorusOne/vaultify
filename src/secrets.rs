@@ -8,18 +8,26 @@ use crate::error::{Error, Result};
 
 lazy_static! {
     static ref REGEX_V1: Regex = {
-        Regex::new(r#"^((?<name>[a-zA-Z0-9_]*)=)?(?<path>[a-zA-Z0-9_\-\/\@]*)#(?<secret>.*)"#)
+        Regex::new(r#"^((?<name>[a-zA-Z0-9_]*)=)?((?<mount>[a-zA-Z0-9_\-\@]*)\/)(?<path>[a-zA-Z0-9_\-\/\@]*)#(?<secret>.*)"#)
             .expect("invalid regex")
     };
 }
 
 pub struct Secret {
+    // TODO: unpub
     pub name: Option<String>,
+    pub mount: String,
     pub path: String,
     pub secret: String,
+    // TODO: properly parse mount and v1/v2
+    /*
+    secret/data/production/third-party
+    -mount="secret" "production/third-party"
+        */
 }
 
 impl Secret {
+    /// Returns the configured name or a generated name based on path and secret.
     pub fn name(&self) -> String {
         self.name.clone().unwrap_or_else(|| {
             self.path
@@ -78,43 +86,65 @@ fn parse(contents: &str) -> Result<Vec<Secret>> {
                     if c.is_numeric() {
                         return Err(Error::Parse(format!(
                             "env vars must not start with a number (line {}: {})",
-                            lc, line
+                            lc + 1,
+                            line
                         )));
                     }
                 } else {
                     return Err(Error::Parse(format!(
                         "path cannot be empty (line {}: {})",
-                        lc, line
+                        lc + 1,
+                        line
                     )));
                 }
             }
+            let mount = capture
+                .name("mount")
+                .ok_or_else(|| Error::Parse(format!("missing mount (line {}: {})", lc + 1, line)))?
+                .as_str()
+                .to_string();
+            if mount.is_empty() {
+                return Err(Error::Parse(format!(
+                    "mount cannot be empty (line {}: {})",
+                    lc + 1,
+                    line
+                )));
+            }
             let path = capture
                 .name("path")
-                .ok_or_else(|| Error::Parse(format!("missing path (line {}: {})", lc, line)))?
+                .ok_or_else(|| Error::Parse(format!("missing path (line {}: {})", lc + 1, line)))?
                 .as_str()
                 .to_string();
             if path.is_empty() {
                 return Err(Error::Parse(format!(
                     "path cannot be empty (line {}: {})",
-                    lc, line
+                    lc + 1,
+                    line
                 )));
             }
             let secret = capture
                 .name("secret")
-                .ok_or_else(|| Error::Parse(format!("missing secret (line {}: {})", lc, line)))?
+                .ok_or_else(|| Error::Parse(format!("missing secret (line {}: {})", lc + 1, line)))?
                 .as_str()
                 .to_string();
             if secret.is_empty() {
                 return Err(Error::Parse(format!(
                     "secret cannot be empty (line {}: {})",
-                    lc, line
+                    lc + 1,
+                    line
                 )));
             }
-            secrets.push(Secret { name, path, secret })
+            secrets.push(Secret {
+                name,
+                mount,
+                path,
+                secret,
+            })
         } else {
             return Err(Error::Parse(format!(
                 "unable to parse line {}: {}",
-                lc, line
+                lc + 1,
+                line
             )));
         }
     }
@@ -128,12 +158,13 @@ mod tests {
 
     #[test]
     fn pass_v1_simple() {
-        const SECRET: &str = r#"production/third-party#api-key"#;
+        const SECRET: &str = r#"secret/production/third-party#api-key"#;
 
         let secrets = parse(SECRET).unwrap();
         assert_eq!(secrets.len(), 1);
 
         let entry = secrets.first().unwrap();
+        assert_eq!(entry.mount, "secret");
         assert_eq!(entry.path, "production/third-party");
         assert_eq!(entry.secret, "api-key");
         assert_eq!(entry.name(), "PRODUCTION_THIRD_PARTY_API_KEY")
@@ -152,9 +183,9 @@ hackathon=production/another-third-party#bla"#;
 
     #[test]
     fn pass_v1_2() {
-        const SECRET: &str = r#"foo#bar
+        const SECRET: &str = r#"mnt/foo#bar
 foo/bar#baz
-FOO=bar#baz
+FOO=mnt/bar#baz
 BAR=foo/baz#quix
 single_underscore=foo/single#underscore
 double__underscore=foo/double#underscore
@@ -172,20 +203,22 @@ _leading_underscore=foo/double#underscore"#;
 
         let entry = secrets.first().unwrap();
         assert_eq!(entry.name.as_deref().unwrap(), "BAR_BAZ");
-        assert_eq!(entry.path, "foo/bar");
+        assert_eq!(entry.mount, "foo");
+        assert_eq!(entry.path, "bar");
         assert_eq!(entry.secret, "baz");
         assert_eq!(entry.name(), "BAR_BAZ")
     }
 
     #[test]
     fn pass_v1_special_chars() {
-        const SECRET: &str = r#"foob@ar#baz"#;
+        const SECRET: &str = r#"mnt/foob@ar#baz"#;
 
         let secrets = parse(SECRET).unwrap();
         assert_eq!(secrets.len(), 1);
 
         let entry = secrets.first().unwrap();
         assert!(entry.name.is_none());
+        assert_eq!(entry.mount, "mnt");
         assert_eq!(entry.path, "foob@ar");
         assert_eq!(entry.secret, "baz");
         assert_eq!(entry.name(), "FOOB_AR_BAZ")
@@ -218,7 +251,7 @@ FOO=foo=bar/baz#quix"#;
             r#"foo/bar#baz
 
  
-FOO=bar#baz"#,
+FOO=mnt/bar#baz"#,
         )
         .unwrap();
         assert_eq!(secrets.len(), 2);
