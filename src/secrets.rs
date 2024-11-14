@@ -20,11 +20,6 @@ pub struct SecretSpec {
     pub mount: String,
     pub path: String,
     pub secret: String,
-    // TODO: properly parse mount and v1/v2
-    /*
-    secret/data/production/third-party
-    -mount="secret" "production/third-party"
-        */
 }
 
 #[derive(Debug)]

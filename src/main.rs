@@ -8,12 +8,10 @@ mod vault;
 #[derive(Parser, Debug)]
 #[command(version, about, long_about = None)]
 struct Args {
-    /// Vault host, either an IP address or DNS name.
-    #[arg(long, env = "VAULT_HOST", default_value = "http://127.0.0.1:8200")]
+    /// Vault address (in the same format as vault-cli).
+    #[arg(long, env = "VAULT_ADDR", default_value = "http://127.0.0.1:8200")]
     host: String,
-    // port
-    // addr
-    /// Token to authenticate to Vault with.
+    /// Vault access token.
     #[arg(long, env = "VAULT_TOKEN")]
     token: String,
 
@@ -23,6 +21,10 @@ struct Args {
     /// Arguments to pass to <CMD>.
     #[clap(index = 2)]
     pub args: Vec<String>,
+
+    /// Number of parallel requests to the vault.
+    #[arg(long, default_value = "8")]
+    pub concurrency: usize,
 }
 
 #[tokio::main]
