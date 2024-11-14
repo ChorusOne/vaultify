@@ -5,7 +5,7 @@
 - To keep the .secrets file parsing simple and less error prone we just support the v1 format
 - Always try to fetch v2 secrets first and fallbacks to v1
 - Spawning a process is only implemented on linux
-- Orgnaized, simple and maintainable codebase
+- Organized, simple and maintainable codebase
 - Zero unwraps (outside of tests)
 - Fully vetted
 - Secret paths are specified in the same way as in the vault cli

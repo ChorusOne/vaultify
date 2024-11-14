@@ -86,13 +86,8 @@ impl SecretSpec {
 /// Loads the .secrets file and parses it
 #[allow(unused)]
 pub fn load<P: AsRef<Path>>(path: P) -> Result<Vec<SecretSpec>> {
-    let contents = std::fs::read_to_string(path.as_ref()).map_err(|err| {
-        Error::IO(format!(
-            "unable to read file `{:?}`: {}",
-            path.as_ref(),
-            err
-        ))
-    })?;
+    let contents = std::fs::read_to_string(path.as_ref())
+        .map_err(|err| Error::IO(format!("unable to read file {:?}: {}", path.as_ref(), err)))?;
     parse(&contents)
 }
 
@@ -100,13 +95,7 @@ pub fn load<P: AsRef<Path>>(path: P) -> Result<Vec<SecretSpec>> {
 pub async fn load_async<P: AsRef<Path>>(path: P) -> Result<Vec<SecretSpec>> {
     let contents = tokio::fs::read_to_string(path.as_ref())
         .await
-        .map_err(|err| {
-            Error::IO(format!(
-                "unable to read file `{:?}`: {}",
-                path.as_ref(),
-                err
-            ))
-        })?;
+        .map_err(|err| Error::IO(format!("unable to read file {:?}: {}", path.as_ref(), err)))?;
     parse(&contents)
 }
 

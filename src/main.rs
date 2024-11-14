@@ -53,10 +53,22 @@ async fn main() -> Result<()> {
     let args = Args::parse();
 
     // TODO: check if args.host is a valid URL
-    // TODO: custom .secrets
 
-    let secs = secrets::load_async(&args.secrets_file).await.unwrap();
-    let secrets = vault::fetch_all(&args, &secs).await.unwrap();
+    let secs = match secrets::load_async(&args.secrets_file).await {
+        Ok(secs) => secs,
+        Err(err) => {
+            println!("Error parsing secrets file: {err}");
+            return Err(err);
+        }
+    };
+
+    let secrets = match vault::fetch_all(&args, &secs).await {
+        Ok(secrets) => secrets,
+        Err(err) => {
+            println!("Error fetching secrets: {err}");
+            return Err(err);
+        }
+    };
 
     process::spawn(
         args.cmd,
