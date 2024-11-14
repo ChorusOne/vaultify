@@ -33,6 +33,13 @@ struct Args {
     /// Number of parallel requests to the vault.
     #[arg(long, default_value = "8")]
     pub concurrency: usize,
+
+    /// Clear the environment of the spawned process before spawning.
+    #[arg(long, default_value = "false")]
+    pub clear_env: bool,
+    /// The detach the spawned process from the `vaultify` process.
+    #[arg(long, short = 'd', default_value = "true")]
+    pub detach: bool,
 }
 
 #[tokio::main]
@@ -52,8 +59,8 @@ async fn main() -> Result<()> {
         &args.args,
         &secrets,
         process::SpawnOptions {
-            clear_env: true,
-            detach: false,
+            clear_env: args.clear_env,
+            detach: args.detach,
         },
     )?;
 

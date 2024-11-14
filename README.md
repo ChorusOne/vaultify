@@ -11,6 +11,7 @@
 - Secret paths are specified in the same way as in the vault cli
 
 ## Local development
+Start a local vault instance for testing:
 ```
 # spawn a new vault dev server
 vault server -dev
@@ -22,4 +23,22 @@ export VAULT_TOKEN=[Root Token]
 # put a key in vault
 vault kv put secret/production/third-party api-key=test-key1234!?
 vault kv get secret/production/third-party
+```
+
+Create a new secrets file, e.g. `test.secrets` with the following content:
+```
+secret/production/third-party#api-key
+```
+
+As an example, run `env` through vaultify:
+```
+cargo run -- --clear-env env
+```
+
+`env` will output all configured secrets to your screen:
+```
+$ cargo run -- --clear-env env
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.06s
+     Running `target/debug/vaultify env`
+PRODUCTION_THIRD_PARTY_API_KEY=key1234!?
 ```
