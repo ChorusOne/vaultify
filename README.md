@@ -1,10 +1,12 @@
 # vaultify
-
+![logo](docs/logo.png)
 
 ## Design considerations
 - To keep the .secrets file parsing simple and less error prone we just support the v1 format
 - For now spawning a process is only implemented on linux
 - Keeping the codebase organized, simple and maintainable
+- Secret paths are specified in the same way as in the vault cli
+- This tool always try to fetch v2 secrets first and fallbacks to v1
 
 ## Local development
 ```

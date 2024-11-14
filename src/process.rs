@@ -36,7 +36,6 @@ pub fn spawn<S: AsRef<OsStr>>(cmd: S, args: &[String], secrets: &[Secret], opts:
 
     if opts.detach {
         // setpgid to make the new process independent of this process
-        // see: https://doc.rust-lang.org/std/os/unix/process/trait.CommandExt.html#tymethod.process_group
         command.process_group(0);
     }
 
