@@ -21,8 +21,6 @@ pub struct Secret {
 
 impl Secret {
     pub fn name(&self) -> String {
-        // production/third-party#api-key
-        // PRODUCTION_THIRD_PARTY_API_KEY
         self.name.clone().unwrap_or_else(|| {
             self.path
                 .chars()
@@ -65,9 +63,13 @@ pub fn load<P: AsRef<Path>>(path: P) -> Result<Vec<Secret>> {
 fn parse(contents: &str) -> Result<Vec<Secret>> {
     let mut secrets = Vec::new();
 
-    // TODO: do not allow empty strings
-
     for (lc, line) in contents.lines().enumerate() {
+        // skip empty lines
+        if line.is_empty() || !line.chars().any(|c| !c.is_whitespace()) {
+            continue;
+        }
+
+        // parse regex
         if let Some(capture) = REGEX_V1.captures(line) {
             let name = capture.name("name").map(|c| c.as_str().to_string());
             if let Some(name) = &name {
@@ -202,5 +204,23 @@ FOO=foo=bar/baz#quix"#;
         const SECRET: &str = r#"5_shouldnt_lead_with_numbers=testing#secret"#;
 
         assert!(parse(SECRET).is_err());
+    }
+
+    #[test]
+    fn pass_v1_empty() {
+        let secrets = parse("").unwrap();
+        assert!(secrets.is_empty());
+    }
+
+    #[test]
+    fn pass_v1_empty_line() {
+        let secrets = parse(
+            r#"foo/bar#baz
+
+ 
+FOO=bar#baz"#,
+        )
+        .unwrap();
+        assert_eq!(secrets.len(), 2);
     }
 }
