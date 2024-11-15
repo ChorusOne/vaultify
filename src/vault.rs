@@ -9,7 +9,7 @@ use serde_json::Value;
 
 use crate::{
     error::{Error, Result},
-    secrets::{Secret, SecretSpec},
+    secrets::{Secret, SecretSpec, SecretSpecs},
     AuthMethod,
 };
 
@@ -177,11 +177,12 @@ pub struct FetchAllOpts {
 pub async fn fetch_all(
     host: &str,
     token: Option<&str>,
-    secrets: &[SecretSpec],
+    secrets: &SecretSpecs,
     opts: FetchAllOpts,
 ) -> Result<Vec<Secret>> {
     let mut results = Vec::new();
 
+    let secrets = secrets.iter().map(|(_k, v)| v).collect::<Vec<_>>();
     for secrets in secrets.chunks(opts.concurrency) {
         let res = futures::future::join_all(secrets.iter().map(|s| async {
             retry(

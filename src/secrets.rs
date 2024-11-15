@@ -1,5 +1,5 @@
 //! .secrets file parser
-use std::path::Path;
+use std::{collections::BTreeMap, path::Path};
 
 use lazy_static::lazy_static;
 use regex::Regex;
@@ -12,6 +12,8 @@ lazy_static! {
             .expect("invalid regex")
     };
 }
+
+pub type SecretSpecs = BTreeMap<String, SecretSpec>;
 
 /// Spec of a secret parsed from a .secrets file.
 #[derive(Debug)]
@@ -85,22 +87,22 @@ impl SecretSpec {
 
 /// Loads the .secrets file and parses it
 #[allow(unused)]
-pub fn load<P: AsRef<Path>>(path: P) -> Result<Vec<SecretSpec>> {
+pub fn load<P: AsRef<Path>>(path: P) -> Result<SecretSpecs> {
     let contents = std::fs::read_to_string(path.as_ref())
         .map_err(|err| Error::IO(format!("unable to read file {:?}: {}", path.as_ref(), err)))?;
     parse(&contents)
 }
 
 /// Loads the .secrets file and parses it
-pub async fn load_async<P: AsRef<Path>>(path: P) -> Result<Vec<SecretSpec>> {
+pub async fn load_async<P: AsRef<Path>>(path: P) -> Result<SecretSpecs> {
     let contents = tokio::fs::read_to_string(path.as_ref())
         .await
         .map_err(|err| Error::IO(format!("unable to read file {:?}: {}", path.as_ref(), err)))?;
     parse(&contents)
 }
 
-fn parse(contents: &str) -> Result<Vec<SecretSpec>> {
-    let mut secrets = Vec::new();
+fn parse(contents: &str) -> Result<SecretSpecs> {
+    let mut specs = SecretSpecs::new();
 
     for (lc, line) in contents.lines().enumerate() {
         // skip empty lines
@@ -149,18 +151,25 @@ fn parse(contents: &str) -> Result<Vec<SecretSpec>> {
             if secret.is_empty() {
                 return Err(Error::parse("secret cannot be empty", lc, line));
             }
-            secrets.push(SecretSpec {
+
+            let spec = SecretSpec {
                 name,
                 mount,
                 path,
                 secret,
-            })
+            };
+            let name = spec.name();
+
+            // check if a secret with the same path already exists
+            if specs.insert(name, spec).is_some() {
+                return Err(Error::parse("duplicate secret name", lc, line));
+            }
         } else {
             return Err(Error::parse("unable to parse line", lc, line));
         }
     }
 
-    Ok(secrets)
+    Ok(specs)
 }
 
 #[cfg(test)]
@@ -179,11 +188,10 @@ mod tests {
         let secrets = parse(SECRET).unwrap();
         assert_eq!(secrets.len(), 1);
 
-        let entry = secrets.first().unwrap();
+        let entry = secrets.get("PRODUCTION_THIRD_PARTY_API_KEY").unwrap();
         assert_eq!(entry.mount, "secret");
         assert_eq!(entry.path, "production/third-party");
         assert_eq!(entry.secret, "api-key");
-        assert_eq!(entry.name(), "PRODUCTION_THIRD_PARTY_API_KEY")
     }
 
     #[test]
@@ -191,7 +199,7 @@ mod tests {
         const SECRET: &str = r#"production/another-third-party#bla
 production/another-third-party/another/path#bla
 hackathon=production/another-third-party#bla3
-hackathon=production/another-third-party#bla"#;
+hackathon2=production/another-third-party#bla"#;
 
         let secrets = parse(SECRET).unwrap();
         assert_eq!(secrets.len(), 4);
@@ -217,12 +225,10 @@ _leading_underscore=foo/double#underscore"#;
         let secrets = parse(SECRET).unwrap();
         assert_eq!(secrets.len(), 1);
 
-        let entry = secrets.first().unwrap();
-        assert_eq!(entry.name.as_deref().unwrap(), "BAR_BAZ");
+        let entry = secrets.get("BAR_BAZ").unwrap();
         assert_eq!(entry.mount, "foo");
         assert_eq!(entry.path, "bar");
         assert_eq!(entry.secret, "baz");
-        assert_eq!(entry.name(), "BAR_BAZ")
     }
 
     #[test]
@@ -232,18 +238,24 @@ _leading_underscore=foo/double#underscore"#;
         let secrets = parse(SECRET).unwrap();
         assert_eq!(secrets.len(), 1);
 
-        let entry = secrets.first().unwrap();
-        assert!(entry.name.is_none());
+        let entry = secrets.get("FOOB_AR_BAZ").unwrap();
         assert_eq!(entry.mount, "mnt");
         assert_eq!(entry.path, "foob@ar");
         assert_eq!(entry.secret, "baz");
-        assert_eq!(entry.name(), "FOOB_AR_BAZ")
     }
 
     #[test]
     fn fail_v1_ambigious() {
         const SECRET: &str = r#"foo#bar/baz#quix
 FOO=foo=bar/baz#quix"#;
+
+        assert!(parse(SECRET).is_err());
+    }
+
+    #[test]
+    fn fail_v1_duplicate() {
+        const SECRET: &str = r#"BAR_SECRET=foo/bar2#secret
+foo/bar#secret"#;
 
         assert!(parse(SECRET).is_err());
     }
