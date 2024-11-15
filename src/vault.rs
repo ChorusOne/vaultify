@@ -1,5 +1,6 @@
 use std::{future::Future, time::Duration};
 
+use lazy_static::lazy_static;
 use reqwest::{
     header::{HeaderMap, CONTENT_TYPE},
     Client,
@@ -12,6 +13,14 @@ use crate::{
     AuthMethod,
 };
 
+lazy_static! {
+    static ref HEADERS_JSON: HeaderMap = {
+        let mut headers = HeaderMap::with_capacity(1);
+        headers.insert(CONTENT_TYPE, "application/json".parse().unwrap());
+        headers
+    };
+}
+
 /// Fetches the vault token or returns it depending on the `AuthMethod`.
 pub async fn fetch_token(host: &str, auth_method: AuthMethod) -> Result<Option<String>> {
     // TODO: retry
@@ -21,7 +30,7 @@ pub async fn fetch_token(host: &str, auth_method: AuthMethod) -> Result<Option<S
             Ok(None)
         }
         AuthMethod::GitHub(pat) => fetch_token_github(host, &pat).await.map(Some),
-        AuthMethod::Kubernetes(role) => todo!(),
+        AuthMethod::Kubernetes(role) => fetch_token_kubernetes(host, &role).await.map(Some),
         AuthMethod::Token(token) => Ok(Some(token)),
     }
 }
@@ -31,10 +40,6 @@ async fn fetch_token_github(host: &str, pat: &str) -> Result<String> {
     let vault_url = format!("{host}/v1/auth/github/login");
     log::info!("fetching token via github from `{}`", vault_url);
 
-    // setup headers
-    let mut headers = HeaderMap::with_capacity(1);
-    headers.insert(CONTENT_TYPE, "application/json".parse().unwrap());
-
     // setup body
     let body = serde_json::json!({
         "token": pat,
@@ -43,7 +48,7 @@ async fn fetch_token_github(host: &str, pat: &str) -> Result<String> {
     // send request
     let response = client()
         .post(vault_url.clone())
-        .headers(headers)
+        .headers(HEADERS_JSON.clone())
         .json(&body)
         .send()
         .await?;
@@ -78,7 +83,60 @@ async fn fetch_token_github(host: &str, pat: &str) -> Result<String> {
     Ok(token.to_string())
 }
 
-// TODO: fetch_token_kubernetes
+/// Fetches a vault token via a Kubernetes role.
+async fn fetch_token_kubernetes(host: &str, role: &str) -> Result<String> {
+    // read service account jwt
+    const KUBE_SA_TOKEN: &str = "/var/run/secrets/kubernetes.io/serviceaccount/token";
+    let jwt = tokio::fs::read_to_string(KUBE_SA_TOKEN)
+        .await
+        .map_err(|err| Error::IO(format!("unable to read file {:?}: {}", KUBE_SA_TOKEN, err)))?;
+
+    let vault_url = format!("{host}/v1/auth/kubernetes/login");
+    log::info!("fetching token via kubernetes role from `{}`", vault_url);
+
+    // setup body
+    let body = serde_json::json!({
+        "jwt": jwt,
+        "role": role,
+    });
+
+    // send request
+    let response = client()
+        .post(vault_url.clone())
+        .headers(HEADERS_JSON.clone())
+        .json(&body)
+        .send()
+        .await?;
+
+    let status = response.status();
+    if status.is_client_error() || status.is_server_error() {
+        let result = response.text().await?;
+        return Err(Error::Reqwest(format!(
+            "HTTP status server error ({}) for url ({}): {}",
+            status, vault_url, result
+        )));
+    }
+
+    // read `.auth.client_token` from response
+    let result = response.text().await?;
+    let value = serde_json::from_str::<Value>(&result)?;
+    let data = value
+        .get("auth")
+        .ok_or_else(|| Error::NotFound("vault response does not contain .auth".to_string()))?;
+    let token = data
+        .get("client_token")
+        .ok_or_else(|| {
+            Error::NotFound("vault response does not contain .data.client_token".to_string())
+        })?
+        .as_str()
+        .ok_or_else(|| {
+            Error::Deserialization(
+                "vault response token cannot be made into a string or is empty".to_string(),
+            )
+        })?;
+
+    Ok(token.to_string())
+}
 
 pub struct FetchAllOpts {
     pub retries: usize,
