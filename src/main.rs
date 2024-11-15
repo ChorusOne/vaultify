@@ -83,7 +83,8 @@ impl Args {
 
 #[tokio::main]
 async fn main() -> Result<()> {
-    env_logger::init();
+    // set default log level to warn
+    env_logger::init_from_env(env_logger::Env::new().default_filter_or("warn"));
 
     let args = Args::parse();
 
