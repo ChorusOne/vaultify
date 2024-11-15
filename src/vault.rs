@@ -1,26 +1,106 @@
 use std::{future::Future, time::Duration};
 
-use reqwest::Client;
+use reqwest::{
+    header::{HeaderMap, CONTENT_TYPE},
+    Client,
+};
 use serde_json::Value;
 
 use crate::{
     error::{Error, Result},
     secrets::{Secret, SecretSpec},
-    Args,
+    AuthMethod,
 };
 
+/// Fetches the vault token or returns it depending on the `AuthMethod`.
+pub async fn fetch_token(host: &str, auth_method: AuthMethod) -> Result<Option<String>> {
+    // TODO: retry
+    match auth_method {
+        AuthMethod::None => {
+            // TODO: try reading ~/.vault_token as fallback?
+            Ok(None)
+        }
+        AuthMethod::GitHub(pat) => fetch_token_github(host, &pat).await.map(Some),
+        AuthMethod::Kubernetes(role) => todo!(),
+        AuthMethod::Token(token) => Ok(Some(token)),
+    }
+}
+
+/// Fetches a vault token via a GitHub personal access token.
+async fn fetch_token_github(host: &str, pat: &str) -> Result<String> {
+    let vault_url = format!("{host}/v1/auth/github/login");
+    log::info!("fetching token via github from `{}`", vault_url);
+
+    // setup headers
+    let mut headers = HeaderMap::with_capacity(1);
+    headers.insert(CONTENT_TYPE, "application/json".parse().unwrap());
+
+    // setup body
+    let body = serde_json::json!({
+        "token": pat,
+    });
+
+    // send request
+    let response = client()
+        .post(vault_url.clone())
+        .headers(headers)
+        .json(&body)
+        .send()
+        .await?;
+
+    let status = response.status();
+    if status.is_client_error() || status.is_server_error() {
+        let result = response.text().await?;
+        return Err(Error::Reqwest(format!(
+            "HTTP status server error ({}) for url ({}): {}",
+            status, vault_url, result
+        )));
+    }
+
+    // read `.auth.client_token` from response
+    let result = response.text().await?;
+    let value = serde_json::from_str::<Value>(&result)?;
+    let data = value
+        .get("auth")
+        .ok_or_else(|| Error::NotFound("vault response does not contain .auth".to_string()))?;
+    let token = data
+        .get("client_token")
+        .ok_or_else(|| {
+            Error::NotFound("vault response does not contain .data.client_token".to_string())
+        })?
+        .as_str()
+        .ok_or_else(|| {
+            Error::Deserialization(
+                "vault response token cannot be made into a string or is empty".to_string(),
+            )
+        })?;
+
+    Ok(token.to_string())
+}
+
+// TODO: fetch_token_kubernetes
+
+pub struct FetchAllOpts {
+    pub retries: usize,
+    pub retry_delay: Duration,
+    pub concurrency: usize,
+}
+
 /// Fetches a list of secrets from vault with retry and batching.
-pub async fn fetch_all(args: &Args, secrets: &[SecretSpec]) -> Result<Vec<Secret>> {
+pub async fn fetch_all(
+    host: &str,
+    token: Option<&str>,
+    secrets: &[SecretSpec],
+    opts: FetchAllOpts,
+) -> Result<Vec<Secret>> {
     let mut results = Vec::new();
 
-    let retry_delay_ms = Duration::from_millis(args.retry_delay_ms);
-
-    for secrets in secrets.chunks(args.concurrency) {
+    for secrets in secrets.chunks(opts.concurrency) {
         let res = futures::future::join_all(secrets.iter().map(|s| async {
             retry(
-                || async { fetch_single(args, s).await },
-                args.retries,
-                retry_delay_ms,
+                || async { fetch_single(host, token, s).await },
+                opts.retries,
+                opts.retry_delay,
             )
             .await
         }))
@@ -34,9 +114,9 @@ pub async fn fetch_all(args: &Args, secrets: &[SecretSpec]) -> Result<Vec<Secret
 }
 
 /// Fetches a single secret from vault v2 and fallbacks to vault v1 on error.
-pub async fn fetch_single(args: &Args, secret: &SecretSpec) -> Result<Secret> {
+pub async fn fetch_single(host: &str, token: Option<&str>, secret: &SecretSpec) -> Result<Secret> {
     // try to fetch a v2 secret
-    match fetch_single_v2(args, secret).await {
+    match fetch_single_v2(host, token, secret).await {
         Ok(secret) => return Ok(secret),
         Err(err) => log::warn!(
             "could not fetch v2 secret `{}` from vault: {}",
@@ -46,7 +126,7 @@ pub async fn fetch_single(args: &Args, secret: &SecretSpec) -> Result<Secret> {
     };
 
     // fallback to fetching a v1 secret
-    match fetch_single_v1(args, secret).await {
+    match fetch_single_v1(host, token, secret).await {
         Ok(secret) => Ok(secret),
         Err(err) => {
             log::warn!(
@@ -59,26 +139,23 @@ pub async fn fetch_single(args: &Args, secret: &SecretSpec) -> Result<Secret> {
     }
 }
 
-async fn fetch_single_v2(args: &Args, secret_spec: &SecretSpec) -> Result<Secret> {
+async fn fetch_single_v2(
+    host: &str,
+    vault_token: Option<&str>,
+    secret_spec: &SecretSpec,
+) -> Result<Secret> {
     let vault_url = format!(
         "{}/v1/{}/data/{}",
-        args.host, secret_spec.mount, secret_spec.path
+        host, secret_spec.mount, secret_spec.path
     );
     let secret_name = secret_spec.name();
     log::info!("fetching v2 secret `{}` from `{}`", secret_name, vault_url);
 
-    // TODO: allow reading from ~/.vault_token as fallback
-    let vault_token = &args.token;
-
-    // TODO: create client with timeouts
-    let result = client()
-        .get(vault_url)
-        .header("X-Vault-Token", vault_token)
-        .send()
-        .await?
-        .error_for_status()?
-        .text()
-        .await?;
+    let mut client = client().get(vault_url);
+    if let Some(vault_token) = vault_token {
+        client = client.header("X-Vault-Token", vault_token)
+    }
+    let result = client.send().await?.error_for_status()?.text().await?;
 
     // parse json blob dynamically
     let value = serde_json::from_str::<Value>(&result)?;
@@ -109,26 +186,20 @@ async fn fetch_single_v2(args: &Args, secret_spec: &SecretSpec) -> Result<Secret
     })
 }
 
-async fn fetch_single_v1(args: &Args, secret_spec: &SecretSpec) -> Result<Secret> {
-    let vault_url = format!(
-        "{}/v1/{}/{}",
-        args.host, secret_spec.mount, secret_spec.path
-    );
+async fn fetch_single_v1(
+    host: &str,
+    vault_token: Option<&str>,
+    secret_spec: &SecretSpec,
+) -> Result<Secret> {
+    let vault_url = format!("{}/v1/{}/{}", host, secret_spec.mount, secret_spec.path);
     let secret_name = secret_spec.name();
     log::info!("fetching v1 secret `{}` from `{}`", secret_name, vault_url);
 
-    // TODO: allow reading from ~/.vault_token as fallback
-    let vault_token = &args.token;
-
-    // TODO: create client with timeouts
-    let result = client()
-        .get(vault_url)
-        .header("X-Vault-Token", vault_token)
-        .send()
-        .await?
-        .error_for_status()?
-        .text()
-        .await?;
+    let mut client = client().get(vault_url);
+    if let Some(vault_token) = vault_token {
+        client = client.header("X-Vault-Token", vault_token)
+    }
+    let result = client.send().await?.error_for_status()?.text().await?;
 
     // parse json blob dynamically
     let value = serde_json::from_str::<Value>(&result)?;

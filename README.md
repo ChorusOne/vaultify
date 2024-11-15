@@ -7,7 +7,7 @@
 - Spawning a process is only implemented on linux
 - Organized, simple and maintainable codebase
 - Zero unwraps (outside of tests)
-- Fully vetted
+- Fully vetted dependency tree
 - Secret paths are specified in the same way as in the vault cli
 
 ## Local development

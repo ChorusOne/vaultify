@@ -1,4 +1,4 @@
-use std::path::PathBuf;
+use std::{path::PathBuf, time::Duration};
 
 use clap::Parser;
 
@@ -15,9 +15,18 @@ struct Args {
     /// Vault address (in the same format as vault-cli).
     #[arg(long, env = "VAULT_ADDR", default_value = "http://127.0.0.1:8200")]
     pub host: String,
-    /// Vault access token.
+    /// Authenticate via Vault access token.
     #[arg(long, env = "VAULT_TOKEN")]
-    pub token: String,
+    token: Option<String>,
+    /// Authenticate using Github personal access token.
+    /// See https://developer.hashicorp.com/vault/docs/auth/github
+    #[arg(long, env = "VAULT_GITHUB_TOKEN")]
+    github_token: Option<String>,
+    /// Authenticate using Kubernetes service account in /var/run/secrets/kubernetes.io
+    /// See https://developer.hashicorp.com/vault/docs/auth/kubernetes
+    #[arg(long, env = "VAULT_KUBERNETES_ROLE")]
+    kubernetes_role: Option<String>,
+
     #[arg(long, default_value = ".secrets")]
     pub secrets_file: PathBuf,
 
@@ -46,23 +55,59 @@ struct Args {
     pub attach: bool,
 }
 
+enum AuthMethod {
+    None,
+    GitHub(String),
+    Kubernetes(String),
+    Token(String),
+}
+
+impl Args {
+    pub fn auth_method(&self) -> AuthMethod {
+        self.token
+            .as_ref()
+            .map(|v| AuthMethod::Token(v.clone()))
+            .or_else(|| {
+                self.kubernetes_role
+                    .as_ref()
+                    .map(|v| AuthMethod::Kubernetes(v.clone()))
+            })
+            .or_else(|| {
+                self.github_token
+                    .as_ref()
+                    .map(|v| AuthMethod::GitHub(v.clone()))
+            })
+            .unwrap_or(AuthMethod::None)
+    }
+}
+
 #[tokio::main]
 async fn main() -> Result<()> {
     env_logger::init();
 
     let args = Args::parse();
 
-    // TODO: check if args.host is a valid URL
-
-    let secs = match secrets::load_async(&args.secrets_file).await {
-        Ok(secs) => secs,
+    // read secret spec file
+    let secret_specs = match secrets::load_async(&args.secrets_file).await {
+        Ok(specs) => specs,
         Err(err) => {
             println!("Error parsing secrets file: {err}");
             return Err(err);
         }
     };
 
-    let secrets = match vault::fetch_all(&args, &secs).await {
+    // get / fetch token
+    let token = vault::fetch_token(&args.host, args.auth_method())
+        .await
+        .unwrap();
+
+    // read secrets
+    let opts = vault::FetchAllOpts {
+        retries: args.retries,
+        retry_delay: Duration::from_millis(args.retry_delay_ms),
+        concurrency: args.concurrency,
+    };
+    let secrets = match vault::fetch_all(&args.host, token.as_deref(), &secret_specs, opts).await {
         Ok(secrets) => secrets,
         Err(err) => {
             println!("Error fetching secrets: {err}");
