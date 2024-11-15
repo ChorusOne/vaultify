@@ -1,0 +1,65 @@
+name: Build and test vaultify
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  fmt:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        features: ["--all-features"]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@e80cf306a4a2376f1a804ce29fce47c5a937e136
+        with:
+          components: rustfmt
+      - name: Check formatting
+        run: cargo fmt -- --check
+
+  vet:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        features: ["--all-features"]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@e80cf306a4a2376f1a804ce29fce47c5a937e136
+        with:
+          components: rustfmt
+      - name: Verify supply chain
+        run: |
+          cargo install cargo-vet
+          cargo fmt -- --check
+
+  lint:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        features: ["--all-features"]
+    steps:
+      - uses: actions/checkout@v2
+      - run: rustup component add clippy
+      - uses: reinismu/clippy-check@ce65cdb6b7d4419dcd2e3b2125134b89c1dadecf
+        with:
+          # We want to use the latest toolchain available to get the best hints
+          toolchain: stable
+          token: ${{ secrets.GITHUB_TOKEN }}
+          args: --all-targets ${{ matrix.features }}
+
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@e80cf306a4a2376f1a804ce29fce47c5a937e136
+      - name: Cache cargo target
+        uses: actions/cache@v3
+        with:
+          key: test-${{ hashFiles('Cargo.lock') }}
+          path: target/
+      - name: Run all tests
+        run: cargo test --verbose
