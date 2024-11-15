@@ -1956,7 +1956,7 @@ end = "2024-08-23"
 
 [[trusted.arc-swap]]
 criteria = "safe-to-deploy"
-user-id = 5906 # Michal 'vorner' Vaner (vorner)
+user-id = 5906
 start = "2019-03-27"
 end = "2024-08-23"
 
@@ -2250,7 +2250,7 @@ end = "2024-08-23"
 
 [[trusted.bytes-utils]]
 criteria = "safe-to-deploy"
-user-id = 5906 # Michal 'vorner' Vaner (vorner)
+user-id = 5906
 start = "2021-01-22"
 end = "2025-10-29"
 
@@ -3534,7 +3534,7 @@ end = "2024-08-23"
 
 [[trusted.signal-hook-registry]]
 criteria = "safe-to-deploy"
-user-id = 5906 # Michal 'vorner' Vaner (vorner)
+user-id = 5906
 start = "2019-04-28"
 end = "2024-08-23"
 

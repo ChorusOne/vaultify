@@ -565,13 +565,6 @@ user-id = 3100
 user-login = "nox"
 user-name = "Anthony Ramine"
 
-[[publisher.signal-hook-registry]]
-version = "1.4.2"
-when = "2024-04-21"
-user-id = 5906
-user-login = "vorner"
-user-name = "Michal 'vorner' Vaner"
-
 [[publisher.slab]]
 version = "0.4.9"
 when = "2023-08-22"
