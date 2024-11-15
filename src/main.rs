@@ -19,12 +19,12 @@ struct Args {
     #[arg(long, env = "VAULT_TOKEN")]
     token: Option<String>,
     /// Authenticate using Github personal access token.
-    /// See https://developer.hashicorp.com/vault/docs/auth/github
-    #[arg(long, env = "VAULT_GITHUB_TOKEN")]
+    /// See https://developer.hashicorp.com/vault/docs/auth/github for more information.
+    #[arg(long, env = "VAULT_GITHUB_TOKEN", verbatim_doc_comment)]
     github_token: Option<String>,
     /// Authenticate using Kubernetes service account in /var/run/secrets/kubernetes.io
-    /// See https://developer.hashicorp.com/vault/docs/auth/kubernetes
-    #[arg(long, env = "VAULT_KUBERNETES_ROLE")]
+    /// See https://developer.hashicorp.com/vault/docs/auth/kubernetes for more information.
+    #[arg(long, env = "VAULT_KUBERNETES_ROLE", verbatim_doc_comment)]
     kubernetes_role: Option<String>,
 
     #[arg(long, default_value = ".secrets")]
