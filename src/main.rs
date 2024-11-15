@@ -37,10 +37,10 @@ struct Args {
     #[clap(index = 2)]
     pub args: Vec<String>,
 
-    /// Number of retries per query
+    /// Number of retries per query.
     #[arg(long, default_value = "9")]
     pub retries: usize,
-    /// Delay between retries (in ms)
+    /// Delay between retries (in ms).
     #[arg(long, default_value = "50")]
     pub retry_delay_ms: u64,
     /// Number of parallel requests to the vault.
@@ -97,7 +97,11 @@ async fn main() -> Result<()> {
     };
 
     // get / fetch token
-    let token = vault::fetch_token(&args.host, args.auth_method())
+    let opts = vault::FetchTokenOpts {
+        retries: args.retries,
+        retry_delay: Duration::from_millis(args.retry_delay_ms),
+    };
+    let token = vault::fetch_token(&args.host, args.auth_method(), opts)
         .await
         .unwrap();
 

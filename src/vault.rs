@@ -21,16 +21,38 @@ lazy_static! {
     };
 }
 
+/// Options passed to `fetch_token`.
+pub struct FetchTokenOpts {
+    /// Number of retries per query.
+    pub retries: usize,
+    /// Delay between retries.
+    pub retry_delay: Duration,
+}
+
 /// Fetches the vault token or returns it depending on the `AuthMethod`.
-pub async fn fetch_token(host: &str, auth_method: AuthMethod) -> Result<Option<String>> {
-    // TODO: retry
+pub async fn fetch_token(
+    host: &str,
+    auth_method: AuthMethod,
+    opts: FetchTokenOpts,
+) -> Result<Option<String>> {
     match auth_method {
-        AuthMethod::None => {
-            // TODO: try reading ~/.vault_token as fallback?
-            Ok(None)
+        AuthMethod::None => Ok(None),
+        AuthMethod::GitHub(pat) => {
+            retry(
+                || async { fetch_token_github(host, &pat).await.map(Some) },
+                opts.retries,
+                opts.retry_delay,
+            )
+            .await
         }
-        AuthMethod::GitHub(pat) => fetch_token_github(host, &pat).await.map(Some),
-        AuthMethod::Kubernetes(role) => fetch_token_kubernetes(host, &role).await.map(Some),
+        AuthMethod::Kubernetes(role) => {
+            retry(
+                || async { fetch_token_kubernetes(host, &role).await.map(Some) },
+                opts.retries,
+                opts.retry_delay,
+            )
+            .await
+        }
         AuthMethod::Token(token) => Ok(Some(token)),
     }
 }
@@ -138,9 +160,13 @@ async fn fetch_token_kubernetes(host: &str, role: &str) -> Result<String> {
     Ok(token.to_string())
 }
 
+/// Options passed to `fetch_all`.
 pub struct FetchAllOpts {
+    /// Number of retries per query.
     pub retries: usize,
+    /// Delay between retries.
     pub retry_delay: Duration,
+    /// Number of parallel requests to the vault.
     pub concurrency: usize,
 }
 
