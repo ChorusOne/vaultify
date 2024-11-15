@@ -23,6 +23,5 @@ lazy_static = "1.5"
 regex = "1.11"
 
 # accessing vault
-serde = "1.0"
 serde_json = "1.0"
 reqwest = { version = "0.12", default-features = false, features = ["rustls-tls", "charset", "http2", "macos-system-configuration", "json"] }

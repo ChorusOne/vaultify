@@ -57,7 +57,7 @@ Options:
           Number of parallel requests to the vault [default: 8]
       --clear-env
           Clear the environment of the spawned process before spawning
-  -d, --attach
+  -a, --attach
           Keep the spawned process attached as a child of the `vaultify` process
   -h, --help
           Print help

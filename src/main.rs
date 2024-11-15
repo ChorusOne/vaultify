@@ -51,7 +51,7 @@ struct Args {
     #[arg(long, default_value = "false")]
     pub clear_env: bool,
     /// Keep the spawned process attached as a child of the `vaultify` process.
-    #[arg(long, short = 'd', default_value = "false")]
+    #[arg(long, short = 'a', default_value = "false")]
     pub attach: bool,
 }
 
