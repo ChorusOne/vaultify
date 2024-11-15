@@ -16,7 +16,10 @@ use crate::{
 lazy_static! {
     static ref HEADERS_JSON: HeaderMap = {
         let mut headers = HeaderMap::with_capacity(1);
-        headers.insert(CONTENT_TYPE, "application/json".parse().unwrap());
+        headers.insert(
+            CONTENT_TYPE,
+            "application/json".parse().expect("invalid header value"),
+        );
         headers
     };
 }
@@ -339,4 +342,14 @@ fn client() -> Client {
         .connect_timeout(DEFAULT_REQUEST_CONNECT_TIMEOUT)
         .build()
         .expect("unable to build reqwest client")
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn pass_headers_json() {
+        assert_eq!(HEADERS_JSON.clone().len(), 1);
+    }
 }

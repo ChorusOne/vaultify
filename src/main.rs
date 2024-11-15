@@ -101,9 +101,13 @@ async fn main() -> Result<()> {
         retries: args.retries,
         retry_delay: Duration::from_millis(args.retry_delay_ms),
     };
-    let token = vault::fetch_token(&args.host, args.auth_method(), opts)
-        .await
-        .unwrap();
+    let token = match vault::fetch_token(&args.host, args.auth_method(), opts).await {
+        Ok(token) => token,
+        Err(err) => {
+            println!("Error getting vault token: {err}");
+            return Err(err);
+        }
+    };
 
     // read secrets
     let opts = vault::FetchAllOpts {

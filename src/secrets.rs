@@ -168,6 +168,11 @@ mod tests {
     use super::*;
 
     #[test]
+    fn pass_regex_compile() {
+        assert!(!REGEX_V1.to_string().is_empty())
+    }
+
+    #[test]
     fn pass_v1_simple() {
         const SECRET: &str = r#"secret/production/third-party#api-key"#;
 
