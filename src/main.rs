@@ -50,9 +50,6 @@ struct Args {
     /// Clear the environment of the spawned process before spawning.
     #[arg(long, default_value = "false")]
     pub clear_env: bool,
-    /// Keep the spawned process attached as a child of the `vaultify` process.
-    #[arg(long, short = 'a', default_value = "false")]
-    pub attach: bool,
 }
 
 enum AuthMethod {
@@ -81,7 +78,7 @@ impl Args {
     }
 }
 
-#[tokio::main]
+#[tokio::main(flavor = "current_thread")]
 async fn main() -> Result<()> {
     // set default log level to warn
     env_logger::init_from_env(env_logger::Env::new().default_filter_or("warn"));
@@ -124,15 +121,17 @@ async fn main() -> Result<()> {
         }
     };
 
-    process::spawn(
-        args.cmd,
-        &args.args,
-        &secrets,
-        process::SpawnOptions {
-            clear_env: args.clear_env,
-            detach: !args.attach,
-        },
-    )?;
+    // Safety: no other threads run at this point
+    unsafe {
+        process::spawn(
+            args.cmd,
+            &args.args,
+            &secrets,
+            process::SpawnOptions {
+                clear_env: args.clear_env,
+            },
+        )?;
+    }
 
     Ok(())
 }

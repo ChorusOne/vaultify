@@ -16,12 +16,16 @@ pub enum Error {
         lc: usize,
         line: String,
     },
+    #[error("Conversion error: {0}")]
+    Conversion(String),
     #[error("Deserialization error: {0}")]
     Deserialization(String),
     #[error("Max number of retries reached")]
     MaxRetries,
     #[error("Reqwest error: {0}")]
     Reqwest(String),
+    #[error("Execution error: {0}")]
+    Execution(String),
 }
 
 impl Error {
@@ -51,5 +55,11 @@ impl From<reqwest::Error> for Error {
 impl From<serde_json::Error> for Error {
     fn from(value: serde_json::Error) -> Self {
         Error::Deserialization(value.to_string())
+    }
+}
+
+impl From<std::ffi::NulError> for Error {
+    fn from(value: std::ffi::NulError) -> Self {
+        Error::Conversion(value.to_string())
     }
 }
