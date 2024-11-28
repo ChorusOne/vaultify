@@ -2,11 +2,13 @@
 name = "vaultify"
 version = "0.1.0"
 authors = ["Patrick Jeremic <pjeremic@chorus.one>"]
+license = "Apache-2.0"
 edition = "2021"
 description = "wraps any process in a set of environment variables fetched from vault"
 readme = "README.md"
 repository = "https://github.com/ChorusOne/vaultify"
 rust-version = "1.79"
+publish = false
 
 [dependencies]
 log = "0.4"
