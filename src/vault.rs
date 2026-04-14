@@ -63,17 +63,8 @@ async fn fetch_token_github(host: &str, pat: &str) -> Result<String> {
         .send()
         .await?;
 
-    let status = response.status();
-    if status.is_client_error() || status.is_server_error() {
-        let result = response.text().await?;
-        return Err(Error::Reqwest(format!(
-            "HTTP status server error ({}) for url ({}): {}",
-            status, vault_url, result
-        )));
-    }
-
     // read `.auth.client_token` from response
-    let result = response.text().await?;
+    let result = require_success_and_read_text(response, &vault_url).await?;
     let value = serde_json::from_str::<Value>(&result)?;
     let data = value
         .get("auth")
@@ -118,17 +109,8 @@ async fn fetch_token_kubernetes(host: &str, role: &str) -> Result<String> {
         .send()
         .await?;
 
-    let status = response.status();
-    if status.is_client_error() || status.is_server_error() {
-        let result = response.text().await?;
-        return Err(Error::Reqwest(format!(
-            "HTTP status server error ({}) for url ({}): {}",
-            status, vault_url, result
-        )));
-    }
-
     // read `.auth.client_token` from response
-    let result = response.text().await?;
+    let result = require_success_and_read_text(response, &vault_url).await?;
     let value = serde_json::from_str::<Value>(&result)?;
     let data = value
         .get("auth")
@@ -320,6 +302,22 @@ where
     }
 
     unreachable!("retry loop always returns from within the loop")
+}
+
+async fn require_success_and_read_text(
+    response: reqwest::Response,
+    vault_url: &str,
+) -> Result<String> {
+    let status = response.status();
+    let result = response.text().await?;
+    if !status.is_success() {
+        return Err(Error::Reqwest(format!(
+            "unexpected HTTP status ({}) for url ({}): {}",
+            status, vault_url, result
+        )));
+    }
+
+    Ok(result)
 }
 
 fn client() -> &'static Client {
