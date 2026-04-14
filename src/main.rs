@@ -200,29 +200,7 @@ fn write_secret_to_file(path: &Path, value: &str, mode: u32, create: bool) -> Re
         ))
     })?;
 
-    if parent.exists() {
-        if !parent.is_dir() {
-            return Err(Error::IO(format!(
-                "parent path is not a directory for file target {}",
-                path.display()
-            )));
-        }
-    } else if create {
-        std::fs::create_dir_all(parent).map_err(|err| {
-            Error::IO(format!(
-                "unable to create parent directory {} for file target {}: {}",
-                parent.display(),
-                path.display(),
-                err
-            ))
-        })?;
-    } else {
-        return Err(Error::IO(format!(
-            "parent directory {} does not exist for file target {} (set create=true to create it)",
-            parent.display(),
-            path.display()
-        )));
-    }
+    ensure_secure_parent_directory(parent, path, create)?;
 
     let path_exists = path.exists();
     let mut open_opts = std::fs::OpenOptions::new();
@@ -271,6 +249,97 @@ fn write_secret_to_file(path: &Path, value: &str, mode: u32, create: bool) -> Re
 
     file.write_all(value.as_bytes())
         .map_err(|err| Error::IO(format!("unable to write {}: {}", path.display(), err)))?;
+
+    Ok(())
+}
+
+fn ensure_secure_parent_directory(parent: &Path, target_path: &Path, create: bool) -> Result<()> {
+    ensure_parent_directory_exists(parent, target_path, create)?;
+    ensure_parent_has_no_symlink_components(parent, target_path)
+}
+
+fn ensure_parent_directory_exists(parent: &Path, target_path: &Path, create: bool) -> Result<()> {
+    if parent.exists() {
+        if parent.is_dir() {
+            return Ok(());
+        }
+
+        return Err(Error::IO(format!(
+            "parent path is not a directory for file target {}",
+            target_path.display()
+        )));
+    }
+
+    if !create {
+        return Err(Error::IO(format!(
+            "parent directory {} does not exist for file target {} (set create=true to create it)",
+            parent.display(),
+            target_path.display()
+        )));
+    }
+
+    std::fs::create_dir_all(parent).map_err(|err| {
+        Error::IO(format!(
+            "unable to create parent directory {} for file target {}: {}",
+            parent.display(),
+            target_path.display(),
+            err
+        ))
+    })
+}
+
+fn ensure_parent_has_no_symlink_components(parent: &Path, target_path: &Path) -> Result<()> {
+    use std::path::Component;
+
+    let mut current = if parent.is_absolute() {
+        PathBuf::from(std::path::MAIN_SEPARATOR.to_string())
+    } else {
+        std::env::current_dir()
+            .map_err(|err| Error::IO(format!("unable to get current directory: {}", err)))?
+    };
+
+    for component in parent.components() {
+        match component {
+            Component::Prefix(_) => {
+                return Err(Error::IO(format!(
+                    "unsupported path prefix in file target {}",
+                    target_path.display()
+                )))
+            }
+            Component::RootDir | Component::CurDir => continue,
+            Component::ParentDir => {
+                current.push("..");
+            }
+            Component::Normal(part) => {
+                current.push(part);
+            }
+        }
+
+        let metadata = std::fs::symlink_metadata(&current).map_err(|err| {
+            Error::IO(format!(
+                "unable to inspect parent directory component {} for file target {}: {}",
+                current.display(),
+                target_path.display(),
+                err
+            ))
+        })?;
+
+        if metadata.file_type().is_symlink() {
+            return Err(Error::IO(format!(
+                "refusing to write secret through symlinked parent component {} for file target {}",
+                current.display(),
+                target_path.display()
+            )));
+        }
+
+        if !metadata.is_dir() {
+            return Err(Error::IO(format!(
+                "parent path component {} is not a directory for file target {}",
+                current.display(),
+                target_path.display()
+            )));
+        }
+    }
 
     Ok(())
 }
