@@ -172,11 +172,17 @@ pub async fn fetch_single(host: &str, token: Option<&str>, secret: &SecretSpec) 
     // try to fetch a v2 secret
     match fetch_single_v2(host, token, secret).await {
         Ok(secret) => return Ok(secret),
-        Err(err) => log::warn!(
-            "could not fetch v2 secret `{}` from vault: {}",
-            secret.name(),
-            err
-        ),
+        Err(err) => {
+            if !should_fallback_to_v1(&err) {
+                return Err(err);
+            }
+
+            log::warn!(
+                "could not fetch v2 secret `{}` from vault, trying v1 fallback: {}",
+                secret.name(),
+                err
+            );
+        }
     };
 
     // fallback to fetching a v1 secret
@@ -344,6 +350,20 @@ fn is_retryable_error(err: &Error) -> bool {
     }
 }
 
+#[inline]
+fn should_fallback_to_v1(err: &Error) -> bool {
+    match err {
+        Error::NotFound(_) | Error::Deserialization(_) => true,
+        Error::HttpStatus { code, .. } => *code == 400 || *code == 404,
+        Error::IO(_)
+        | Error::Parse { .. }
+        | Error::Conversion(_)
+        | Error::MaxRetries { .. }
+        | Error::Reqwest(_)
+        | Error::Execution(_) => false,
+    }
+}
+
 fn client() -> &'static Client {
     const DEFAULT_REQUEST_TIMEOUT: Duration = Duration::from_secs(30);
     const DEFAULT_REQUEST_CONNECT_TIMEOUT: Duration = Duration::from_secs(5);
@@ -365,5 +385,42 @@ mod tests {
     #[test]
     fn pass_client_build() {
         let _ = client();
+    }
+
+    #[test]
+    fn pass_should_fallback_to_v1_for_not_found_and_shape_errors() {
+        assert!(should_fallback_to_v1(&Error::NotFound(
+            "missing data".to_string()
+        )));
+        assert!(should_fallback_to_v1(&Error::Deserialization(
+            "invalid v2 response shape".to_string()
+        )));
+        assert!(should_fallback_to_v1(&Error::HttpStatus {
+            code: 404,
+            url: "https://vault.example/v1/secret/data/a".to_string(),
+            body: "not found".to_string(),
+        }));
+        assert!(should_fallback_to_v1(&Error::HttpStatus {
+            code: 400,
+            url: "https://vault.example/v1/secret/data/a".to_string(),
+            body: "bad request".to_string(),
+        }));
+    }
+
+    #[test]
+    fn pass_should_not_fallback_to_v1_for_auth_or_transport_errors() {
+        assert!(!should_fallback_to_v1(&Error::Reqwest(
+            "connection timeout".to_string()
+        )));
+        assert!(!should_fallback_to_v1(&Error::HttpStatus {
+            code: 403,
+            url: "https://vault.example/v1/secret/data/a".to_string(),
+            body: "forbidden".to_string(),
+        }));
+        assert!(!should_fallback_to_v1(&Error::HttpStatus {
+            code: 500,
+            url: "https://vault.example/v1/secret/data/a".to_string(),
+            body: "internal error".to_string(),
+        }));
     }
 }
