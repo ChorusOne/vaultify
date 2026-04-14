@@ -4,7 +4,7 @@
 
 ## Design considerations
 
-- To keep the .secrets file parsing simple and less error prone we just support the v1 format
+- .secrets lines use `SOURCE | TARGET` syntax with exactly one output target per line
 - Always try to fetch v2 secrets first and fallbacks to v1
 - Spawning a process is only implemented on linux
 - Organized, simple and maintainable codebase
@@ -26,7 +26,7 @@ vault kv put secret/production/third-party api-key=test-key1234
 The corresponding vaultify `.secrets` file should look something like:
 
 ```
-secret/production/third-party#api-key
+secret/production/third-party#api-key | env PRODUCTION_THIRD_PARTY_API_KEY
 ```
 
 Then simply start your program via vaultify (note that we could omit `--secrets-file` here):
@@ -38,6 +38,19 @@ vaultify --clear-env --secrets-file .secrets env
 Ensure that `VAULT_ADDR`, `VAULT_TOKEN` or any of the cli-args is set correctly.
 
 To see additional debug output set `export RUST_LOG=info`.
+
+### .secrets format
+
+Each non-empty line has exactly one source and one output target:
+
+```
+mount/path#secret | env VARNAME
+mount/path#secret | file /path/to/file [mode=0600] [create=true|false]
+```
+
+- `mode` is optional and must be octal (`0xxx`), default `0600`
+- `create` is optional and controls parent directory creation, default `false`
+- Unknown or duplicate options fail parsing
 
 ## Command line options
 
@@ -93,7 +106,7 @@ vault kv get secret/production/third-party
 Create a new secrets file, e.g. `.secrets` with the following content:
 
 ```
-secret/production/third-party#api-key
+secret/production/third-party#api-key | env PRODUCTION_THIRD_PARTY_API_KEY
 ```
 
 As an example, run `env` through vaultify:

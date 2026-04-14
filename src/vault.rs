@@ -1,10 +1,6 @@
 use std::{future::Future, time::Duration};
 
-use lazy_static::lazy_static;
-use reqwest::{
-    header::{HeaderMap, CONTENT_TYPE},
-    Client,
-};
+use reqwest::{header::CONTENT_TYPE, Client};
 use serde_json::Value;
 
 use crate::{
@@ -12,17 +8,6 @@ use crate::{
     secrets::{Secret, SecretSpec, SecretSpecs},
     AuthMethod,
 };
-
-lazy_static! {
-    static ref HEADERS_JSON: HeaderMap = {
-        let mut headers = HeaderMap::with_capacity(1);
-        headers.insert(
-            CONTENT_TYPE,
-            "application/json".parse().expect("invalid header value"),
-        );
-        headers
-    };
-}
 
 /// Options passed to `fetch_token`.
 pub struct FetchTokenOpts {
@@ -73,7 +58,7 @@ async fn fetch_token_github(host: &str, pat: &str) -> Result<String> {
     // send request
     let response = client()
         .post(vault_url.clone())
-        .headers(HEADERS_JSON.clone())
+        .header(CONTENT_TYPE, "application/json")
         .json(&body)
         .send()
         .await?;
@@ -128,7 +113,7 @@ async fn fetch_token_kubernetes(host: &str, role: &str) -> Result<String> {
     // send request
     let response = client()
         .post(vault_url.clone())
-        .headers(HEADERS_JSON.clone())
+        .header(CONTENT_TYPE, "application/json")
         .json(&body)
         .send()
         .await?;
@@ -269,7 +254,7 @@ async fn fetch_single_v2(
         })?;
 
     Ok(Secret {
-        name: secret_name,
+        target: secret_spec.target.clone(),
         secret: secret_value.to_string(),
     })
 }
@@ -310,7 +295,7 @@ async fn fetch_single_v1(
         })?;
 
     Ok(Secret {
-        name: secret_name,
+        target: secret_spec.target.clone(),
         secret: secret_value.to_string(),
     })
 }
@@ -354,7 +339,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn pass_headers_json() {
-        assert_eq!(HEADERS_JSON.clone().len(), 1);
+    fn pass_client_build() {
+        let _ = client();
     }
 }

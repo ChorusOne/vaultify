@@ -1,13 +1,20 @@
-use std::{path::PathBuf, time::Duration};
+use std::{
+    io::Write,
+    path::{Path, PathBuf},
+    time::Duration,
+};
 
 use clap::Parser;
+#[cfg(target_os = "linux")]
+use std::os::unix::fs::PermissionsExt;
 
 mod error;
 mod process;
 mod secrets;
 mod vault;
 
-use error::Result;
+use error::{Error, Result};
+use secrets::SecretTarget;
 
 #[derive(Parser, Debug)]
 #[command(version, about, long_about = None)]
@@ -131,17 +138,85 @@ async fn main() -> Result<()> {
         }
     };
 
+    let mut env_secrets = Vec::new();
+    for secret in secrets.into_iter() {
+        match secret.target {
+            SecretTarget::Env { name } => env_secrets.push(process::EnvSecret {
+                name,
+                secret: secret.secret,
+            }),
+            SecretTarget::File { path, mode, create } => {
+                write_secret_to_file(&path, &secret.secret, mode, create)?;
+            }
+        }
+    }
+
     // Safety: no other threads run at this point
     unsafe {
         process::spawn(
             args.cmd,
             &args.args,
-            &secrets,
+            &env_secrets,
             process::SpawnOptions {
                 clear_env: args.clear_env,
             },
         )?;
     }
+
+    Ok(())
+}
+
+fn write_secret_to_file(path: &Path, value: &str, mode: u32, create: bool) -> Result<()> {
+    let parent = path.parent().ok_or_else(|| {
+        Error::IO(format!(
+            "unable to resolve parent directory for file target {}",
+            path.display()
+        ))
+    })?;
+
+    if parent.exists() {
+        if !parent.is_dir() {
+            return Err(Error::IO(format!(
+                "parent path is not a directory for file target {}",
+                path.display()
+            )));
+        }
+    } else if create {
+        std::fs::create_dir_all(parent).map_err(|err| {
+            Error::IO(format!(
+                "unable to create parent directory {} for file target {}: {}",
+                parent.display(),
+                path.display(),
+                err
+            ))
+        })?;
+    } else {
+        return Err(Error::IO(format!(
+            "parent directory {} does not exist for file target {} (set create=true to create it)",
+            parent.display(),
+            path.display()
+        )));
+    }
+
+    let mut file = std::fs::OpenOptions::new()
+        .create(true)
+        .truncate(true)
+        .write(true)
+        .open(path)
+        .map_err(|err| Error::IO(format!("unable to open {}: {}", path.display(), err)))?;
+
+    file.write_all(value.as_bytes())
+        .map_err(|err| Error::IO(format!("unable to write {}: {}", path.display(), err)))?;
+
+    #[cfg(target_os = "linux")]
+    std::fs::set_permissions(path, std::fs::Permissions::from_mode(mode)).map_err(|err| {
+        Error::IO(format!(
+            "unable to set file mode {:o} for {}: {}",
+            mode,
+            path.display(),
+            err
+        ))
+    })?;
 
     Ok(())
 }

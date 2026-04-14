@@ -1,9 +1,12 @@
 use std::ffi::{CString, OsStr};
 
-use crate::{
-    error::{Error, Result},
-    secrets::Secret,
-};
+use crate::error::{Error, Result};
+
+/// Environment variable passed to the spawned command.
+pub struct EnvSecret {
+    pub name: String,
+    pub secret: String,
+}
 
 /// Additional spawn options for the child process
 pub struct SpawnOptions {
@@ -25,7 +28,7 @@ pub struct SpawnOptions {
 pub unsafe fn spawn<S: AsRef<OsStr>>(
     cmd: S,
     args: &[String],
-    secrets: &[Secret],
+    secrets: &[EnvSecret],
     opts: SpawnOptions,
 ) -> Result<()> {
     // convert cmd
