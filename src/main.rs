@@ -4,7 +4,7 @@ use std::{
     time::Duration,
 };
 
-use clap::Parser;
+use clap::{ArgGroup, Parser};
 #[cfg(target_os = "linux")]
 use nix::libc::{O_CLOEXEC, O_NOFOLLOW};
 #[cfg(target_os = "linux")]
@@ -20,6 +20,11 @@ use secrets::SecretTarget;
 
 #[derive(Parser, Debug)]
 #[command(version, about, long_about = None)]
+#[command(group(
+    ArgGroup::new("auth")
+        .args(["token", "github_token", "kubernetes_role"])
+        .multiple(false)
+))]
 struct Args {
     /// Vault address (in the same format as vault-cli).
     #[arg(long, env = "VAULT_ADDR", default_value = "http://127.0.0.1:8200")]
