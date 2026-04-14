@@ -73,7 +73,7 @@ Options:
       --secrets-file <SECRETS_FILE>
           [default: .secrets]
       --retries <RETRIES>
-          Number of retries per query [default: 9]
+          Number of retries per query [default: 3]
       --retry-delay-ms <RETRY_DELAY_MS>
           Delay between retries (in ms) [default: 50]
       --concurrency <CONCURRENCY>

@@ -338,7 +338,7 @@ async fn require_success_and_read_text(
 #[inline]
 fn is_retryable_error(err: &Error) -> bool {
     match err {
-        Error::Reqwest(_) => true,
+        Error::ReqwestTransient(_) => true,
         Error::HttpStatus { code, .. } => *code == 429 || (500..=599).contains(code),
         Error::IO(_)
         | Error::NotFound(_)
@@ -346,6 +346,7 @@ fn is_retryable_error(err: &Error) -> bool {
         | Error::Conversion(_)
         | Error::Deserialization(_)
         | Error::MaxRetries { .. }
+        | Error::Reqwest(_)
         | Error::Execution(_) => false,
     }
 }
@@ -360,6 +361,7 @@ fn should_fallback_to_v1(err: &Error) -> bool {
         | Error::Conversion(_)
         | Error::MaxRetries { .. }
         | Error::Reqwest(_)
+        | Error::ReqwestTransient(_)
         | Error::Execution(_) => false,
     }
 }
@@ -410,6 +412,9 @@ mod tests {
     #[test]
     fn pass_should_not_fallback_to_v1_for_auth_or_transport_errors() {
         assert!(!should_fallback_to_v1(&Error::Reqwest(
+            "connection timeout".to_string()
+        )));
+        assert!(!should_fallback_to_v1(&Error::ReqwestTransient(
             "connection timeout".to_string()
         )));
         assert!(!should_fallback_to_v1(&Error::HttpStatus {

@@ -52,7 +52,7 @@ struct Args {
     pub args: Vec<String>,
 
     /// Number of retries per query.
-    #[arg(long, default_value = "9")]
+    #[arg(long, default_value = "3")]
     pub retries: usize,
     /// Delay between retries (in ms).
     #[arg(long, default_value = "50")]

@@ -27,6 +27,8 @@ pub enum Error {
     },
     #[error("Reqwest error: {0}")]
     Reqwest(String),
+    #[error("Transient reqwest error: {0}")]
+    ReqwestTransient(String),
     #[error("HTTP status error ({code}) for {url}: {body}")]
     HttpStatus {
         code: u16,
@@ -57,6 +59,10 @@ impl From<std::io::Error> for Error {
 
 impl From<reqwest::Error> for Error {
     fn from(value: reqwest::Error) -> Self {
+        if value.is_timeout() || value.is_connect() {
+            return Error::ReqwestTransient(value.to_string());
+        }
+
         Error::Reqwest(value.to_string())
     }
 }
