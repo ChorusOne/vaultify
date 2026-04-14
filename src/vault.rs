@@ -165,9 +165,8 @@ pub async fn fetch_all(
     secrets: &SecretSpecs,
     opts: FetchAllOpts,
 ) -> Result<Vec<Secret>> {
-    let mut results = Vec::new();
-
     let secrets = secrets.iter().map(|(_k, v)| v).collect::<Vec<_>>();
+    let mut results = Vec::with_capacity(secrets.len());
     for secrets in secrets.chunks(opts.concurrency) {
         let res = futures::future::join_all(secrets.iter().map(|s| async {
             retry(
