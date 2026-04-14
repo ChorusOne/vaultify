@@ -1,7 +1,9 @@
 # vaultify
+
 ![logo](docs/logo.png)
 
 ## Design considerations
+
 - To keep the .secrets file parsing simple and less error prone we just support the v1 format
 - Always try to fetch v2 secrets first and fallbacks to v1
 - Spawning a process is only implemented on linux
@@ -11,26 +13,34 @@
 - Secret paths are specified in the same way as in the vault cli
 
 ## Usage
+
 To get started simply create a .secrets file containing all the secrets you want vaultify to fetch.
 The format of secrets is identical to the one used by the vault cli.
 
 Take the following vault cli example:
+
 ```
 vault kv put secret/production/third-party api-key=test-key1234
 ```
+
 The corresponding vaultify `.secrets` file should look something like:
+
 ```
 secret/production/third-party#api-key
 ```
+
 Then simply start your program via vaultify (note that we could omit `--secrets-file` here):
+
 ```
 vaultify --clear-env --secrets-file .secrets env
 ```
+
 Ensure that `VAULT_ADDR`, `VAULT_TOKEN` or any of the cli-args is set correctly.
 
 To see additional debug output set `export RUST_LOG=info`.
 
 ## Command line options
+
 ```
 Usage: vaultify [OPTIONS] <CMD> [ARGS]...
 
@@ -64,7 +74,9 @@ Options:
 ```
 
 ## Local development
+
 Start a local vault instance for testing:
+
 ```
 # spawn a new vault dev server
 vault server -dev
@@ -79,20 +91,23 @@ vault kv get secret/production/third-party
 ```
 
 Create a new secrets file, e.g. `.secrets` with the following content:
+
 ```
 secret/production/third-party#api-key
 ```
 
 As an example, run `env` through vaultify:
+
 ```
 export RUST_LOG=info
-cargo run -- --clear-env --attach env
+cargo run -- --retries 1 --clear-env -- env
 ```
 
 `env` will output all configured secrets to your screen:
+
 ```
-$ cargo run -- --clear-env --attach env
+$ cargo run -- --clear-env -- env
     Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.06s
-     Running `target/debug/vaultify --clear-env --attach env`
+     Running `target/debug/vaultify --clear-env -- env`
 PRODUCTION_THIRD_PARTY_API_KEY=key1234!?
 ```

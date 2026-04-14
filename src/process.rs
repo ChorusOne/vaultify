@@ -37,7 +37,8 @@ pub unsafe fn spawn<S: AsRef<OsStr>>(
     })?)?;
 
     // convert args
-    let mut c_args = Vec::with_capacity(args.len());
+    let mut c_args = Vec::with_capacity(args.len() + 1);
+    c_args.push(c_cmd.clone());
     for arg in args.iter() {
         c_args.push(CString::new(arg.as_str())?);
     }
