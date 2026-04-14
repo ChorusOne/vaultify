@@ -44,12 +44,22 @@ struct Args {
     #[arg(long, default_value = "50")]
     pub retry_delay_ms: u64,
     /// Number of parallel requests to the vault.
-    #[arg(long, default_value = "8")]
+    #[arg(long, default_value = "8", value_parser = parse_positive_usize)]
     pub concurrency: usize,
 
     /// Clear the environment of the spawned process before spawning.
     #[arg(long, default_value = "false")]
     pub clear_env: bool,
+}
+
+fn parse_positive_usize(raw: &str) -> std::result::Result<usize, String> {
+    let value = raw
+        .parse::<usize>()
+        .map_err(|e| format!("invalid concurrency value: {e}"))?;
+    if value == 0 {
+        return Err("concurrency must be greater than 0".to_string());
+    }
+    Ok(value)
 }
 
 enum AuthMethod {
