@@ -18,6 +18,9 @@ mod vault;
 use error::{Error, Result};
 use secrets::SecretTarget;
 
+const RETRIES_MAX: usize = 20;
+const CONCURRENCY_MAX: usize = 64;
+
 #[derive(Parser, Debug)]
 #[command(version, about, long_about = None)]
 #[command(group(
@@ -52,13 +55,13 @@ struct Args {
     pub args: Vec<String>,
 
     /// Number of retries per query.
-    #[arg(long, default_value = "3")]
+    #[arg(long, default_value = "3", value_parser = parse_retries)]
     pub retries: usize,
     /// Delay between retries (in ms).
     #[arg(long, default_value = "50")]
     pub retry_delay_ms: u64,
     /// Number of parallel requests to the vault.
-    #[arg(long, default_value = "8", value_parser = parse_positive_usize)]
+    #[arg(long, default_value = "8", value_parser = parse_concurrency)]
     pub concurrency: usize,
 
     /// Clear the environment of the spawned process before spawning.
@@ -66,13 +69,34 @@ struct Args {
     pub clear_env: bool,
 }
 
-fn parse_positive_usize(raw: &str) -> std::result::Result<usize, String> {
+fn parse_retries(raw: &str) -> std::result::Result<usize, String> {
+    let value = raw
+        .parse::<usize>()
+        .map_err(|e| format!("invalid retries value: {e}"))?;
+    if value > RETRIES_MAX {
+        return Err(format!(
+            "retries must be less than or equal to {}",
+            RETRIES_MAX
+        ));
+    }
+
+    Ok(value)
+}
+
+fn parse_concurrency(raw: &str) -> std::result::Result<usize, String> {
     let value = raw
         .parse::<usize>()
         .map_err(|e| format!("invalid concurrency value: {e}"))?;
     if value == 0 {
         return Err("concurrency must be greater than 0".to_string());
     }
+    if value > CONCURRENCY_MAX {
+        return Err(format!(
+            "concurrency must be less than or equal to {}",
+            CONCURRENCY_MAX
+        ));
+    }
+
     Ok(value)
 }
 

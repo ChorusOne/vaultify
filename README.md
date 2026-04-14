@@ -73,11 +73,11 @@ Options:
       --secrets-file <SECRETS_FILE>
           [default: .secrets]
       --retries <RETRIES>
-          Number of retries per query [default: 3]
+          Number of retries per query (max: 20) [default: 3]
       --retry-delay-ms <RETRY_DELAY_MS>
           Delay between retries (in ms) [default: 50]
       --concurrency <CONCURRENCY>
-          Number of parallel requests to the vault [default: 8]
+          Number of parallel requests to the vault (1..=64) [default: 8]
       --clear-env
           Clear the environment of the spawned process before spawning
   -h, --help
