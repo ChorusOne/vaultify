@@ -20,17 +20,15 @@ pub struct SpawnOptions {
 }
 
 /// Replaces the current process image with the specified process.
-///
-/// # Safety
-///
-/// This function is only safe if no other threads are running.
 #[cfg(target_os = "linux")]
-pub unsafe fn spawn<S: AsRef<OsStr>>(
+pub fn spawn<S: AsRef<OsStr>>(
     cmd: S,
     args: &[String],
     secrets: &[EnvSecret],
     opts: SpawnOptions,
 ) -> Result<()> {
+    ensure_single_threaded_process()?;
+
     // convert cmd
     let c_cmd = CString::new(cmd.as_ref().to_str().ok_or_else(|| {
         Error::Conversion(format!(
@@ -88,7 +86,7 @@ pub unsafe fn spawn<S: AsRef<OsStr>>(
             );
         }
         c_env.push(c_var);
-        debug_assert_eq!(
+        assert_eq!(
             c_env
                 .iter()
                 .filter(|e| e.as_bytes().starts_with(key_prefix.as_bytes()))
@@ -100,6 +98,28 @@ pub unsafe fn spawn<S: AsRef<OsStr>>(
 
     nix::unistd::execvpe(&c_cmd, &c_args, &c_env)
         .map_err(|err| Error::Execution(err.to_string()))?;
+
+    Ok(())
+}
+
+#[cfg(target_os = "linux")]
+fn ensure_single_threaded_process() -> Result<()> {
+    let thread_count = std::fs::read_dir("/proc/self/task")
+        .map_err(|err| Error::Execution(format!("unable to read /proc/self/task: {}", err)))?
+        .try_fold(0usize, |count, entry| entry.map(|_| count + 1))
+        .map_err(|err| {
+            Error::Execution(format!(
+                "unable to inspect /proc/self/task entries: {}",
+                err
+            ))
+        })?;
+
+    if thread_count != 1 {
+        return Err(Error::Execution(format!(
+            "refusing to call execvpe with {} running threads; expected exactly 1",
+            thread_count
+        )));
+    }
 
     Ok(())
 }

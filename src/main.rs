@@ -97,13 +97,39 @@ impl Args {
     }
 }
 
-#[tokio::main(flavor = "current_thread")]
-async fn main() -> Result<()> {
+struct PreparedSpawn {
+    cmd: String,
+    args: Vec<String>,
+    env_secrets: Vec<process::EnvSecret>,
+    clear_env: bool,
+}
+
+fn main() -> Result<()> {
     // set default log level to warn
     env_logger::init_from_env(env_logger::Env::new().default_filter_or("warn"));
 
     let args = Args::parse();
 
+    let runtime = tokio::runtime::Builder::new_current_thread()
+        .enable_all()
+        .build()
+        .map_err(|err| Error::Execution(format!("unable to initialize tokio runtime: {}", err)))?;
+    let prepared = runtime.block_on(prepare_spawn(args))?;
+    drop(runtime);
+
+    process::spawn(
+        prepared.cmd,
+        &prepared.args,
+        &prepared.env_secrets,
+        process::SpawnOptions {
+            clear_env: prepared.clear_env,
+        },
+    )?;
+
+    Ok(())
+}
+
+async fn prepare_spawn(args: Args) -> Result<PreparedSpawn> {
     // read secret spec file
     let secret_specs = match secrets::load_async(&args.secrets_file).await {
         Ok(specs) => specs,
@@ -153,19 +179,12 @@ async fn main() -> Result<()> {
         }
     }
 
-    // Safety: no other threads run at this point
-    unsafe {
-        process::spawn(
-            args.cmd,
-            &args.args,
-            &env_secrets,
-            process::SpawnOptions {
-                clear_env: args.clear_env,
-            },
-        )?;
-    }
-
-    Ok(())
+    Ok(PreparedSpawn {
+        cmd: args.cmd,
+        args: args.args,
+        env_secrets,
+        clear_env: args.clear_env,
+    })
 }
 
 fn write_secret_to_file(path: &Path, value: &str, mode: u32, create: bool) -> Result<()> {
