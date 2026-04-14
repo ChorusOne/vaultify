@@ -105,6 +105,20 @@ fn parse(contents: &str) -> Result<SecretSpecs> {
     let mut specs = SecretSpecs::new();
 
     for (lc, line) in contents.lines().enumerate() {
+        let line = line.trim();
+
+        // skip comments and empty lines
+        if line.is_empty() || line.starts_with('#') {
+            continue;
+        }
+
+        let line = match line.char_indices().find(|(idx, c)| {
+            *c == '#' && line[..*idx].chars().last().is_some_and(char::is_whitespace)
+        }) {
+            Some((idx, _)) => line[..idx].trim_end(),
+            None => line,
+        };
+
         // skip empty lines
         if line.is_empty() || !line.chars().any(|c| !c.is_whitespace()) {
             continue;
@@ -283,6 +297,29 @@ FOO=mnt/bar#baz"#,
         )
         .unwrap();
         assert_eq!(secrets.len(), 2);
+    }
+
+    #[test]
+    fn pass_v1_comments_and_whitespace() {
+        let secrets = parse(
+            r#"
+            # this is a comment
+              foo/bar#baz   # inline comment
+	BAR=mnt/bar#qux	# trailing tab comment
+            "#,
+        )
+        .unwrap();
+        assert_eq!(secrets.len(), 2);
+
+        let foo = secrets.get("BAR_BAZ").unwrap();
+        assert_eq!(foo.mount, "foo");
+        assert_eq!(foo.path, "bar");
+        assert_eq!(foo.secret, "baz");
+
+        let bar = secrets.get("BAR").unwrap();
+        assert_eq!(bar.mount, "mnt");
+        assert_eq!(bar.path, "bar");
+        assert_eq!(bar.secret, "qux");
     }
 
     #[test]
