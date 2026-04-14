@@ -24,6 +24,12 @@ pub enum Error {
     MaxRetries(String),
     #[error("Reqwest error: {0}")]
     Reqwest(String),
+    #[error("HTTP status error ({code}) for {url}: {body}")]
+    HttpStatus {
+        code: u16,
+        url: String,
+        body: String,
+    },
     #[error("Execution error: {0}")]
     Execution(String),
 }

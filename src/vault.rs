@@ -205,11 +205,12 @@ async fn fetch_single_v2(
     let secret_name = secret_spec.name();
     log::info!("fetching v2 secret `{}` from `{}`", secret_name, vault_url);
 
-    let mut client = client().get(vault_url);
+    let mut client = client().get(vault_url.clone());
     if let Some(vault_token) = vault_token {
         client = client.header("X-Vault-Token", vault_token)
     }
-    let result = client.send().await?.error_for_status()?.text().await?;
+    let response = client.send().await?;
+    let result = require_success_and_read_text(response, &vault_url).await?;
 
     // parse json blob dynamically
     let value = serde_json::from_str::<Value>(&result)?;
@@ -249,11 +250,12 @@ async fn fetch_single_v1(
     let secret_name = secret_spec.name();
     log::info!("fetching v1 secret `{}` from `{}`", secret_name, vault_url);
 
-    let mut client = client().get(vault_url);
+    let mut client = client().get(vault_url.clone());
     if let Some(vault_token) = vault_token {
         client = client.header("X-Vault-Token", vault_token)
     }
-    let result = client.send().await?.error_for_status()?.text().await?;
+    let response = client.send().await?;
+    let result = require_success_and_read_text(response, &vault_url).await?;
 
     // parse json blob dynamically
     let value = serde_json::from_str::<Value>(&result)?;
@@ -290,6 +292,10 @@ where
         match op().await {
             Ok(result) => return Ok(result),
             Err(err) => {
+                if !is_retryable_error(&err) {
+                    return Err(err);
+                }
+
                 if attempt == count {
                     return Err(Error::MaxRetries(err.to_string()));
                 }
@@ -311,13 +317,29 @@ async fn require_success_and_read_text(
     let status = response.status();
     let result = response.text().await?;
     if !status.is_success() {
-        return Err(Error::Reqwest(format!(
-            "unexpected HTTP status ({}) for url ({}): {}",
-            status, vault_url, result
-        )));
+        return Err(Error::HttpStatus {
+            code: status.as_u16(),
+            url: vault_url.to_string(),
+            body: result,
+        });
     }
 
     Ok(result)
+}
+
+#[inline]
+fn is_retryable_error(err: &Error) -> bool {
+    match err {
+        Error::Reqwest(_) => true,
+        Error::HttpStatus { code, .. } => *code == 429 || (500..=599).contains(code),
+        Error::IO(_)
+        | Error::NotFound(_)
+        | Error::Parse { .. }
+        | Error::Conversion(_)
+        | Error::Deserialization(_)
+        | Error::MaxRetries(_)
+        | Error::Execution(_) => false,
+    }
 }
 
 fn client() -> &'static Client {
