@@ -1986,14 +1986,14 @@ end = "2025-01-17"
 
 [[trusted.async-compression]]
 criteria = "safe-to-deploy"
-user-id = 56903
-start = "2023-05-10"
+user-id = 782
+start = "2019-05-14"
 end = "2025-01-17"
 
 [[trusted.async-compression]]
 criteria = "safe-to-deploy"
-user-id = 782
-start = "2019-05-14"
+user-id = 56903
+start = "2023-05-10"
 end = "2025-01-17"
 
 [[trusted.async-executor]]
@@ -2004,14 +2004,14 @@ end = "2025-01-17"
 
 [[trusted.async-global-executor]]
 criteria = "safe-to-deploy"
-user-id = 5153
-start = "2020-09-17"
+user-id = 1926
+start = "2020-08-27"
 end = "2025-01-17"
 
 [[trusted.async-global-executor]]
 criteria = "safe-to-deploy"
-user-id = 1926
-start = "2020-08-27"
+user-id = 5153
+start = "2020-09-17"
 end = "2025-01-17"
 
 [[trusted.async-io]]
@@ -2040,15 +2040,15 @@ end = "2024-08-23"
 
 [[trusted.async-std]]
 criteria = "safe-to-deploy"
-user-id = 4333
-start = "2022-06-18"
-end = "2025-01-17"
-
-[[trusted.async-std]]
-criteria = "safe-to-deploy"
 user-id = 1926
 start = "2022-03-22"
 end = "2025-10-29"
+
+[[trusted.async-std]]
+criteria = "safe-to-deploy"
+user-id = 4333
+start = "2022-06-18"
+end = "2025-01-17"
 
 [[trusted.async-tar]]
 criteria = "safe-to-deploy"
@@ -2958,7 +2958,7 @@ end = "2024-08-23"
 
 [[trusted.nix]]
 criteria = "safe-to-deploy"
-user-id = 6094
+user-id = 6094 # Alan Somers (asomers)
 start = "2019-05-22"
 end = "2024-08-23"
 
@@ -3102,14 +3102,14 @@ end = "2024-10-19"
 
 [[trusted.pierport]]
 criteria = "safe-to-deploy"
-user-id = 265562
-start = "2024-04-16"
+user-id = 83902
+start = "2024-04-12"
 end = "2025-04-24"
 
 [[trusted.pierport]]
 criteria = "safe-to-deploy"
-user-id = 83902
-start = "2024-04-12"
+user-id = 265562
+start = "2024-04-16"
 end = "2025-04-24"
 
 [[trusted.pin-project]]
@@ -3168,7 +3168,7 @@ end = "2024-12-04"
 
 [[trusted.ppv-lite86]]
 criteria = "safe-to-deploy"
-user-id = 12840 # Kaz Wesley (kazcw)
+user-id = 12840 # Keziah Wesley (kazcw)
 start = "2019-04-30"
 end = "2024-08-23"
 
@@ -3348,6 +3348,12 @@ end = "2025-10-29"
 
 [[trusted.rustls]]
 criteria = "safe-to-deploy"
+user-id = 2751 # Joe Birr-Pixton (ctz)
+start = "2019-04-02"
+end = "2025-10-08"
+
+[[trusted.rustls]]
+criteria = "safe-to-deploy"
 user-id = 4556 # Dirkjan Ochtman (djc)
 start = "2022-05-18"
 end = "2024-08-23"
@@ -3357,12 +3363,6 @@ criteria = "safe-to-deploy"
 user-id = 209038 # Daniel McCarney (cpu)
 start = "2023-07-05"
 end = "2024-08-23"
-
-[[trusted.rustls]]
-criteria = "safe-to-deploy"
-user-id = 2751 # Joe Birr-Pixton (ctz)
-start = "2019-04-02"
-end = "2025-10-08"
 
 [[trusted.rustls-native-certs]]
 criteria = "safe-to-deploy"
@@ -3378,27 +3378,27 @@ end = "2025-10-08"
 
 [[trusted.rustls-pemfile]]
 criteria = "safe-to-deploy"
-user-id = 209038 # Daniel McCarney (cpu)
-start = "2023-11-09"
-end = "2024-12-04"
-
-[[trusted.rustls-pemfile]]
-criteria = "safe-to-deploy"
 user-id = 4556 # Dirkjan Ochtman (djc)
 start = "2022-08-02"
 end = "2025-09-02"
 
-[[trusted.rustls-pki-types]]
+[[trusted.rustls-pemfile]]
 criteria = "safe-to-deploy"
 user-id = 209038 # Daniel McCarney (cpu)
-start = "2023-11-28"
-end = "2025-09-02"
+start = "2023-11-09"
+end = "2024-12-04"
 
 [[trusted.rustls-pki-types]]
 criteria = "safe-to-deploy"
 user-id = 2751 # Joe Birr-Pixton (ctz)
 start = "2023-09-07"
 end = "2025-10-08"
+
+[[trusted.rustls-pki-types]]
+criteria = "safe-to-deploy"
+user-id = 209038 # Daniel McCarney (cpu)
+start = "2023-11-28"
+end = "2025-09-02"
 
 [[trusted.rustls-webpki]]
 criteria = "safe-to-deploy"
@@ -3774,14 +3774,14 @@ end = "2024-11-16"
 
 [[trusted.tokio-rustls]]
 criteria = "safe-to-deploy"
-user-id = 4556 # Dirkjan Ochtman (djc)
-start = "2023-06-09"
+user-id = 4286
+start = "2019-03-13"
 end = "2024-08-23"
 
 [[trusted.tokio-rustls]]
 criteria = "safe-to-deploy"
-user-id = 4286
-start = "2019-03-13"
+user-id = 4556 # Dirkjan Ochtman (djc)
+start = "2023-06-09"
 end = "2024-08-23"
 
 [[trusted.tokio-stream]]
@@ -3846,6 +3846,12 @@ end = "2024-08-23"
 
 [[trusted.tower]]
 criteria = "safe-to-deploy"
+user-id = 359 # Sean McArthur (seanmonstar)
+start = "2024-09-09"
+end = "2025-10-08"
+
+[[trusted.tower]]
+criteria = "safe-to-deploy"
 user-id = 1249 # Eliza Weisman (hawkw)
 start = "2021-01-07"
 end = "2024-08-23"
@@ -3856,23 +3862,17 @@ user-id = 3959
 start = "2019-07-19"
 end = "2025-09-02"
 
-[[trusted.tower]]
+[[trusted.tower-http]]
 criteria = "safe-to-deploy"
-user-id = 359 # Sean McArthur (seanmonstar)
-start = "2024-09-09"
-end = "2025-10-08"
+user-id = 3959
+start = "2023-09-01"
+end = "2024-12-04"
 
 [[trusted.tower-http]]
 criteria = "safe-to-deploy"
 user-id = 12432
 start = "2021-05-28"
 end = "2024-08-23"
-
-[[trusted.tower-http]]
-criteria = "safe-to-deploy"
-user-id = 3959
-start = "2023-09-01"
-end = "2024-12-04"
 
 [[trusted.tower-layer]]
 criteria = "safe-to-deploy"
@@ -3882,26 +3882,26 @@ end = "2024-08-23"
 
 [[trusted.tower-layer]]
 criteria = "safe-to-deploy"
-user-id = 12432
-start = "2022-10-10"
-end = "2024-08-23"
-
-[[trusted.tower-layer]]
-criteria = "safe-to-deploy"
 user-id = 3959
 start = "2019-09-11"
 end = "2025-09-02"
 
-[[trusted.tower-service]]
+[[trusted.tower-layer]]
 criteria = "safe-to-deploy"
 user-id = 12432
-start = "2021-01-23"
+start = "2022-10-10"
 end = "2024-08-23"
 
 [[trusted.tower-service]]
 criteria = "safe-to-deploy"
 user-id = 1249 # Eliza Weisman (hawkw)
 start = "2022-06-17"
+end = "2024-08-23"
+
+[[trusted.tower-service]]
+criteria = "safe-to-deploy"
+user-id = 12432
+start = "2021-01-23"
 end = "2024-08-23"
 
 [[trusted.tracing]]
@@ -3954,14 +3954,14 @@ end = "2025-10-29"
 
 [[trusted.unicode-bidi]]
 criteria = "safe-to-deploy"
-user-id = 2017 # Matt Brubeck (mbrubeck)
-start = "2021-04-06"
+user-id = 1139
+start = "2021-08-13"
 end = "2025-01-17"
 
 [[trusted.unicode-bidi]]
 criteria = "safe-to-deploy"
-user-id = 1139
-start = "2021-08-13"
+user-id = 2017 # Matt Brubeck (mbrubeck)
+start = "2021-04-06"
 end = "2025-01-17"
 
 [[trusted.unicode-ident]]

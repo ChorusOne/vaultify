@@ -53,6 +53,7 @@
         devShells.default = pkgs.mkShell {
           packages = [
             rustToolchain
+            pkgs.cargo-vet
             pkgs.vault
           ];
 
