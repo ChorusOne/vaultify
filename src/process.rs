@@ -74,8 +74,12 @@ pub unsafe fn spawn<S: AsRef<OsStr>>(
 
     // add secrets to env
     for secret in secrets.iter() {
+        let key_prefix = format!("{}=", secret.name);
         let c_var = CString::new(format!("{}={}", &secret.name, &secret.secret))?;
-        if c_env.iter().any(|e| *e == c_var) {
+        if c_env
+            .iter()
+            .any(|e| e.as_bytes().starts_with(key_prefix.as_bytes()))
+        {
             log::warn!(
                 "env variable `{}` already exists and will be overwritten",
                 secret.name
