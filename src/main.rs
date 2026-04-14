@@ -6,7 +6,9 @@ use std::{
 
 use clap::Parser;
 #[cfg(target_os = "linux")]
-use std::os::unix::fs::PermissionsExt;
+use nix::libc::{O_CLOEXEC, O_NOFOLLOW};
+#[cfg(target_os = "linux")]
+use std::os::unix::fs::{OpenOptionsExt, PermissionsExt};
 
 mod error;
 mod process;
@@ -198,25 +200,53 @@ fn write_secret_to_file(path: &Path, value: &str, mode: u32, create: bool) -> Re
         )));
     }
 
-    let mut file = std::fs::OpenOptions::new()
-        .create(true)
-        .truncate(true)
-        .write(true)
+    let path_exists = path.exists();
+    let mut open_opts = std::fs::OpenOptions::new();
+    open_opts.write(true);
+
+    #[cfg(target_os = "linux")]
+    {
+        open_opts.custom_flags(O_NOFOLLOW | O_CLOEXEC).mode(mode);
+    }
+
+    if !path_exists {
+        open_opts.create_new(true);
+    }
+
+    let mut file = open_opts
         .open(path)
         .map_err(|err| Error::IO(format!("unable to open {}: {}", path.display(), err)))?;
 
-    file.write_all(value.as_bytes())
-        .map_err(|err| Error::IO(format!("unable to write {}: {}", path.display(), err)))?;
-
-    #[cfg(target_os = "linux")]
-    std::fs::set_permissions(path, std::fs::Permissions::from_mode(mode)).map_err(|err| {
+    let metadata = file.metadata().map_err(|err| {
         Error::IO(format!(
-            "unable to set file mode {:o} for {}: {}",
-            mode,
+            "unable to read metadata for {}: {}",
             path.display(),
             err
         ))
     })?;
+    if !metadata.file_type().is_file() {
+        return Err(Error::IO(format!(
+            "refusing to write secret to non-regular file {}",
+            path.display()
+        )));
+    }
+
+    #[cfg(target_os = "linux")]
+    file.set_permissions(std::fs::Permissions::from_mode(mode))
+        .map_err(|err| {
+            Error::IO(format!(
+                "unable to set file mode {:o} for {}: {}",
+                mode,
+                path.display(),
+                err
+            ))
+        })?;
+
+    file.set_len(0)
+        .map_err(|err| Error::IO(format!("unable to truncate {}: {}", path.display(), err)))?;
+
+    file.write_all(value.as_bytes())
+        .map_err(|err| Error::IO(format!("unable to write {}: {}", path.display(), err)))?;
 
     Ok(())
 }
