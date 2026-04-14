@@ -1,4 +1,4 @@
-use std::{future::Future, time::Duration};
+use std::{future::Future, sync::OnceLock, time::Duration};
 
 use reqwest::{header::CONTENT_TYPE, Client};
 use serde_json::Value;
@@ -322,15 +322,18 @@ where
     unreachable!("retry loop always returns from within the loop")
 }
 
-fn client() -> Client {
+fn client() -> &'static Client {
     const DEFAULT_REQUEST_TIMEOUT: Duration = Duration::from_secs(30);
     const DEFAULT_REQUEST_CONNECT_TIMEOUT: Duration = Duration::from_secs(5);
 
-    Client::builder()
-        .timeout(DEFAULT_REQUEST_TIMEOUT)
-        .connect_timeout(DEFAULT_REQUEST_CONNECT_TIMEOUT)
-        .build()
-        .expect("unable to build reqwest client")
+    static CLIENT: OnceLock<Client> = OnceLock::new();
+    CLIENT.get_or_init(|| {
+        Client::builder()
+            .timeout(DEFAULT_REQUEST_TIMEOUT)
+            .connect_timeout(DEFAULT_REQUEST_CONNECT_TIMEOUT)
+            .build()
+            .expect("unable to build reqwest client")
+    })
 }
 
 #[cfg(test)]
