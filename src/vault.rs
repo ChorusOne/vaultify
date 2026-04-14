@@ -320,10 +320,14 @@ where
     F: Fn() -> FU,
     FU: Future<Output = Result<T>>,
 {
-    for _ in 0..=count {
+    for attempt in 0..=count {
         match op().await {
             Ok(result) => return Ok(result),
             Err(err) => {
+                if attempt == count {
+                    return Err(Error::MaxRetries(err.to_string()));
+                }
+
                 log::warn!("operation failed, retrying: {}", err);
             }
         }
@@ -331,7 +335,7 @@ where
         tokio::time::sleep(delay).await;
     }
 
-    Err(Error::MaxRetries)
+    unreachable!("retry loop always returns from within the loop")
 }
 
 fn client() -> Client {
