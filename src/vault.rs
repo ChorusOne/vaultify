@@ -297,7 +297,9 @@ where
                 }
 
                 if attempt == count {
-                    return Err(Error::MaxRetries(err.to_string()));
+                    return Err(Error::MaxRetries {
+                        source: Box::new(err),
+                    });
                 }
 
                 log::warn!("operation failed, retrying: {}", err);
@@ -337,7 +339,7 @@ fn is_retryable_error(err: &Error) -> bool {
         | Error::Parse { .. }
         | Error::Conversion(_)
         | Error::Deserialization(_)
-        | Error::MaxRetries(_)
+        | Error::MaxRetries { .. }
         | Error::Execution(_) => false,
     }
 }

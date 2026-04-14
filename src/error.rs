@@ -20,8 +20,11 @@ pub enum Error {
     Conversion(String),
     #[error("Deserialization error: {0}")]
     Deserialization(String),
-    #[error("Max number of retries reached: {0}")]
-    MaxRetries(String),
+    #[error("Max number of retries reached: {source}")]
+    MaxRetries {
+        #[source]
+        source: Box<Error>,
+    },
     #[error("Reqwest error: {0}")]
     Reqwest(String),
     #[error("HTTP status error ({code}) for {url}: {body}")]
