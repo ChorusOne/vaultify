@@ -79,16 +79,23 @@ pub unsafe fn spawn<S: AsRef<OsStr>>(
     for secret in secrets.iter() {
         let key_prefix = format!("{}=", secret.name);
         let c_var = CString::new(format!("{}={}", &secret.name, &secret.secret))?;
-        if c_env
-            .iter()
-            .any(|e| e.as_bytes().starts_with(key_prefix.as_bytes()))
-        {
+        let prev_len = c_env.len();
+        c_env.retain(|e| !e.as_bytes().starts_with(key_prefix.as_bytes()));
+        if c_env.len() != prev_len {
             log::warn!(
                 "env variable `{}` already exists and will be overwritten",
                 secret.name
             );
         }
         c_env.push(c_var);
+        debug_assert_eq!(
+            c_env
+                .iter()
+                .filter(|e| e.as_bytes().starts_with(key_prefix.as_bytes()))
+                .count(),
+            1,
+            "secret env merge must leave exactly one value per key"
+        );
     }
 
     nix::unistd::execvpe(&c_cmd, &c_args, &c_env)
