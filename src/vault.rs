@@ -25,17 +25,21 @@ pub async fn fetch_token(
 ) -> Result<Option<String>> {
     match auth_method {
         AuthMethod::None => Ok(None),
-        AuthMethod::GitHub(pat) => {
+        AuthMethod::GitHub { token, backend } => {
             retry(
-                || async { fetch_token_github(host, &pat).await.map(Some) },
+                || async { fetch_token_github(host, &token, &backend).await.map(Some) },
                 opts.retries,
                 opts.retry_delay,
             )
             .await
         }
-        AuthMethod::Kubernetes(role) => {
+        AuthMethod::Kubernetes { role, backend } => {
             retry(
-                || async { fetch_token_kubernetes(host, &role).await.map(Some) },
+                || async {
+                    fetch_token_kubernetes(host, &role, &backend)
+                        .await
+                        .map(Some)
+                },
                 opts.retries,
                 opts.retry_delay,
             )
@@ -46,8 +50,8 @@ pub async fn fetch_token(
 }
 
 /// Fetches a vault token via a GitHub personal access token.
-async fn fetch_token_github(host: &str, pat: &str) -> Result<String> {
-    let vault_url = format!("{host}/v1/auth/github/login");
+async fn fetch_token_github(host: &str, pat: &str, backend: &str) -> Result<String> {
+    let vault_url = format!("{host}/v1/auth/{backend}/login");
     log::info!("fetching token via github from `{}`", vault_url);
 
     // setup body
@@ -85,14 +89,14 @@ async fn fetch_token_github(host: &str, pat: &str) -> Result<String> {
 }
 
 /// Fetches a vault token via a Kubernetes role.
-async fn fetch_token_kubernetes(host: &str, role: &str) -> Result<String> {
+async fn fetch_token_kubernetes(host: &str, role: &str, backend: &str) -> Result<String> {
     // read service account jwt
     const KUBE_SA_TOKEN: &str = "/var/run/secrets/kubernetes.io/serviceaccount/token";
     let jwt = tokio::fs::read_to_string(KUBE_SA_TOKEN)
         .await
         .map_err(|err| Error::IO(format!("unable to read file {:?}: {}", KUBE_SA_TOKEN, err)))?;
 
-    let vault_url = format!("{host}/v1/auth/kubernetes/login");
+    let vault_url = format!("{host}/v1/auth/{backend}/login");
     log::info!("fetching token via kubernetes role from `{}`", vault_url);
 
     // setup body

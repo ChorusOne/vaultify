@@ -39,10 +39,20 @@ struct Args {
     /// See https://developer.hashicorp.com/vault/docs/auth/github for more information.
     #[arg(long, env = "VAULT_GITHUB_TOKEN", verbatim_doc_comment)]
     github_token: Option<String>,
+    /// Vault auth backend mount name for GitHub login.
+    #[arg(long, env = "VAULT_GITHUB_AUTH_BACKEND", default_value = "github")]
+    github_auth_backend: String,
     /// Authenticate using Kubernetes service account in /var/run/secrets/kubernetes.io
     /// See https://developer.hashicorp.com/vault/docs/auth/kubernetes for more information.
     #[arg(long, env = "VAULT_KUBERNETES_ROLE", verbatim_doc_comment)]
     kubernetes_role: Option<String>,
+    /// Vault auth backend mount name for Kubernetes login.
+    #[arg(
+        long,
+        env = "VAULT_KUBERNETES_AUTH_BACKEND",
+        default_value = "kubernetes"
+    )]
+    kubernetes_auth_backend: String,
 
     #[arg(long, default_value = ".secrets")]
     pub secrets_file: PathBuf,
@@ -102,8 +112,8 @@ fn parse_concurrency(raw: &str) -> std::result::Result<usize, String> {
 
 enum AuthMethod {
     None,
-    GitHub(String),
-    Kubernetes(String),
+    GitHub { token: String, backend: String },
+    Kubernetes { role: String, backend: String },
     Token(String),
 }
 
@@ -115,12 +125,16 @@ impl Args {
             .or_else(|| {
                 self.kubernetes_role
                     .as_ref()
-                    .map(|v| AuthMethod::Kubernetes(v.clone()))
+                    .map(|v| AuthMethod::Kubernetes {
+                        role: v.clone(),
+                        backend: self.kubernetes_auth_backend.clone(),
+                    })
             })
             .or_else(|| {
-                self.github_token
-                    .as_ref()
-                    .map(|v| AuthMethod::GitHub(v.clone()))
+                self.github_token.as_ref().map(|v| AuthMethod::GitHub {
+                    token: v.clone(),
+                    backend: self.github_auth_backend.clone(),
+                })
             })
             .unwrap_or(AuthMethod::None)
     }

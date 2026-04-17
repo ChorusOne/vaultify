@@ -68,8 +68,12 @@ Options:
           Authenticate via Vault access token [env: VAULT_TOKEN=]
       --github-token <GITHUB_TOKEN>
           Authenticate using Github personal access token. See https://developer.hashicorp.com/vault/docs/auth/github [env: VAULT_GITHUB_TOKEN=]
+      --github-auth-backend <GITHUB_AUTH_BACKEND>
+          Vault auth backend mount name for GitHub login [env: VAULT_GITHUB_AUTH_BACKEND=] [default: github]
       --kubernetes-role <KUBERNETES_ROLE>
           Authenticate using Kubernetes service account in /var/run/secrets/kubernetes.io See https://developer.hashicorp.com/vault/docs/auth/kubernetes [env: VAULT_KUBERNETES_ROLE=]
+      --kubernetes-auth-backend <KUBERNETES_AUTH_BACKEND>
+          Vault auth backend mount name for Kubernetes login [env: VAULT_KUBERNETES_AUTH_BACKEND=] [default: kubernetes]
       --secrets-file <SECRETS_FILE>
           [default: .secrets]
       --retries <RETRIES>
