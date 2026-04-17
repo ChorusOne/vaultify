@@ -4,7 +4,7 @@ use std::{
     time::Duration,
 };
 
-use clap::{ArgGroup, Parser};
+use clap::{Parser, ValueEnum};
 #[cfg(target_os = "linux")]
 use nix::libc::{O_CLOEXEC, O_NOFOLLOW};
 #[cfg(target_os = "linux")]
@@ -21,13 +21,15 @@ use secrets::SecretTarget;
 const RETRIES_MAX: usize = 20;
 const CONCURRENCY_MAX: usize = 64;
 
+#[derive(Copy, Clone, Debug, Eq, PartialEq, ValueEnum)]
+enum AuthProvider {
+    Token,
+    Github,
+    Kubernetes,
+}
+
 #[derive(Parser, Debug)]
 #[command(version, about, long_about = None)]
-#[command(group(
-    ArgGroup::new("auth")
-        .args(["token", "github_token", "kubernetes_role"])
-        .multiple(false)
-))]
 struct Args {
     /// Vault address (in the same format as vault-cli).
     #[arg(long, env = "VAULT_ADDR", default_value = "http://127.0.0.1:8200")]
@@ -35,6 +37,14 @@ struct Args {
     /// Authenticate via Vault access token.
     #[arg(long, env = "VAULT_TOKEN")]
     token: Option<String>,
+    /// Vault auth provider to use.
+    #[arg(
+        long,
+        env = "VAULT_AUTH_PROVIDER",
+        value_enum,
+        default_value_t = AuthProvider::Token
+    )]
+    auth_provider: AuthProvider,
     /// Authenticate using Github personal access token.
     /// See https://developer.hashicorp.com/vault/docs/auth/github for more information.
     #[arg(long, env = "VAULT_GITHUB_TOKEN", verbatim_doc_comment)]
@@ -111,32 +121,87 @@ fn parse_concurrency(raw: &str) -> std::result::Result<usize, String> {
 }
 
 enum AuthMethod {
-    None,
     GitHub { token: String, backend: String },
     Kubernetes { role: String, backend: String },
     Token(String),
 }
 
 impl Args {
-    pub fn auth_method(&self) -> AuthMethod {
-        self.token
-            .as_ref()
-            .map(|v| AuthMethod::Token(v.clone()))
-            .or_else(|| {
-                self.kubernetes_role
-                    .as_ref()
-                    .map(|v| AuthMethod::Kubernetes {
-                        role: v.clone(),
-                        backend: self.kubernetes_auth_backend.clone(),
-                    })
-            })
-            .or_else(|| {
-                self.github_token.as_ref().map(|v| AuthMethod::GitHub {
-                    token: v.clone(),
+    pub fn auth_method(&self) -> Result<AuthMethod> {
+        match self.auth_provider {
+            AuthProvider::Token => {
+                if self.github_token.is_some() {
+                    return Err(Error::Execution(
+                        "invalid auth configuration: --auth-provider token cannot be combined with --github-token"
+                            .to_string(),
+                    ));
+                }
+                if self.kubernetes_role.is_some() {
+                    return Err(Error::Execution(
+                        "invalid auth configuration: --auth-provider token cannot be combined with --kubernetes-role"
+                            .to_string(),
+                    ));
+                }
+
+                let token = self.token.as_ref().ok_or_else(|| {
+                    Error::Execution(
+                        "invalid auth configuration: --auth-provider token requires --token (or VAULT_TOKEN)"
+                            .to_string(),
+                    )
+                })?;
+                Ok(AuthMethod::Token(token.clone()))
+            }
+            AuthProvider::Github => {
+                if self.token.is_some() {
+                    return Err(Error::Execution(
+                        "invalid auth configuration: --auth-provider github cannot be combined with --token"
+                            .to_string(),
+                    ));
+                }
+                if self.kubernetes_role.is_some() {
+                    return Err(Error::Execution(
+                        "invalid auth configuration: --auth-provider github cannot be combined with --kubernetes-role"
+                            .to_string(),
+                    ));
+                }
+
+                let token = self.github_token.as_ref().ok_or_else(|| {
+                    Error::Execution(
+                        "invalid auth configuration: --auth-provider github requires --github-token (or VAULT_GITHUB_TOKEN)"
+                            .to_string(),
+                    )
+                })?;
+                Ok(AuthMethod::GitHub {
+                    token: token.clone(),
                     backend: self.github_auth_backend.clone(),
                 })
-            })
-            .unwrap_or(AuthMethod::None)
+            }
+            AuthProvider::Kubernetes => {
+                if self.token.is_some() {
+                    return Err(Error::Execution(
+                        "invalid auth configuration: --auth-provider kubernetes cannot be combined with --token"
+                            .to_string(),
+                    ));
+                }
+                if self.github_token.is_some() {
+                    return Err(Error::Execution(
+                        "invalid auth configuration: --auth-provider kubernetes cannot be combined with --github-token"
+                            .to_string(),
+                    ));
+                }
+
+                let role = self.kubernetes_role.as_ref().ok_or_else(|| {
+                    Error::Execution(
+                        "invalid auth configuration: --auth-provider kubernetes requires --kubernetes-role (or VAULT_KUBERNETES_ROLE)"
+                            .to_string(),
+                    )
+                })?;
+                Ok(AuthMethod::Kubernetes {
+                    role: role.clone(),
+                    backend: self.kubernetes_auth_backend.clone(),
+                })
+            }
+        }
     }
 }
 
@@ -173,6 +238,9 @@ fn main() -> Result<()> {
 }
 
 async fn prepare_spawn(args: Args) -> Result<PreparedSpawn> {
+    // validate auth selection before reading secret specs
+    let auth_method = args.auth_method()?;
+
     // read secret spec file
     let secret_specs = match secrets::load_async(&args.secrets_file).await {
         Ok(specs) => specs,
@@ -187,7 +255,7 @@ async fn prepare_spawn(args: Args) -> Result<PreparedSpawn> {
         retries: args.retries,
         retry_delay: Duration::from_millis(args.retry_delay_ms),
     };
-    let token = match vault::fetch_token(&args.host, args.auth_method(), opts).await {
+    let token = match vault::fetch_token(&args.host, auth_method, opts).await {
         Ok(token) => token,
         Err(err) => {
             println!("Error getting vault token: {err}");

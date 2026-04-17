@@ -24,7 +24,6 @@ pub async fn fetch_token(
     opts: FetchTokenOpts,
 ) -> Result<Option<String>> {
     match auth_method {
-        AuthMethod::None => Ok(None),
         AuthMethod::GitHub { token, backend } => {
             retry(
                 || async { fetch_token_github(host, &token, &backend).await.map(Some) },

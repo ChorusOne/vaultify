@@ -37,6 +37,19 @@ vaultify --clear-env --secrets-file .secrets env
 
 Ensure that `VAULT_ADDR`, `VAULT_TOKEN` or any of the cli-args is set correctly.
 
+Auth configuration is explicit via `--auth-provider`, and provider-specific credentials are required:
+
+```
+# token auth
+vaultify --auth-provider token --token "$VAULT_TOKEN" -- env
+
+# github auth
+vaultify --auth-provider github --github-token "$VAULT_GITHUB_TOKEN" --github-auth-backend github -- env
+
+# kubernetes auth
+vaultify --auth-provider kubernetes --kubernetes-role my-role --kubernetes-auth-backend kubernetes -- env
+```
+
 To see additional debug output set `export RUST_LOG=info`.
 
 ### .secrets format
@@ -63,25 +76,29 @@ Arguments:
 
 Options:
       --host <HOST>
-          Vault address (in the same format as vault-cli) [env: VAULT_ADDR=] [default: http://127.0.0.1:8200]
+          Vault address (in the same format as vault-cli) [env: VAULT_ADDR=https://vault-a.ts.chorus1.net] [default: http://127.0.0.1:8200]
       --token <TOKEN>
           Authenticate via Vault access token [env: VAULT_TOKEN=]
+      --auth-provider <AUTH_PROVIDER>
+          Vault auth provider to use [env: VAULT_AUTH_PROVIDER=] [default: token] [possible values: token, github, kubernetes]
       --github-token <GITHUB_TOKEN>
-          Authenticate using Github personal access token. See https://developer.hashicorp.com/vault/docs/auth/github [env: VAULT_GITHUB_TOKEN=]
+          Authenticate using Github personal access token.
+          See https://developer.hashicorp.com/vault/docs/auth/github for more information. [env: VAULT_GITHUB_TOKEN=]
       --github-auth-backend <GITHUB_AUTH_BACKEND>
           Vault auth backend mount name for GitHub login [env: VAULT_GITHUB_AUTH_BACKEND=] [default: github]
       --kubernetes-role <KUBERNETES_ROLE>
-          Authenticate using Kubernetes service account in /var/run/secrets/kubernetes.io See https://developer.hashicorp.com/vault/docs/auth/kubernetes [env: VAULT_KUBERNETES_ROLE=]
+          Authenticate using Kubernetes service account in /var/run/secrets/kubernetes.io
+          See https://developer.hashicorp.com/vault/docs/auth/kubernetes for more information. [env: VAULT_KUBERNETES_ROLE=]
       --kubernetes-auth-backend <KUBERNETES_AUTH_BACKEND>
           Vault auth backend mount name for Kubernetes login [env: VAULT_KUBERNETES_AUTH_BACKEND=] [default: kubernetes]
       --secrets-file <SECRETS_FILE>
           [default: .secrets]
       --retries <RETRIES>
-          Number of retries per query (max: 20) [default: 3]
+          Number of retries per query [default: 3]
       --retry-delay-ms <RETRY_DELAY_MS>
           Delay between retries (in ms) [default: 50]
       --concurrency <CONCURRENCY>
-          Number of parallel requests to the vault (1..=64) [default: 8]
+          Number of parallel requests to the vault [default: 8]
       --clear-env
           Clear the environment of the spawned process before spawning
   -h, --help
@@ -117,14 +134,14 @@ As an example, run `env` through vaultify:
 
 ```
 export RUST_LOG=info
-cargo run -- --retries 1 --clear-env -- env
+cargo run -- --auth-provider token --retries 1 --clear-env -- env
 ```
 
 `env` will output all configured secrets to your screen:
 
 ```
-$ cargo run -- --clear-env -- env
+$ cargo run -- --auth-provider token --clear-env -- env
     Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.06s
-     Running `target/debug/vaultify --clear-env -- env`
+     Running `target/debug/vaultify --auth-provider token --clear-env -- env`
 PRODUCTION_THIRD_PARTY_API_KEY=key1234!?
 ```
